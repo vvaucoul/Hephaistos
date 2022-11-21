@@ -6,7 +6,7 @@
 #    By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 23:52:42 by vvaucoul          #+#    #+#              #
-#    Updated: 2022/11/21 12:48:49 by vvaucoul         ###   ########.fr        #
+#    Updated: 2022/11/21 18:21:47 by vvaucoul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ NAME 			= Hephaistos.a
 WORKFLOW_NAME 	= hephaistos_workflow
 ASM				= nasm
 
-DEFAULT_FLAGS 	=# -Wall -Wextra -Werror -Wfatal-errors
+DEFAULT_FLAGS 	=	-Wall -Wextra -Werror -Wfatal-errors
 CFLAGS 			= 	-fno-builtin -fno-exceptions -fno-stack-protector \
 					-nostdlib -nodefaultlibs \
 					-std=gnu99 -ffreestanding -O2
@@ -82,7 +82,7 @@ $(NAME): ascii $(OBJS) $(OBJS_ASM)
 workflow: $(WORKFLOW_NAME)
 
 $(WORKFLOW_NAME): $(NAME)
-	@$(CC) $(LDFLAGS) $(DEFAULT_FLAGS) $(INCLUDES) -o $(WORKFLOW_NAME) $(NAME) workflows/$(WORKFLOW_NAME).c $(LIB_DIR).a
+	@$(CC) $(LDFLAGS) $(CFLAGS) $(DEFAULT_FLAGS) $(INCLUDES) -o $(WORKFLOW_NAME)  workflows/$(WORKFLOW_NAME).c $(NAME)
 
 .PHONY: workflow
 

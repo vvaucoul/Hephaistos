@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:47:12 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/20 23:07:24 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:14:22 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include <kernel.h>
 #include <terminal.h>
 #include <memory/kheap.h>
+#include <system/pit.h>
 #endif
 
 #endif /* !_PASSENGER_H */

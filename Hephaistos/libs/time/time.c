@@ -1,33 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hephaistos_workflow.c                              :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/20 11:36:33 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/21 18:22:11 by vvaucoul         ###   ########.fr       */
+/*   Created: 2022/11/21 14:11:09 by vvaucoul          #+#    #+#             */
+/*   Updated: 2022/11/21 14:14:38 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <hephaistos.h>
+#include "time.h"
 #include <passenger.h>
 
-static int __w_string(void)
+void counter_start(counter_t *counter)
 {
-    const char str[] = "Hello World !";
-    int32_t nbr = -42;
-    uint32_t unbr = 42;
-
-    printk("Length : %u \n", strlen(str));
-    printk("Length : %u \n", nbrlen(nbr));
-    printk("Length : %u \n", unbrlen(unbr));
-    return (0);
+    counter->start = timer_ticks;
 }
 
-int main(void)
+void counter_end(counter_t *counter)
 {
-    if ((__w_string()) == -1)
-        return (-1);
-    return (0);
+    counter->end = timer_ticks;
 }
+
+uint32_t counter_get_start(counter_t *counter)
+{
+    return (counter->start);
+}
+
+uint32_t counter_get_end(counter_t *counter)
+{
+    return (counter->end);
+}
+
+uint32_t counter_get_time(counter_t *counter)
+{
+    return (counter->end - counter->start);
+}
+

@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:55:51 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/20 23:04:35 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:52:11 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_printk
 extern printk_t _g_printk;
 
 extern uint32_t printk(const char *format, ...);
+extern void vsprintk(const char *str, void (*write)(const char), const char *format, va_list arg);
 
 extern void __kpf_manage_space_front(const int arg_len);
 extern void __kpf_manage_space_back(const int arg_len);

@@ -2,6 +2,9 @@ bits 32
 
 global __nbrlen
 __nbrlen:
+
+
+
     push ebp
     mov ebp, esp
     sub esp, 4

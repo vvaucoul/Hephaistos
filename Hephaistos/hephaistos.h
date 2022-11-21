@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:54:41 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/20 23:00:32 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:11:20 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #include <libs/stdarg/stdarg.h>
 #include <libs/assert/assert.h>
 #include <libs/convert/convert.h>
+#include <libs/time/time.h>
 
 #define _HEPHAISTOS_VERSION "0.1"
 #define _HEPHAISTOS_AUTHOR "vvaucoul"
