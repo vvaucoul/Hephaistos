@@ -1,20 +1,27 @@
 bits 32
 
-global __nbrlen
-__nbrlen:
+global __nbrlen_base
+__nbrlen_base:
     push ebp
     mov ebp, esp
     sub esp, 4
 
     push esi
+    push edi
 
     xor eax, eax
     xor ecx, ecx
 
-    mov esi, [ebp + 8]
+    mov esi, [ebp + 8] ; esi = nbr
+    mov edi, [ebp + 12] ; edi = base
 
     cmp esi, 0
-    je _case_zero
+    jz _case_zero
+
+    cmp edi, 0
+    jz _end
+
+    cmp esi, 0
     jl _mul
     jmp _loop
 
@@ -24,7 +31,7 @@ _mul:
 
     mov eax, -1
     mov ecx, 0
-    mul edx
+    mul esi
 
     mov esi, eax
 
@@ -35,10 +42,10 @@ _mul:
 _inc:
     push eax
     push ecx
-    
+
     mov eax, esi
     mov edx, 0
-    mov ecx, 10
+    mov ecx, edi
     div ecx
     mov esi, eax
 
@@ -48,11 +55,12 @@ _inc:
     inc ecx
 
 _loop:
-    cmp esi, 10
-    jge _inc
+    cmp esi, 0
+    jne _inc
     jmp _end
 
 _case_zero:
+    pop edi
     pop esi
     mov esp, ebp
     pop ebp
@@ -60,9 +68,9 @@ _case_zero:
     ret
 
 _end:
-    mov eax, ecx
-    inc eax
+    pop edi
     pop esi
     mov esp, ebp
     pop ebp
+    mov eax, ecx
     ret

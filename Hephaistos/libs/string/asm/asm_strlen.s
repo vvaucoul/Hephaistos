@@ -3,27 +3,34 @@ bits 32
 global __strlen
 __strlen:
     push ebp
-    push edi
+    mov ebp, esp
+    sub esp, 4
+
+    push esi
 
     xor eax, eax
-    xor edi, edi
     xor ecx, ecx
 
-    mov edi, [ebp + 8]
-    jmp __loop
+    mov esi, [ebp + 8]
+    
+    cmp esi, 0
+    je _end
 
-__inc:
+    jmp _loop
+
+_inc:
     inc ecx
-    jmp __loop
+    jmp _loop
 
-__loop:
-    mov al, [edi + ecx]
-    test al, al
-    jnz __inc
-    jz __end
+_loop:
+    mov al, [esi + ecx]
+    cmp al, 0
+    jne _inc
+    je _end
 
-__end:
+_end:
     mov eax, ecx
-    pop edi
+    pop esi
+    mov esp, ebp
     pop ebp
     ret
