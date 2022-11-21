@@ -6,7 +6,7 @@
 #    By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 23:52:42 by vvaucoul          #+#    #+#              #
-#    Updated: 2022/11/20 15:48:36 by vvaucoul         ###   ########.fr        #
+#    Updated: 2022/11/21 12:48:49 by vvaucoul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,7 @@ all: $(NAME)
 
 $(NAME): ascii $(OBJS) $(OBJS_ASM)
 	@ar -rcs $(NAME) $(OBJS) $(OBJS_ASM)
-	@printf "\n$(_LWHITE) $(_DIM)-$(_END)$(_DIM)$(_END)$(_LCYAN) %s $(_END)$(_LGREEN)[$(_LWHITE)✓$(_LGREEN)]$(_END)\n" $(NAME)
+	@printf "\n$(_LWHITE)-$(_END)$(_DIM)$(_END)$(_LWHITE) %s $(_END)$(_DIM)-------------$(_END)$(_LGREEN)[$(_LWHITE)✓$(_LGREEN)]$(_END)\n" "HEPHAISTOS"
 
 workflow: $(WORKFLOW_NAME)
 
