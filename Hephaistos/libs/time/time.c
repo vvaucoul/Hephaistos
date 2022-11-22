@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:11:09 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/21 14:14:38 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/11/22 00:53:48 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void counter_start(counter_t *counter)
     counter->start = timer_ticks;
 }
 
-void counter_end(counter_t *counter)
+void counter_stop(counter_t *counter)
 {
     counter->end = timer_ticks;
 }

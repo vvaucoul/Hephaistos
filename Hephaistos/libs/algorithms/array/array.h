@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:56:55 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/21 21:04:09 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/11/22 00:37:11 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ extern void array_clear(array_t *array);
 extern void array_resize(array_t *array, uint32_t size);
 extern void array_insert(array_t *array, __array_data_t *data, uint32_t index);
 extern __array_data_t *array_get(array_t *array, uint32_t index);
+extern void array_sort(array_t *array, int (*cmp)(const void *, const void *));
 extern uint32_t array_size(array_t *array);
 extern uint32_t array_length(array_t *array);
 

@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:54:41 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/21 14:11:20 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/11/22 01:39:32 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #pragma once
 
 #include <libs/algorithms/array/array.h>
+#include <libs/algorithms/list/list.h>
+#include <libs/algorithms/sort/sort.h>
 
 #include <libs/bit/bit.h>
 #include <libs/ctype/ctype.h>

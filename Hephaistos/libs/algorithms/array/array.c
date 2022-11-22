@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 00:00:03 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/21 21:27:48 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/11/22 00:57:37 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,14 @@ static void __array_remove(array_t *array, uint32_t index)
     }
 }
 
+static void __array_sort(array_t *array, int (*cmp)(const void *, const void *))
+{
+    if (!array || !array->data || array->length == 0)
+        return;
+    else
+        insertion_sort(array->data, array->length, cmp);
+}
+
 /*******************************************************************************
  *                             INTERFACE FUNCTIONS                             *
  ******************************************************************************/
@@ -304,6 +312,17 @@ __array_data_t *array_get(array_t *array, uint32_t index)
     if (!array)
         return (NULL);
     return (array->data[index]);
+}
+
+/**
+ * @brief Sort the array using the given comparison function
+ * 
+ * @param array 
+ * @param cmp 
+ */
+void array_sort(array_t *array, int (*cmp)(const void *, const void *))
+{
+    __array_sort(array, cmp);
 }
 
 /**
