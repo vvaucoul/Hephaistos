@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   passenger.h                                        :+:      :+:    :+:   */
+/*   charon.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:47:12 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/21 14:14:22 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/12/03 23:42:54 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _PASSENGER_H
-#define _PASSENGER_H
+#ifndef _CHARON_H
+#define _CHARON_H
 
 #pragma once
 
 /*
-** Hephaistos Passenger:
-** Passing functions prototypes to Hephaistos library
+** Hephaistos CHARON:
+** Passing functions prototypes from KronOS to Hephaistos library
 */
 
 #ifndef __HEPHAISTOS__
@@ -30,4 +30,4 @@
 #include <system/pit.h>
 #endif
 
-#endif /* !_PASSENGER_H */
+#endif /* !_CHARON_H */
