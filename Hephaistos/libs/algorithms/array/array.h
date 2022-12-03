@@ -6,12 +6,12 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:56:55 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/22 00:37:11 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:29:15 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARRAY_H
-#define ARRAY_H
+#ifndef _ARRAY_H
+#define _ARRAY_H
 
 #include <libs/stddef/stddef.h>
 
@@ -41,4 +41,4 @@ extern uint32_t array_length(array_t *array);
 extern void array_size_ref(array_t *array, uint32_t *size);
 extern void array_length_ref(array_t *array, uint32_t *length);
 
-#endif /* !ARRAY_H */
+#endif /* !_ARRAY_H */
