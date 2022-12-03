@@ -21,4 +21,4 @@ A complete Kernel library for <a href="https://github.com/vvaucoul/KronOS">KronO
 ---
 
 <strong>Library</strong>: Hephaistos.<br>
-<strong>Data Transfer</strong>: Passenger.<br>
+<strong>Data Transfer</strong>: Charon.<br>
