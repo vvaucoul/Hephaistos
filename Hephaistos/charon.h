@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:47:12 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/12/03 23:42:54 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/12/03 23:45:01 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 
 #ifndef __HEPHAISTOS__
 #define __HEPHAISTOS__
-// #include "../../kernel/includes/kernel.h"
-// #include "../../kernel/includes/terminal.h"
 #include <kernel.h>
 #include <terminal.h>
 #include <memory/kheap.h>
