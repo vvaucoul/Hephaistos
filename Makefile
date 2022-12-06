@@ -6,11 +6,13 @@
 #    By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 23:52:42 by vvaucoul          #+#    #+#              #
-#    Updated: 2022/11/21 18:21:47 by vvaucoul         ###   ########.fr        #
+#    Updated: 2022/12/06 13:51:34 by vvaucoul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 include ../mk-files/utils/Colors.mk
+include ../mk-files/rules/Rules.mk
+CCACHE_DIR			=	ccache
 
 #*******************************************************************************
 #*                          DEFAULT COMPILATION RULES                          *
