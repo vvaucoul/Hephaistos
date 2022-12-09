@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 10:08:03 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/20 10:10:39 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/12/09 22:27:44 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ typedef unsigned int size_t;
 typedef int ssize_t;
 typedef unsigned char uchar_t;
 
-typedef unsigned int hex_t;
+typedef unsigned long hex_t;
 typedef unsigned long long hex64_t;
 
 typedef signed char int8_t;
