@@ -2,7 +2,7 @@
 
 
 # Hephaistos
-A complete Kernel library for <a href="https://github.com/vvaucoul/KronOS">KronOS</a> Kernel.
+A complete Kernel library for **<a href="https://github.com/vvaucoul/KronOS">KronOS</a>** Kernel.
 
 ---
 
