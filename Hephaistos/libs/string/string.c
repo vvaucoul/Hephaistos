@@ -6,20 +6,72 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:55:48 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/21 16:28:53 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/12/10 15:19:28 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "string.h"
 #include <libs/memory/memory.h>
 
+#include <charon.h>
+
+char *strcpy(char *dest, const char *src)
+{
+    if (dest == NULL || src == NULL)
+        return (NULL);
+
+    uint32_t i = 0;
+    while (src[i])
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+    return (dest);
+}
+
+/**
+ * @brief Truncate a string at the first occurence of a char
+ *
+ * @param str
+ * @param c
+ * @return char*
+ */
+char *strtrtc(const char *str, const char c)
+{
+    if (str == NULL)
+        return (NULL);
+
+    char *new_str = kmalloc(sizeof(char) * strlen(str) + 1);
+    if (new_str == NULL)
+        return (NULL);
+
+    bzero(new_str, strlen(str) + 1);
+
+    uint32_t i = 0;
+    while (str[i] && str[i] != c)
+    {
+        new_str[i] = str[i];
+        i++;
+    }
+    new_str[i] = '\0';
+    return (new_str);
+}
+
+/**
+ * @brief Clear all spaces in a string
+ *
+ * @param new_str
+ * @param str
+ * @return char*
+ */
 char *strclr(char *new_str, char *str)
 {
     if (str == NULL)
         return (NULL);
     bzero(new_str, strlen(new_str));
 
-    size_t i = 0;
+    uint32_t i = 0;
     /* Skip all firsts spaces */
     while (str[i] && str[i] == ' ')
         i++;

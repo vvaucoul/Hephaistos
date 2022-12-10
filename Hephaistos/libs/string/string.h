@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:31:06 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/21 16:29:42 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2022/12/10 15:19:35 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ inline int32_t strncmp(const char *s1, const char *s2, uint32_t n)
     return (__strncmp(s1, s2, n));
 }
 
+extern char *strtrtc(const char *str, const char c);
+
 extern char *strclr(char *new_str, char *str);
+
+extern char *strcpy(char *dest, const char *src);
 
 #endif /* !_STRING_H */
