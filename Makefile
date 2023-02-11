@@ -6,7 +6,7 @@
 #    By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 23:52:42 by vvaucoul          #+#    #+#              #
-#    Updated: 2023/02/11 20:14:35 by vvaucoul         ###   ########.fr        #
+#    Updated: 2023/02/11 23:01:52 by vvaucoul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ ASM				= nasm
 DEFAULT_FLAGS 	=	-Wall -Wextra -Werror -Wfatal-errors
 CFLAGS 			= 	-fno-builtin -fno-exceptions -fno-stack-protector \
 					-nostdlib -nodefaultlibs \
-					-std=c2x -ffreestanding -O2
+					-std=c99 -ffreestanding -O2
 
 LDFLAGS			= 	-g3 -m32
 
