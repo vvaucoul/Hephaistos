@@ -6,9 +6,31 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:35:06 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/20 13:35:13 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2023/02/11 20:40:09 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/* Copyright (C) 1989-2023 Free Software Foundation, Inc.
+This file is part of GCC.
+GCC is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3, or (at your option)
+any later version.
+GCC is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+Under Section 7 of GPL version 3, you are granted additional
+permissions described in the GCC Runtime Library Exception, version
+3.1, as published by the Free Software Foundation.
+You should have received a copy of the GNU General Public License and
+a copy of the GCC Runtime Library Exception along with this program;
+see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+<http://www.gnu.org/licenses/>.  */
+
+/*
+ * ISO C Standard:  7.15  Variable arguments  <stdarg.h>
+ */
 
 #ifndef _STDARG_H
 #ifndef _ANSI_STDARG_H_
