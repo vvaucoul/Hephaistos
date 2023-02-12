@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:31:06 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/12/10 15:19:35 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2023/02/12 11:35:41 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ extern char *strtrtc(const char *str, const char c);
 extern char *strclr(char *new_str, char *str);
 
 extern char *strcpy(char *dest, const char *src);
+
+extern char *strncpy(char *dest, const char *src, size_t n);
 
 #endif /* !_STRING_H */

@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:55:48 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/12/10 15:19:28 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2023/02/12 11:35:31 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,21 @@ char *strcpy(char *dest, const char *src)
 
     uint32_t i = 0;
     while (src[i])
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+    return (dest);
+}
+
+char *strncpy(char *dest, const char *src, size_t n)
+{
+    if (dest == NULL || src == NULL)
+        return (NULL);
+
+    uint32_t i = 0;
+    while (src[i] && i < n)
     {
         dest[i] = src[i];
         i++;
