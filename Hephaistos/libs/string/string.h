@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:31:06 by vvaucoul          #+#    #+#             */
-/*   Updated: 2023/02/12 11:35:41 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2023/02/17 09:09:04 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,25 @@ extern char *strclr(char *new_str, char *str);
 extern char *strcpy(char *dest, const char *src);
 
 extern char *strncpy(char *dest, const char *src, size_t n);
+
+extern char *strcat(char *dest, const char *src);
+
+extern char *strjoin(char *s1, char *s2);
+
+extern char *strchr(const char *s, int c);
+
+extern char *strrchr(const char *s, int c);
+
+extern char *strdup(const char *s);
+
+extern char *strndup(const char *s, size_t n);
+
+extern char *strtrim(char const *s);
+
+extern char *strsub(char const *s, unsigned int start, size_t len);
+
+extern char **strsplit(char const *s, char c);
+
+extern char *strtok(char *str, const char *delim);
 
 #endif /* !_STRING_H */

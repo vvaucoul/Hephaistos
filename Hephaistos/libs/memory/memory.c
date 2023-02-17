@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:25:42 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/20 13:27:42 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2023/02/17 09:04:59 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ void *memset(void *ptr, int value, uint32_t length)
         ++i;
     }
     return (ptr);
+}
+
+void *memccpy(void *dest, const void *src, int c, uint32_t length)
+{
+    uint32_t i;
+
+    i = 0;
+    while (i < length)
+    {
+        ((uchar_t *)dest)[i] = ((uchar_t *)src)[i];
+        if (((uchar_t *)src)[i] == (uchar_t)c)
+            return ((uchar_t *)dest + i);
+        ++i;
+    }
+    return (NULL);
 }
 
 void *memcpy(void *dest, const void *src, uint32_t length)
