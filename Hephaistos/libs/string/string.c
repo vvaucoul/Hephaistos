@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:55:48 by vvaucoul          #+#    #+#             */
-/*   Updated: 2023/02/17 09:08:58 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2023/02/17 09:21:03 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,50 @@ char **strsplit(char const *s, char c)
     tab[j + 1] = NULL;
     kfree(new_str);
     return (tab);
+}
+
+static int strspn(const char *s, const char *accept)
+{
+    if (s == NULL || accept == NULL)
+        return (0);
+
+    uint32_t i = 0;
+    uint32_t j = 0;
+    while (s[i])
+    {
+        j = 0;
+        while (accept[j])
+        {
+            if (s[i] == accept[j])
+                break;
+            j++;
+        }
+        if (accept[j] == '\0')
+            return (i);
+        i++;
+    }
+    return (i);
+}
+
+static char *strpbrk(const char *s, const char *accept)
+{
+    if (s == NULL || accept == NULL)
+        return (NULL);
+
+    uint32_t i = 0;
+    uint32_t j = 0;
+    while (s[i])
+    {
+        j = 0;
+        while (accept[j])
+        {
+            if (s[i] == accept[j])
+                return ((char *)&s[i]);
+            j++;
+        }
+        i++;
+    }
+    return (NULL);
 }
 
 char *strtok(char *str, const char *delim)
