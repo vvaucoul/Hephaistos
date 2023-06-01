@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: CloneKronOS
+      run: git clone https://github.com/vvaucoul/KronOS . && cp KronOS/* ../
     - name: make
       run: make
   
