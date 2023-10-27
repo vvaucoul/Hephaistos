@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   macros.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
+/*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:21:32 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/20 23:16:35 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2023/10/21 13:03:26 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 
 /* OPERATORS */
 
+#ifndef __cplusplus
 #define and &&
 #define or ||
 #define not !
 #define not_eq !=
 #define equals ==
 #define is =
+#endif
 
 /* INLINE FUNCTIONS */
 
@@ -73,5 +75,10 @@
 
 #define is_array(array) \
     ((void *)&a == (void *)a)
+
+/* UTILS */
+
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
 
 #endif /* !_MACROS_H */
