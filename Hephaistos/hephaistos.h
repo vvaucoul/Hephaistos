@@ -35,7 +35,7 @@
 
 #include <libs/cpu/cpuid/cpuid.h>
 
-#define _HEPHAISTOS_VERSION "0.1"
+#define _HEPHAISTOS_VERSION "0.1.1"
 #define _HEPHAISTOS_AUTHOR "vvaucoul"
 #define _HEPHAISTOS_AUTHOR_MAIL "vvaucoul@student.42.fr"
 #define _HEPHAISTOS_LICENSE "MIT"
