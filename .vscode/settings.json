@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.s": "nasm",
+        "*.ld": "mapfile",
+        "memory.h": "c"
+    }
+}
