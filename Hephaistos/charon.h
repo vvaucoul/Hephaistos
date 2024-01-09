@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   charon.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
+/*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:47:12 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/12/03 23:45:01 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/09 14:06:51 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #include <kernel.h>
 #include <terminal.h>
 #include <memory/kheap.h>
-#include <system/pit.h>
+#include <sys/pit.h>
 #endif
 
 #endif /* !_CHARON_H */
