@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hephaistos.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
+/*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:54:41 by vvaucoul          #+#    #+#             */
-/*   Updated: 2023/02/15 17:55:54 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/09 14:56:59 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 #include <libs/time/time.h>
 
 #include <libs/cpu/cpuid/cpuid.h>
+
+#include <workflows/workflows.h>
 
 #define _HEPHAISTOS_VERSION "0.1.1"
 #define _HEPHAISTOS_AUTHOR "vvaucoul"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
+/*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:31:06 by vvaucoul          #+#    #+#             */
-/*   Updated: 2023/02/17 09:09:04 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/11 11:47:48 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,9 @@ extern char *strsub(char const *s, unsigned int start, size_t len);
 extern char **strsplit(char const *s, char c);
 
 extern char *strtok(char *str, const char *delim);
+
+extern char *strstr(const char *haystack, const char *needle);
+
+extern char *strpbrk(const char *s, const char *accept);
 
 #endif /* !_STRING_H */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
+/*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:55:48 by vvaucoul          #+#    #+#             */
-/*   Updated: 2023/02/17 09:21:03 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/11 11:48:17 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,7 +304,7 @@ static int strspn(const char *s, const char *accept)
     return (i);
 }
 
-static char *strpbrk(const char *s, const char *accept)
+char *strpbrk(const char *s, const char *accept)
 {
     if (s == NULL || accept == NULL)
         return (NULL);
@@ -347,4 +347,23 @@ char *strtok(char *str, const char *delim)
         last = str + 1;
     }
     return (token);
+}
+
+char *strstr(const char *haystack, const char *needle)
+{
+    if (haystack == NULL || needle == NULL)
+        return (NULL);
+
+    uint32_t i = 0;
+    uint32_t j = 0;
+    while (haystack[i])
+    {
+        j = 0;
+        while (needle[j] && haystack[i + j] == needle[j])
+            j++;
+        if (needle[j] == '\0')
+            return ((char *)&haystack[i]);
+        i++;
+    }
+    return (NULL);
 }
