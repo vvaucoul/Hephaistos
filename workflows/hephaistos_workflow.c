@@ -6,12 +6,12 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:36:33 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/14 16:38:48 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/14 17:10:32 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <hephaistos.h>
 
-int hephaistos_workflow(void)
-{
+int hephaistos_workflow(void) {
+    return (0);
 }
