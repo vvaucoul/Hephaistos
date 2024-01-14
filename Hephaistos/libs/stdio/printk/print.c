@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
+/*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 12:19:39 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/12/03 23:43:34 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/14 12:52:02 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void puts(const char *str)
 
 /* ----------- */
 
-void ftoa(char *buffer, float value)
+static void __ftoa(char *buffer, float value)
 {
 	uint32_t count = 1;
 	const uint32_t DEFAULT_DECIMAL_COUNT = 0;
@@ -135,6 +135,6 @@ void putf(const float value)
 {
 	char buffer[32];
 	bzero(buffer, 32);
-	ftoa(buffer, value);
+	__ftoa(buffer, value);
 	putstr(buffer);
 }

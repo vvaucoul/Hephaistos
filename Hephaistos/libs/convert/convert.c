@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:59:13 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/14 12:45:12 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/14 12:53:01 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,32 @@ int atoi(const char *str) {
 
     while (*str) {
         res = res * 10 + (*str - '0');
+        str++;
+    }
+    return (res * sign);
+}
+
+/**
+ * @brief Converts a string to an integer in the specified base.
+ *
+ * This function converts the string pointed to by `str` to an integer representation
+ * using the specified `base`.
+ *
+ * @param str The string to be converted.
+ * @param base The base to use for the conversion.
+ * @return The converted integer value.
+ */
+int atoi_base_s(const char *str, int base) {
+    int res = 0;
+    int sign = 1;
+
+    if (*str == '-') {
+        sign = -1;
+        str++;
+    }
+
+    while (*str) {
+        res = res * base + (*str - '0');
         str++;
     }
     return (res * sign);
@@ -263,4 +289,134 @@ char *uitoa_base_s(uint32_t nbr, int base) {
     }
     uitoa_base(nbr, base, str);
     return (str);
+}
+
+/**
+ * @brief Converts a floating-point number to a string representation.
+ *
+ * This function takes a floating-point number and converts it to a string representation
+ * with a specified precision. The resulting string can be used for display or further processing.
+ *
+ * @param num The floating-point number to convert.
+ * @param precision The number of decimal places to include in the string representation.
+ * @return A pointer to the string representation of the floating-point number.
+ */
+char *ftoa(double num, int precision) {
+    char *str = kmalloc(sizeof(char) * (precision + 1));
+    int i = 0;
+    int int_part = (int)num;
+    double dec_part = num - (double)int_part;
+
+    if (str == NULL) {
+        return (NULL);
+    } else {
+        memset(str, 0, precision + 1);
+    }
+    while (i < precision) {
+        dec_part *= 10;
+        str[i++] = (int)dec_part + '0';
+        dec_part -= (int)dec_part;
+    }
+    str[i] = '\0';
+    return (str);
+}
+
+/**
+ * Converts a hexadecimal number to ASCII representation.
+ *
+ * @param num The hexadecimal number to convert.
+ * @return The ASCII representation of the hexadecimal number.
+ */
+char *htoa(uint32_t num) {
+    char *str = kmalloc(sizeof(char) * 9);
+    int i = 0;
+
+    if (str == NULL) {
+        return (NULL);
+    } else {
+        memset(str, 0, 9);
+    }
+    while (i < 8) {
+        int temp = i++;
+        str[temp] = __ASCII_BASE__[(num >> (temp * 4)) & 0xF];
+    }
+    str[i] = '\0';
+    return (str);
+}
+
+/**
+ * Converts a binary number to ASCII representation.
+ *
+ * @param num The binary number to convert.
+ * @return The ASCII representation of the binary number.
+ */
+char *btoa(uint32_t num) {
+    char *str = kmalloc(sizeof(char) * 33);
+    int i = 0;
+
+    if (str == NULL) {
+        return (NULL);
+    } else {
+        memset(str, 0, 33);
+    }
+    while (i < 32) {
+        int temp = i++;
+        str[temp] = __ASCII_BASE__[(num >> (temp * 1)) & 0x1];
+    }
+    str[i] = '\0';
+    return (str);
+}
+
+/**
+ * Converts an octal number to ASCII representation.
+ *
+ * @param num The octal number to convert.
+ * @return The ASCII representation of the octal number.
+ */
+char *otoa(uint32_t num) {
+    char *str = kmalloc(sizeof(char) * 12);
+    int i = 0;
+
+    if (str == NULL) {
+        return (NULL);
+    } else {
+        memset(str, 0, 12);
+    }
+    while (i < 11) {
+        int temp = i++;
+        str[temp] = __ASCII_BASE__[(num >> (temp * 3)) & 0x7];
+    }
+    str[i] = '\0';
+    return (str);
+}
+
+/**
+ * Converts a string to a floating-point number.
+ *
+ * @param str The string to convert.
+ * @return The floating-point number representation of the string.
+ */
+double atof(const char *str) {
+    double res = 0;
+    double sign = 1;
+    int i = 0;
+
+    if (*str == '-') {
+        sign = -1;
+        str++;
+    }
+    while (*str) {
+        if (*str == '.') {
+            i++;
+            str++;
+            continue;
+        }
+        res = res * 10 + (*str - '0');
+        str++;
+        if (i)
+            i++;
+    }
+    while (i-- > 0)
+        res /= 10;
+    return (res * sign);
 }
