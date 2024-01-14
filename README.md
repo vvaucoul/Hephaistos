@@ -19,7 +19,7 @@ To use or contribute to Hephaistos, the following tools are required:
 
 Hephaistos is integrated with the **[KronOS](https://github.com/vvaucoul/KronOS)** build system, utilizing a custom setup to streamline the process. Building Hephaistos is seamlessly handled as part of the KronOS compilation. Follow these steps to build Hephaistos along with KronOS:
 
-1. Clone the KronOS repository: `git clone --recursive [KronOS Repository URL](https://github.com/vvaucoul/KronOS)`
+1. Clone the KronOS repository: `git clone --recursive https://github.com/vvaucoul/KronOS`
 2. Navigate to the KronOS directory: `cd KronOS`
 3. Build KronOS: `make`
 4. Build Verification: Upon completion, verify that Hephaistos libraries and modules are compiled and integrated as expected.
