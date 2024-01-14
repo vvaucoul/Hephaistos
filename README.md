@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/66129673/202929516-f870325d-747a-415e-a86c-b3ad1ee5aaf9.png" width=100%>
+<img src="https://github.com/vvaucoul/Hephaistos/assets/66129673/925850fc-6e1f-4401-8025-149995fb520d.png" width=100%>
 
 
 # Hephaistos
