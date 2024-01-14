@@ -3,5 +3,8 @@
         "*.s": "nasm",
         "*.ld": "mapfile",
         "memory.h": "c"
-    }
+    },
+    "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+        "clang-diagnostic-incompatible-library-redeclaration"
+    ]
 }
