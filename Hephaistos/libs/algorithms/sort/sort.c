@@ -3,30 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
+/*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 00:26:13 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/22 01:33:49 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/14 00:08:18 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sort.h"
 #include <libs/string/string.h>
 #include <libs/stdio/stdio.h>
-
-/*******************************************************************************
- *                              COMPARE FUNCTIONS                              *
- ******************************************************************************/
-
-int cmp_int(const void *a, const void *b)
-{
-    return (*(int *)a - *(int *)b);
-}
-
-int cmp_string(const void *a, const void *b)
-{
-    return (strcmp((char *)a, (char *)b));
-}
 
 /*******************************************************************************
  *                            UTILS SORT FUNCTIONS                             *

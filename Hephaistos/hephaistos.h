@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:54:41 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/09 14:56:59 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/14 12:08:28 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@
 #include <libs/assert/assert.h>
 #include <libs/convert/convert.h>
 #include <libs/time/time.h>
+#include <libs/errno/errno.h>
 
 #include <libs/cpu/cpuid/cpuid.h>
 
 #include <workflows/workflows.h>
 
-#define _HEPHAISTOS_VERSION "0.1.1"
+#define _HEPHAISTOS_VERSION "0.1.3"
 #define _HEPHAISTOS_AUTHOR "vvaucoul"
 #define _HEPHAISTOS_AUTHOR_MAIL "vvaucoul@student.42.fr"
 #define _HEPHAISTOS_LICENSE "MIT"
