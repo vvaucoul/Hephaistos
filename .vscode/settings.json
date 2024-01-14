@@ -2,6 +2,7 @@
     "files.associations": {
         "*.s": "nasm",
         "*.ld": "mapfile",
+        "sort.h": "c",
         "memory.h": "c"
     },
     "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [

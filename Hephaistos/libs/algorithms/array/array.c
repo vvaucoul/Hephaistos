@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
+/*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 00:00:03 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/12/03 23:43:06 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/14 16:38:21 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ static void __array_sort(array_t *array, int (*cmp)(const void *, const void *))
     if (!array || !array->data || array->length == 0)
         return;
     else
-        insertion_sort(array->data, array->length, cmp);
+        isort(array->data, array->length, sizeof(__array_data_t *), cmp);
 }
 
 /*******************************************************************************

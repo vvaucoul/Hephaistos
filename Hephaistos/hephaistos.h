@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:54:41 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/14 12:08:28 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/14 16:33:41 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <libs/algorithms/list/list.h>
 #include <libs/algorithms/sort/sort.h>
 #include <libs/algorithms/queue/queue.h>
+#include <libs/algorithms/stack/stack.h>
 
 #include <libs/bit/bit.h>
 #include <libs/ctype/ctype.h>
