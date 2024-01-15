@@ -3,331 +3,203 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
+/*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 00:23:46 by vvaucoul          #+#    #+#             */
-/*   Updated: 2023/02/15 17:47:53 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:44:59 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "list.h"
 #include <charon.h>
 
-static void __list_add_back(list_t *list, __list_node_t *node)
-{
-    if (!list)
-        return;
-    else
-    {
-        __list_node_t *tmp = list->root;
-
-        if (!tmp)
-        {
-            list->root = node;
-            list->first = node;
-            list->last = node;
-            list->size++;
-            return;
-        }
-
-        while (tmp->next)
-            tmp = tmp->next;
-
-        tmp->next = node;
-        list->last = node;
-        list->size++;
-    }
-}
-
-static void __list_add_front(list_t *list, __list_node_t *node)
-{
-    if (!list)
-        return;
-    else
-    {
-        if (!list->root)
-        {
-            list->root = node;
-            list->first = node;
-            list->last = node;
-            list->size++;
-            return;
-        }
-        else
-        {
-            node->next = list->root;
-            list->root = node;
-            list->first = node;
-            list->size++;
-        }
-    }
-}
-
-static void __list_insert(list_t *list, __list_node_t *node, uint32_t index)
-{
-    __list_node_t *tmp = list->root;
-
-    if (!list->root)
-    {
-        list->root = node;
-        list->first = node;
-        list->last = node;
-        list->size = 1;
-        return;
-    }
-    else if (index == 0)
-    {
-        __list_add_front(list, node);
-        return;
-    }
-    else if (index == list->size)
-    {
-        __list_add_back(list, node);
-        return;
-    }
-    else
-    {
-        uint32_t i = 0;
-        while (tmp)
-        {
-            if (i == index)
-            {
-                node->next = tmp->next;
-                tmp->next = node;
-                list->size++;
-                return;
-            }
-            tmp = tmp->next;
-            i++;
-        }
-    }
-}
-
-static void __list_remove_index(list_t *list, uint32_t index)
-{
-    __list_node_t *node = list->root;
-    uint32_t i = 0;
-
-    if (list)
-        return;
-    while (node)
-    {
-        if (i == index)
-        {
-            if (node->prev)
-                node->prev->next = node->next;
-            if (node->next)
-                node->next->prev = node->prev;
-            if (node == list->first)
-                list->first = node->next;
-            if (node == list->last)
-                list->last = node->prev;
-            kfree(node);
-            return;
-        }
-        node = node->next;
-        ++i;
-    }
-}
-
-static void __list_remove(list_t *list, __list_data_t *data)
-{
-    if (list)
-        return;
-    __list_node_t *node = list->root;
-    while (node)
-    {
-        if (node->data == data)
-        {
-            return;
-        }
-        node = node->next;
-    }
-}
-
-static __list_node_t *__list_create_node(__list_data_t *data)
-{
-    __list_node_t *node = kmalloc(sizeof(__list_node_t));
-
-    if (!node)
-        return (NULL);
-    else
-    {
-        node->data = data;
-        node->next = NULL;
-        node->index = 0;
-        node->prev = NULL;
-    }
-    return (node);
-}
-
-static void __list_iterate(list_t *list, void (*f)(void *))
-{
-    __list_node_t *node = list->root;
-
-    while (node)
-    {
-        f(node->data);
-        node = node->next;
-    }
-}
-
-static void __list_destroy(list_t *list)
-{
-    __list_node_t *node = list->root;
-    __list_node_t *tmp = NULL;
-
-    while (node)
-    {
-        tmp = node;
-        node = node->next;
-        kfree(tmp);
-    }
-    kfree(list);
-    list = NULL;
-}
-
-static list_t *__list_create(void)
-{
+list_t *list_create(void) {
     list_t *list = kmalloc(sizeof(list_t));
-
-    if (!list)
-        return (NULL);
-    else
-    {
-        list->root = NULL;
-        list->size = 0;
+    if (list == NULL) {
+        return NULL;
     }
-    return (list);
+
+    list->root = NULL;
+    list->size = 0;
+
+    return list;
 }
 
-/*******************************************************************************
- *                             INTERFACE FUNCTIONS                             *
- ******************************************************************************/
+void list_destroy(list_t *list) {
+    node_t *current = list->root;
+    node_t *next;
 
-list_t *list_create(void)
-{
-    return (__list_create());
+    while (current != NULL) {
+        next = current->next;
+        kfree(current);
+        current = next;
+    }
+
+    kfree(list);
 }
 
-void list_destroy(list_t *list)
-{
-    __list_destroy(list);
-}
-
-void list_add_back(list_t *list, __list_data_t *data)
-{
-    __list_node_t *node = __list_create_node(data);
-
-    if (!node)
+void list_add_back(list_t *list, void *data) {
+    node_t *new_node = kmalloc(sizeof(node_t));
+    if (new_node == NULL) {
         return;
-    __list_add_back(list, node);
+    }
+
+    new_node->data = data;
+    new_node->next = NULL;
+
+    if (list->root == NULL) {
+        list->root = new_node;
+    } else {
+        node_t *current = list->root;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = new_node;
+    }
+
     list->size++;
 }
 
-void list_add_front(list_t *list, __list_data_t *data)
-{
-    __list_node_t *node = __list_create_node(data);
-
-    if (!node)
+void list_add_front(list_t *list, void *data) {
+    node_t *new_node = kmalloc(sizeof(node_t));
+    if (new_node == NULL) {
         return;
-    __list_add_front(list, node);
+    }
+
+    new_node->data = data;
+    new_node->next = list->root;
+
+    list->root = new_node;
     list->size++;
 }
 
-void list_remove(list_t *list, __list_data_t *data)
-{
-    __list_remove(list, data);
-}
+void list_remove(list_t *list, void *data) {
+    node_t *current = list->root;
+    node_t *previous = NULL;
 
-void list_remove_index(list_t *list, uint32_t index)
-{
-    __list_remove_index(list, index);
-}
+    while (current != NULL) {
+        if (current->data == data) {
+            if (previous == NULL) {
+                list->root = current->next;
+            } else {
+                previous->next = current->next;
+            }
+            kfree(current);
+            list->size--;
+            return;
+        }
 
-void list_clear(list_t *list)
-{
-    __list_node_t *node = list->root;
-    __list_node_t *tmp = NULL;
-
-    while (node)
-    {
-        tmp = node;
-        node = node->next;
-        kfree(tmp);
+        previous = current;
+        current = current->next;
     }
+}
+
+void list_clear(list_t *list) {
+    node_t *current = list->root;
+    node_t *next;
+
+    while (current != NULL) {
+        next = current->next;
+        kfree(current);
+        current = next;
+    }
+
     list->root = NULL;
     list->size = 0;
 }
 
-void list_insert(list_t *list, __list_data_t *data, uint32_t index)
-{
-    __list_node_t *node = __list_create_node(data);
-
-    if (!node)
+void list_insert(list_t *list, void *data, uint32_t index) {
+    if (index > list->size) {
         return;
-    __list_insert(list, node, index);
-}
+    }
 
-__list_data_t *list_get(list_t *list, uint32_t index)
-{
-    __list_node_t *node = list->root;
+    if (index == 0) {
+        list_add_front(list, data);
+        return;
+    }
 
+    node_t *new_node = kmalloc(sizeof(node_t));
+    if (new_node == NULL) {
+        return;
+    }
+
+    new_node->data = data;
+
+    node_t *current = list->root;
+    node_t *previous = NULL;
     uint32_t i = 0;
-    while (node)
-    {
-        if (i == index)
-            return (node->data);
-        node = node->next;
+
+    while (current != NULL && i < index) {
+        previous = current;
+        current = current->next;
         i++;
     }
-    return (NULL);
+
+    new_node->next = current;
+    previous->next = new_node;
+
+    list->size++;
 }
 
-__list_data_t *list_get_front(list_t *list)
-{
-    return (list->first->data);
+uint32_t list_size(list_t *list) {
+    return list->size;
 }
 
-__list_data_t *list_get_last(list_t *list)
-{
-    return (list->last->data);
+int list_is_empty(list_t *list) {
+    return list->size == 0;
 }
 
-uint32_t list_size(list_t *list)
-{
-    return (list->size);
-}
+void list_iterate(list_t *list, void (*f)(void *)) {
+    node_t *current = list->root;
 
-bool list_is_empty(list_t *list)
-{
-    return (list->size == 0);
-}
-
-void list_iterate(list_t *list, void (*f)(void *))
-{
-    __list_iterate(list, f);
-}
-
-void list_sort(list_t *list, int (*cmp)(const void *, const void *))
-{
-    if (!list)
-        return;
-    __list_node_t *node = list->root;
-
-    while (node)
-    {
-        __list_node_t *tmp = node->next;
-        while (tmp)
-        {
-            if (cmp(node->data, tmp->data) > 0)
-            {
-                __list_data_t *data = node->data;
-                node->data = tmp->data;
-                tmp->data = data;
-            }
-            tmp = tmp->next;
-        }
-        node = node->next;
+    while (current != NULL) {
+        f(current->data);
+        current = current->next;
     }
+}
+
+int list_compare(const void *a, const void *b) {
+    return (*(int *)a - *(int *)b);
+}
+
+static void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void list_sort(list_t *list, int (*cmp)(const void *, const void *)) {
+    node_t *current = list->root;
+    node_t *next = NULL;
+    int *data = NULL;
+    int *data_next = NULL;
+
+    while (current != NULL) {
+        next = current->next;
+        while (next != NULL) {
+            data = (int *)current->data;
+            data_next = (int *)next->data;
+            if (cmp(data, data_next) > 0) {
+                swap(data, data_next);
+            }
+            next = next->next;
+        }
+        current = current->next;
+    }
+}
+
+void *list_get(list_t *list, uint32_t index) {
+    if (index >= list->size) {
+        return NULL;
+    }
+
+    node_t *current = list->root;
+    uint32_t i = 0;
+
+    while (current != NULL && i < index) {
+        current = current->next;
+        i++;
+    }
+
+    return current->data;
 }

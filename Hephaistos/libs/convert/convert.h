@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:58:53 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/14 12:50:23 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/14 23:58:00 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <libs/stdbool/stdbool.h>
 #include <libs/stddef/stddef.h>
 
-#define __ITOA_BUFFER_LENGTH__ 11
+#define __ITOA_BUFFER_LENGTH__ 12
 #define __ASCII_BASE__ "0123456789ABCDEF"
 
 extern int atoi(const char *str);

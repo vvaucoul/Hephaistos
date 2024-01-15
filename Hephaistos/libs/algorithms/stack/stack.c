@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 15:43:07 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/14 16:33:14 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/15 12:38:51 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void *stack_peek(stack_t *stack) {
 void *stack_get_element(stack_t *stack, int index) {
     void *data = NULL;
 
-    if (stack == NULL) {
+    if (stack == NULL || index < 0 || index >= stack->size) {
         return (NULL);
     } else {
         data = stack->data[index];
