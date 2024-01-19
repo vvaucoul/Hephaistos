@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 23:21:41 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/15 12:00:21 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/17 21:22:11 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ inline int round(float nb) {
  */
 inline float pow(float nb, float power) {
     float res = 1;
-    for (float i = 0; i < power; i++) {
+
+    for (uint32_t i = 0; i < (uint32_t)power; i++) {
         res *= nb;
     }
     return res;
