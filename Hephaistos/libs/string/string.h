@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:31:06 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/14 12:10:20 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/15 00:01:41 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,7 @@ extern char **strsplit(char const *s, char c);
 extern char *strtok(char *str, const char *delim);
 extern char *strstr(const char *haystack, const char *needle);
 extern char *strpbrk(const char *s, const char *accept);
+extern char *strrev(char *str);
+extern char *strrevp(char *str, uint32_t start, uint32_t end);
 
 #endif /* !_STRING_H */

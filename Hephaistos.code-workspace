@@ -10,7 +10,15 @@
 			"*.ld": "mapfile",
 			"memory.h": "c",
 			"time.h": "c",
-			"errno.h": "c"
+			"errno.h": "c",
+			"queue.h": "c",
+			"workflows.h": "c",
+			"string.h": "c",
+			"hephaistos.h": "c",
+			"charon.h": "c",
+			"stddef.h": "c",
+			"stack.h": "c",
+			"btree.h": "c"
 		}
 	}
 }

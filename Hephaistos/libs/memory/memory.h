@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:25:46 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/14 12:03:25 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:04:19 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef uint32_t rsize_t;
 extern void *memset(void *ptr, int value, uint32_t length);
 extern void *memccpy(void *dest, const void *src, int c, uint32_t length);
 extern void *memcpy(void *dest, const void *src, uint32_t length);
+extern void *memscpy(void *dest, uint32_t dest_size, const void *src, uint32_t length);
 extern void *memmove(void *dest, const void *src, uint32_t length);
 extern void *memchr(const void *s, int c, uint32_t n);
 extern int memcmp(const void *s1, const void *s2, uint32_t n);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+         #
+#    By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 23:52:42 by vvaucoul          #+#    #+#              #
-#    Updated: 2023/02/11 23:01:52 by vvaucoul         ###   ########.fr        #
+#    Updated: 2024/01/14 18:34:23 by vvaucoul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,6 @@ VERSION				:=	$(shell sh $(SCRIPTS_DIR)/HephaistosVersion.sh)
 #*******************************************************************************
 
 NAME 			= Hephaistos.a
-WORKFLOW_NAME 	= hephaistos_workflow
 ASM				= nasm
 
 DEFAULT_FLAGS 	=	-Wall -Wextra -Werror -Wfatal-errors
@@ -77,22 +76,15 @@ DEPENDS_ASM		=	$(SRCS_ASM:.s=.d)
 
 all: $(NAME)
 
-$(NAME): ascii $(OBJS) $(OBJS_ASM)
+$(NAME): ascii $(OBJS) $(OBJS_ASM) 
 	@ar -rcs $(NAME) $(OBJS) $(OBJS_ASM)
 	@printf "\n$(_LWHITE)-$(_END)$(_DIM)$(_END)$(_LWHITE) %s $(_END)$(_DIM)-------------$(_END)$(_LGREEN)[$(_LWHITE)✓$(_LGREEN)]$(_END)\n" "HEPHAISTOS"
 
-workflow: $(WORKFLOW_NAME)
-
-$(WORKFLOW_NAME): $(NAME)
-	@$(CC) $(LDFLAGS) $(CFLAGS) $(DEFAULT_FLAGS) $(INCLUDES) -o $(WORKFLOW_NAME)  workflows/$(WORKFLOW_NAME).c $(NAME)
-
-.PHONY: workflow
-
 clean:
-	@rm -rf $(OBJS) $(OBJS_ASM) $(DEPENDS) $(DEPENDS_ASM) $(WORKFLOW_NAME)
+	@rm -rf $(OBJS) $(OBJS_ASM) $(DEPENDS) $(DEPENDS_ASM)
 
 fclean: clean
-	@rm -rf $(NAME)
+	@rm -rf $(NAME) 
 
 re: fclean all
 
@@ -109,4 +101,4 @@ ascii:
 -include $(DEPENDS)
 -include $(DEPENDS_ASM)
 
-.PHONY: all clean fclean re ascii
+.PHONY: all clean fclean re ascii workflow

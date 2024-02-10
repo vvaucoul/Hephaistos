@@ -3,116 +3,119 @@
 /*                                                        :::      ::::::::   */
 /*   queue.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
+/*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 17:44:24 by vvaucoul          #+#    #+#             */
-/*   Updated: 2023/02/15 17:55:17 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/01/15 13:12:45 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "queue.h"
 #include <charon.h>
 
-/*******************************************************************************
- *                               QUEUE FUNCTIONS                               *
- ******************************************************************************/
+/**
+ * @brief Creates a new queue.
+ *
+ * @return A pointer to the newly created queue.
+ */
+queue_t *queue_create(void) {
+    queue_t *queue = kmalloc(sizeof(queue_t));
 
-static queue_t *__queue_create(void)
-{
-    queue_t *queue = (queue_t *)kmalloc(sizeof(queue_t));
-    queue->first = NULL;
-    queue->last = NULL;
+    if (queue == NULL) {
+        return (NULL);
+    }
+
+    queue->head = 0;
+    queue->tail = 0;
     queue->size = 0;
+
     return (queue);
 }
 
-static void __queue_enqueue(queue_t *queue, __queue_data_t *data)
-{
-    queue_node_t *node = (queue_node_t *)kmalloc(sizeof(queue_node_t));
-    node->data = data;
-    node->next = NULL;
-    if (queue->size == 0)
-    {
-        queue->first = node;
-        queue->last = node;
+/**
+ * @brief Destroys a queue and frees the allocated memory.
+ *
+ * This function destroys the given queue and frees the memory allocated for it.
+ *
+ * @param queue The queue to be destroyed.
+ */
+void queue_destroy(queue_t *queue) {
+    if (queue == NULL) {
+        return;
     }
-    else
-    {
-        queue->last->next = node;
-        queue->last = node;
-    }
-    queue->size++;
+    kfree(queue);
 }
 
-static __queue_data_t *__queue_dequeue(queue_t *queue)
-{
-    if (queue->size == 0)
+/**
+ * @brief Adds an element to the back of the queue.
+ *
+ * This function adds the specified data to the back of the queue.
+ *
+ * @param queue The queue to add the element to.
+ * @param data The data to be added to the queue.
+ */
+void queue_enqueue(queue_t *queue, void *data) {
+    if (queue == NULL) {
+        return;
+    } else {
+        queue->data[queue->tail] = data;
+        queue->tail = (queue->tail + 1) % QUEUE_MAX_SIZE;
+        queue->size += 1;
+    }
+}
+
+/**
+ * @brief Removes and returns the front element from the queue.
+ *
+ * This function removes the front element from the specified queue and returns it.
+ *
+ * @param queue A pointer to the queue from which to dequeue the element.
+ * @return A pointer to the element that was dequeued from the queue, or NULL if the queue is empty.
+ */
+void *queue_dequeue(queue_t *queue) {
+    void *data = NULL;
+
+    if (queue == NULL) {
         return (NULL);
-    queue_node_t *node = queue->first;
-    __queue_data_t *data = node->data;
-    queue->first = node->next;
-    kfree(node);
-    queue->size--;
+    } else {
+        data = queue->data[queue->head];
+        queue->head = (queue->head + 1) % QUEUE_MAX_SIZE;
+        queue->size -= 1;
+    }
     return (data);
 }
 
-static __queue_data_t *__queue_peek(queue_t *queue)
-{
-    if (queue->size == 0)
+/**
+ * @brief Retrieves the front element of the queue without removing it.
+ *
+ * This function returns a pointer to the front element of the queue without modifying the queue itself.
+ *
+ * @param queue A pointer to the queue.
+ * @return A pointer to the front element of the queue, or NULL if the queue is empty.
+ */
+void *queue_peek(queue_t *queue) {
+    void *data = NULL;
+
+    if (queue == NULL) {
         return (NULL);
-    return (queue->first->data);
+    } else {
+        data = queue->data[queue->head];
+    }
+    return (data);
 }
 
-static void __queue_destroy(queue_t *queue)
-{
-    while (queue->size > 0)
-        queue_dequeue(queue);
-    kfree(queue);
-}
-
-static void __queue_destroy_with_data(queue_t *queue)
-{
-    while (queue->size > 0)
-        kfree(queue_dequeue(queue));
-    kfree(queue);
-}
-
-/*******************************************************************************
- *                             INTERFACE FUNCTIONS                             *
- ******************************************************************************/
-
-
-queue_t *queue_create(void)
-{
-    return (__queue_create());
-}
-
-void queue_enqueue(queue_t *queue, __queue_data_t *data)
-{
-    __queue_enqueue(queue, data);
-}
-
-__queue_data_t *queue_dequeue(queue_t *queue)
-{
-    return (__queue_dequeue(queue));
-}
-
-__queue_data_t *queue_peek(queue_t *queue)
-{
-    return (__queue_peek(queue));
-}
-
-void queue_destroy_with_data(queue_t *queue)
-{
-    __queue_destroy_with_data(queue);
-}
-
-bool queue_is_empty(queue_t *queue)
-{
-    return (queue->size == 0);
-}
-
-uint32_t queue_size(queue_t *queue)
-{
-    return (queue->size);
+/**
+ * @brief Retrieves the number of elements in the queue.
+ *
+ * This function returns the number of elements currently in the queue.
+ *
+ * @param queue A pointer to the queue.
+ * @return The number of elements in the queue.
+ */
+int queue_get_size(queue_t *queue) {
+    if (queue == NULL) {
+        return (0);
+    } else {
+        return (queue->size);
+    }
 }

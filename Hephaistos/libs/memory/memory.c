@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:25:42 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/14 12:04:44 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:04:22 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,23 @@ void *memcpy(void *dest, const void *src, uint32_t length) {
     uint32_t i;
 
     i = 0;
+    while (i < length) {
+        ((uchar_t *)dest)[i] = ((uchar_t *)src)[i];
+        ++i;
+    }
+    return (dest);
+}
+
+void *memscpy(void *dest, uint32_t dest_size, const void *src, uint32_t length) {
+    uint32_t i;
+
+    i = 0;
+    if (dest_size < length) {
+        return (NULL);
+    }
+    for (uint32_t i = 0; i < dest_size; i++) {
+        ((uchar_t *)dest)[i] = 0;
+    }
     while (i < length) {
         ((uchar_t *)dest)[i] = ((uchar_t *)src)[i];
         ++i;
@@ -114,7 +131,7 @@ void *bzero(void *ptr, uint32_t len) {
 // ! ||--------------------------------------------------------------------------------||
 
 errno_t memset_s(void *ptr, rsize_t smax, int value, rsize_t length) {
-   if (ptr == NULL) {
+    if (ptr == NULL) {
         return EINVAL;
     }
     if (smax < length) {

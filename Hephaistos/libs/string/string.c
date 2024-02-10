@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:55:48 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/14 12:18:14 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/02/08 22:09:53 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -502,4 +502,60 @@ char *strstr(const char *haystack, const char *needle) {
         i++;
     }
     return (NULL);
+}
+
+/**
+ * @brief Reverses a string.
+ *
+ * This function reverses the given string.
+ *
+ * @param str The string to be reversed.
+ * @return The reversed string.
+ */
+char *strrev(char *str) {
+    if (str == NULL) {
+        return (NULL);
+    }
+
+    uint32_t i = 0;
+    uint32_t j = strlen(str) - 1;
+    char tmp;
+
+    while (i < j) {
+        tmp = str[i];
+        str[i] = str[j];
+        str[j] = tmp;
+        i++;
+        j--;
+    }
+    return (str);
+}
+
+/**
+ * @brief Reverses a portion of a string.
+ *
+ * This function reverses a portion of the given string.
+ *
+ * @param str The string to be reversed.
+ * @param start The starting index of the portion to be reversed.
+ * @param end The ending index of the portion to be reversed.
+ * @return The reversed string.
+ */
+char *strrevp(char *str, uint32_t start, uint32_t end) {
+    if (str == NULL) {
+        return (NULL);
+    }
+
+    uint32_t i = start;
+    uint32_t j = end;
+    char tmp;
+
+    while (i < j) {
+        tmp = str[i];
+        str[i] = str[j];
+        str[j] = tmp;
+        i++;
+        j--;
+    }
+    return (str);
 }
