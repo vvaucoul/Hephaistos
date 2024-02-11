@@ -14,9 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: CloneKronOS
-      run: git clone https://github.com/vvaucoul/KronOS
-      ; cd KronOS ; git checkout work-in-progress ; cd -
-      ; cp -r KronOS/* ../
+      run: git clone https://github.com/vvaucoul/KronOS ; cd KronOS ; git checkout work-in-progress ; cd - ; cp -r KronOS/* ../
     - name: workflow_test
       run: cd scripts && sh HephaistosGithubWorkflow.sh && cd -
     - name: InstallDependencies
