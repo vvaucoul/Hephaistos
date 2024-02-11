@@ -6,7 +6,7 @@
 #    By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 23:52:42 by vvaucoul          #+#    #+#              #
-#    Updated: 2024/01/14 18:34:23 by vvaucoul         ###   ########.fr        #
+#    Updated: 2024/02/11 11:46:46 by vvaucoul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,11 @@ $(NAME): ascii $(OBJS) $(OBJS_ASM)
 clean:
 	@rm -rf $(OBJS) $(OBJS_ASM) $(DEPENDS) $(DEPENDS_ASM)
 
-fclean: clean
+clean-ccache:
+	@printf "$(_LWHITE)- CLEAN CCACHE $(_END)$(_DIM)----------$(_END) $(_LGREEN)[$(_LWHITE)✓$(_LGREEN)]$(_END)\n"
+	@$(CCACHE) -c -C > /dev/null 2>&1
+
+fclean: clean clean-ccache
 	@rm -rf $(NAME) 
 
 re: fclean all
@@ -101,4 +105,4 @@ ascii:
 -include $(DEPENDS)
 -include $(DEPENDS_ASM)
 
-.PHONY: all clean fclean re ascii workflow
+.PHONY: all clean fclean re ascii workflow clean-ccache

@@ -18,7 +18,9 @@
 			"charon.h": "c",
 			"stddef.h": "c",
 			"stack.h": "c",
-			"btree.h": "c"
+			"btree.h": "c",
+			"printk.h": "c",
+			"stdio.h": "c"
 		}
 	}
 }

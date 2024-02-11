@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printk.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
+/*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:55:51 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/11/21 13:52:11 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/02/11 12:38:59 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct s_printk
 
     bool is_neg_space;
     bool use_zero;
+
+    int precision;
 } printk_t;
 
 extern printk_t _g_printk;
@@ -65,21 +67,6 @@ extern void __kpf_manage_unsigned();
 extern void __kpf_manage_float();
 
 extern size_t __kptrlen(const void *ptr);
-
-// extern uint8_t __check_colors(const char *str);
-// extern uint32_t __check_mods(const char *str, uint32_t i);
-// extern uint8_t __check_special_strings(const char *str);
-
-// extern uint32_t __mods_manager_mod(const char *format, uint32_t i);
-// extern void __mods_manager_str(void);
-// extern void __mods_manager_int(void);
-// extern void __mods_manager_char(void);
-// extern void __mods_manager_uint(void);
-// extern void __mods_manager_hex(void);
-// extern void __mods_manager_ptr(void);
-// extern void __mods_manager_float(void);
-
-// extern void __printk_display_char(char c);
-// extern void __printk_display_string(char *str);
+extern uint32_t __k_get_len(uint32_t arg_len);
 
 #endif /* !PRINTK_H */
