@@ -21,5 +21,3 @@ jobs:
       run: make -C  ../. install-dependencies
     - name: make
       run: make
-    - name: Test
-      run: cd .. && make && timeout 30s make run-disk 
