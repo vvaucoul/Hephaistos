@@ -22,4 +22,4 @@ jobs:
     - name: make
       run: make
     - name: Test
-      run: timeout 30s make run-disk 
+      run: cd .. && make && timeout 30s make run-disk 
