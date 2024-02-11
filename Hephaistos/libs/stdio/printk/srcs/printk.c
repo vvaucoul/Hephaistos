@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:06:11 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/02/11 20:57:23 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/02/11 21:01:03 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int check_colors(const char *str) {
     /* Check Foreground colors */
     if (strncmp(str, _END, strlen(_END)) == 0) {
         terminal_setcolor(VGA_COLOR_LIGHT_GREY);
+        terminal_set_background_color(VGA_COLOR_BLACK);
         return (strlen(_END));
     } else if (strncmp(str, _RED, strlen(_RED)) == 0) {
         terminal_setcolor(VGA_COLOR_RED);
@@ -80,7 +81,6 @@ static int check_colors(const char *str) {
         terminal_set_background_color(VGA_COLOR_BLUE);
         return (strlen(_BG_BLUE));
     } else if (strncmp(str, _BG_GREEN, strlen(_BG_GREEN)) == 0) {
-        kpause();
         terminal_set_background_color(VGA_COLOR_GREEN);
         return (strlen(_BG_GREEN));
     } else if (strncmp(str, _BG_CYAN, strlen(_BG_CYAN)) == 0) {
@@ -98,7 +98,7 @@ static int check_colors(const char *str) {
     } else if (strncmp(str, _BG_LGREY, strlen(_BG_LGREY)) == 0) {
         terminal_set_background_color(VGA_COLOR_LIGHT_GREY);
         return (strlen(_BG_LGREY));
-    }  else if (strncmp(str, _BG_LBLUE, strlen(_BG_LBLUE)) == 0) {
+    } else if (strncmp(str, _BG_LBLUE, strlen(_BG_LBLUE)) == 0) {
         terminal_set_background_color(VGA_COLOR_LIGHT_BLUE);
         return (strlen(_BG_LBLUE));
     } else if (strncmp(str, _BG_LGREEN, strlen(_BG_LGREEN)) == 0) {
