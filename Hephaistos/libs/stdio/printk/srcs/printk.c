@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:06:11 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/02/11 21:01:03 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:35:24 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,50 +26,50 @@ static int check_special_strings(const char *str) {
 static int check_colors(const char *str) {
     /* Check Foreground colors */
     if (strncmp(str, _END, strlen(_END)) == 0) {
-        terminal_setcolor(VGA_COLOR_LIGHT_GREY);
+        terminal_set_color(VGA_COLOR_LIGHT_GREY);
         terminal_set_background_color(VGA_COLOR_BLACK);
         return (strlen(_END));
     } else if (strncmp(str, _RED, strlen(_RED)) == 0) {
-        terminal_setcolor(VGA_COLOR_RED);
+        terminal_set_color(VGA_COLOR_RED);
         return (strlen(_RED));
     } else if (strncmp(str, _GREEN, strlen(_GREEN)) == 0) {
-        terminal_setcolor(VGA_COLOR_GREEN);
+        terminal_set_color(VGA_COLOR_GREEN);
         return (strlen(_GREEN));
     } else if (strncmp(str, _BLUE, strlen(_BLUE)) == 0) {
-        terminal_setcolor(VGA_COLOR_BLUE);
+        terminal_set_color(VGA_COLOR_BLUE);
         return (strlen(_BLUE));
     } else if (strncmp(str, _YELLOW, strlen(_YELLOW)) == 0) {
-        terminal_setcolor(VGA_COLOR_BROWN);
+        terminal_set_color(VGA_COLOR_BROWN);
         return (strlen(_YELLOW));
     } else if (strncmp(str, _MAGENTA, strlen(_MAGENTA)) == 0) {
-        terminal_setcolor(VGA_COLOR_MAGENTA);
+        terminal_set_color(VGA_COLOR_MAGENTA);
         return (strlen(_MAGENTA));
     } else if (strncmp(str, _CYAN, strlen(_CYAN)) == 0) {
-        terminal_setcolor(VGA_COLOR_CYAN);
+        terminal_set_color(VGA_COLOR_CYAN);
         return (strlen(_CYAN));
     } else if (strncmp(str, _LGREY, strlen(_LGREY)) == 0) {
-        terminal_setcolor(VGA_COLOR_LIGHT_GREY);
+        terminal_set_color(VGA_COLOR_LIGHT_GREY);
         return (strlen(_LGREY));
     } else if (strncmp(str, _LBLUE, strlen(_LBLUE)) == 0) {
-        terminal_setcolor(VGA_COLOR_LIGHT_BLUE);
+        terminal_set_color(VGA_COLOR_LIGHT_BLUE);
         return (strlen(_LBLUE));
     } else if (strncmp(str, _LGREEN, strlen(_LGREEN)) == 0) {
-        terminal_setcolor(VGA_COLOR_LIGHT_GREEN);
+        terminal_set_color(VGA_COLOR_LIGHT_GREEN);
         return (strlen(_LGREEN));
     } else if (strncmp(str, _LCYAN, strlen(_LCYAN)) == 0) {
-        terminal_setcolor(VGA_COLOR_LIGHT_CYAN);
+        terminal_set_color(VGA_COLOR_LIGHT_CYAN);
         return (strlen(_LCYAN));
     } else if (strncmp(str, _LRED, strlen(_LRED)) == 0) {
-        terminal_setcolor(VGA_COLOR_LIGHT_RED);
+        terminal_set_color(VGA_COLOR_LIGHT_RED);
         return (strlen(_LRED));
     } else if (strncmp(str, _LMAGENTA, strlen(_LMAGENTA)) == 0) {
-        terminal_setcolor(VGA_COLOR_LIGHT_MAGENTA);
+        terminal_set_color(VGA_COLOR_LIGHT_MAGENTA);
         return (strlen(_LMAGENTA));
     } else if (strncmp(str, _LYELLOW, strlen(_LYELLOW)) == 0) {
-        terminal_setcolor(VGA_COLOR_LIGHT_BROWN);
+        terminal_set_color(VGA_COLOR_LIGHT_BROWN);
         return (strlen(_LYELLOW));
     } else if (strncmp(str, _WHITE, strlen(_WHITE)) == 0) {
-        terminal_setcolor(VGA_COLOR_WHITE);
+        terminal_set_color(VGA_COLOR_WHITE);
         return (strlen(_WHITE));
     }
 
@@ -224,6 +224,6 @@ uint32_t printk(const char *format, ...) {
     va_start(_g_printk.args, format);
     ret = kprintf_loop(format);
     va_end(_g_printk.args);
-    UPDATE_CURSOR();
+    refresh_cursor();
     return (ret);
 }
