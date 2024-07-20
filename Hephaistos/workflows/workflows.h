@@ -19,7 +19,7 @@
  * @note This define is used in the Makefile to compile the test.
  */
 #ifndef __TEST_HEPHAISTOS__
-#define __TEST_HEPHAISTOS__ 0
+#define __TEST_HEPHAISTOS__ 1
 #endif
 
 extern int workflow_hephaistos_strings(void);
