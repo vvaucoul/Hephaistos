@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 10:08:03 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/14 23:11:09 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/20 12:34:28 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 typedef unsigned int size_t;
 typedef int ssize_t;
+typedef signed long ptrdiff_t;
 typedef unsigned char uchar_t;
+typedef unsigned int wchar_t;
 
 typedef unsigned long hex_t;
 typedef unsigned long long hex64_t;
@@ -54,8 +56,8 @@ typedef unsigned long uintmax_t;
 #define INT64_MIN -9223372036854775808
 #define INT64_MAX 9223372036854775807
 
-#define INT128_MIN -170141183460469231731687303715884105728
-#define INT128_MAX 170141183460469231731687303715884105727
+#define INT128_MIN (-170141183460469231731687303715884105728LL)
+#define INT128_MAX (170141183460469231731687303715884105727LL)
 
 #define UINT8_MIN 0
 #define UINT8_MAX 255
@@ -69,13 +71,19 @@ typedef unsigned long uintmax_t;
 #define UINT64_MIN 0
 #define UINT64_MAX 18446744073709551615
 
-#define UINT128_MIN 0
-#define UINT128_MAX 340282366920938463463374607431768211455
+#define UINT128_MIN 0ULL
+#define UINT128_MAX 340282366920938463463374607431768211455ULL
 
 #define INTPTR_MIN -9223372036854775808
 #define INTPTR_MAX 9223372036854775807
 
 #define UINTPTR_MIN 0
 #define UINTPTR_MAX 18446744073709551615
+
+#define SIZE_MAX ((size_t)-1)
+#define SSIZE_MAX ((ssize_t)(SIZE_MAX / 2))
+#define SSIZE_MIN (-SSIZE_MAX - 1)
+
+#define offsetof(type, member) ((size_t) &((type *)0)->member)
 
 #endif /* !_STDDEF_H */
