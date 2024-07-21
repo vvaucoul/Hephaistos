@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:47:12 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/02/08 22:10:02 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/21 23:35:16 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,13 @@
 
 #ifndef __HEPHAISTOS__
 #define __HEPHAISTOS__
-#include <kernel.h>
 #include <drivers/vga.h>
+#include <kernel.h>
 #include <memory/kheap.h>
 #include <system/pit.h>
+
+#define IS_MEMORY_AVAILABLE (kheap != NULL)
+
 #endif
 
 #endif /* !_CHARON_H */

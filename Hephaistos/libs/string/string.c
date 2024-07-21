@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:55:48 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/02/08 22:09:53 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:09:54 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -558,4 +558,14 @@ char *strrevp(char *str, uint32_t start, uint32_t end) {
         j--;
     }
     return (str);
+}
+
+/**
+ * Checks if the specified character is a white-space character.
+ *
+ * @param c The character to be checked.
+ * @return Non-zero value if the character is a white-space character, 0 otherwise.
+ */
+int isspace(char c) {
+    return c == ' ' || c == '\t' || c == '\n' || c == '\r';
 }

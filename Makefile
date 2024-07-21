@@ -6,7 +6,7 @@
 #    By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 23:52:42 by vvaucoul          #+#    #+#              #
-#    Updated: 2024/07/20 11:24:24 by vvaucoul         ###   ########.fr        #
+#    Updated: 2024/07/21 11:03:12 by vvaucoul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ endif
 ifeq ($(CLANG_INSTALLED), false)
 	CC				=	$(CCACHE) gcc
 else
-	CC				=	$(CCACHE) clang
+	CC				=	$(CCACHE) clang-15
 endif
 
 SCRIPTS_DIR			=	scripts

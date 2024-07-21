@@ -6,18 +6,18 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:55:51 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/02/11 12:38:59 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:49:40 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRINTK_H
 #define PRINTK_H
 
-#include <libs/stdarg/stdarg.h>
-#include <libs/stddef/stddef.h>
-#include <libs/stdbool/stdbool.h>
-#include <libs/stdio/stdio.h>
 #include <libs/ctype/ctype.h>
+#include <libs/stdarg/stdarg.h>
+#include <libs/stdbool/stdbool.h>
+#include <libs/stddef/stddef.h>
+#include <libs/stdio/stdio.h>
 #include <libs/string/string.h>
 
 #define __DEL_MOD 0x25 // '%'
@@ -35,8 +35,7 @@
 #define __SPE_ZERO 0x30 // '0'
 #define __SPE_DOT 0x2E  // '.'
 
-typedef struct s_printk
-{
+typedef struct s_printk {
     va_list args;
     char *format;
 

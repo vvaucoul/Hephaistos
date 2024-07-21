@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:55:33 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/02/11 23:36:57 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:36:19 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ extern int workflow_hephaistos_strings(void);
 extern int workflow_hephaistos_memory(void);
 extern int workflow_hephaistos_time(void);
 extern int workflow_hephaistos_convert(void);
+extern int workflow_hephaistos_stdio(void);
 extern int workflow_hephaistos_a_stack(void);
 extern int workflow_hephaistos_a_queue(void);
 extern int workflow_hephaistos_a_list(void);
