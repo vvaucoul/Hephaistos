@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:54:41 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 12:32:00 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 21:06:07 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 
 #include "workflows/workflows.h"
 
-#define _HEPHAISTOS_VERSION "0.1.3"
+#define _HEPHAISTOS_VERSION "0.1.4"
 #define _HEPHAISTOS_AUTHOR "vvaucoul"
 #define _HEPHAISTOS_AUTHOR_MAIL "vvaucoul@student.42.fr"
 #define _HEPHAISTOS_LICENSE "MIT"
