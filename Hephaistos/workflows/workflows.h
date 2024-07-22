@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:55:33 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 11:08:20 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:16:07 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ extern int workflow_hephaistos_a_hashtable(void);
 extern int workflow_hephaistos_a_bst(void);
 extern int workflow_hephaistos_a_rbtree(void);
 extern int workflow_hephaistos_a_array(void);
+extern int workflow_hephaistos_a_avl(void);
 
 extern int hephaistos_workflow(void);
 

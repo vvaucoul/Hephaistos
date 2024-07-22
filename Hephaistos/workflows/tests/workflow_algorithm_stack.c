@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 12:00:41 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/15 13:00:36 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:20:04 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void __display_stack(stack_t *stack) {
     printk("\n");
 }
 
-void initialize_data() {
+static void initialize_data() {
     for (int i = 0; i < 128; i++) {
         __data[i] = i;
     }
