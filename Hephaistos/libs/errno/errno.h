@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 11:57:31 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/02/10 12:02:29 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:00:20 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 typedef int errno_t;
 
+/* Error codes */
 #define EPERM 1            // Operation not permitted
 #define ENOENT 2           // No such file or directory
 #define ESRCH 3            // No such process
@@ -149,5 +150,24 @@ typedef int errno_t;
 #define ENOTRECOVERABLE 131 // State not recoverable
 #define ERFKILL 132         // Operation not possible due to RF-kill
 #define EHWPOISON 133       // Memory page has hardware error
+
+// Declare the global errno variable
+extern errno_t errno;
+
+// Function prototypes
+/**
+ * @brief Return a string describing the error code passed in the argument errnum.
+ *
+ * @param errnum Error number.
+ * @return A pointer to the error description string.
+ */
+const char *strerror(errno_t errnum);
+
+/**
+ * @brief Print a description for the last error that occurred.
+ *
+ * @param s An optional custom message to be printed before the error description.
+ */
+void perror(const char *s);
 
 #endif /* !_ERRNO_H */
