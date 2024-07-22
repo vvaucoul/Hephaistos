@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:20:42 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 11:40:57 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:54:33 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void test_rb_tree_create(void) {
     assert(tree != NULL);
     assert(tree->root == NULL);
     rb_tree_destroy(tree);
-    printk("test_rb_tree_create passed\n");
 }
 
 void test_rb_tree_insert_search(void) {
@@ -46,7 +45,6 @@ void test_rb_tree_insert_search(void) {
     assert(node == NULL);
 
     rb_tree_destroy(tree);
-    printk("test_rb_tree_insert_search passed\n");
 }
 
 void test_rb_tree_insert_duplicate(void) {
@@ -69,7 +67,6 @@ void test_rb_tree_insert_duplicate(void) {
     }
     assert(count == 1); // Ensure no duplicates
     rb_tree_destroy(tree);
-    printk("test_rb_tree_insert_duplicate passed\n");
 }
 
 void test_rb_tree_delete(void) {
@@ -87,7 +84,6 @@ void test_rb_tree_delete(void) {
     assert(rb_tree_search(tree, &values[0], compare_int) == NULL);
 
     rb_tree_destroy(tree);
-    printk("test_rb_tree_delete passed\n");
 }
 
 void test_rb_tree_delete_root(void) {
@@ -102,7 +98,6 @@ void test_rb_tree_delete_root(void) {
     assert(rb_tree_search(tree, &values[0], compare_int) == NULL);
 
     rb_tree_destroy(tree);
-    printk("test_rb_tree_delete_root passed\n");
 }
 
 void test_rb_tree_delete_all(void) {
@@ -119,7 +114,6 @@ void test_rb_tree_delete_all(void) {
     }
 
     rb_tree_destroy(tree);
-    printk("test_rb_tree_delete_all passed\n");
 }
 
 void test_rb_tree_edge_cases(void) {
@@ -136,7 +130,6 @@ void test_rb_tree_edge_cases(void) {
     assert(*(int *)rb_tree_search(tree, &value2, compare_int)->data == value2);
 
     rb_tree_destroy(tree);
-    printk("test_rb_tree_edge_cases passed\n");
 }
 
 void test_rb_tree_large_scale(void) {
@@ -160,7 +153,6 @@ void test_rb_tree_large_scale(void) {
 
     kfree(values);
     rb_tree_destroy(tree);
-    printk("test_rb_tree_large_scale passed\n");
 }
 
 int workflow_hephaistos_a_rbtree() {
