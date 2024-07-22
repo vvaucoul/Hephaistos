@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 00:00:03 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 00:30:02 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:18:32 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ Array *array_create(size_t capacity) {
 }
 
 /**
- * @brief Destroys an array and frees the memory allocated for it.
- *
- * This function frees the memory allocated for the given array. It is the responsibility
- * of the caller to ensure that the array is no longer used after calling this function.
+ * Destroys an array and frees the memory allocated for it.
  *
  * @param array The array to be destroyed.
  */
