@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 00:00:03 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 11:18:32 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:21:41 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param capacity The initial capacity of the Array.
  * @return A pointer to the newly created Array.
  */
-Array *array_create(size_t capacity) {
+Array *array_create(uint32_t capacity) {
     Array *array = (Array *)kmalloc(sizeof(Array));
     if (!array)
         return NULL;
@@ -52,7 +52,7 @@ void array_destroy(Array *array) {
  * @param array The array to be resized.
  * @param new_capacity The new capacity of the array.
  */
-void array_resize(Array *array, size_t new_capacity) {
+void array_resize(Array *array, uint32_t new_capacity) {
     if (new_capacity < array->size) {
         new_capacity = array->size;
     }
@@ -100,7 +100,7 @@ void *array_pop(Array *array) {
  * @param index The index of the element to retrieve.
  * @return A pointer to the element at the specified index, or NULL if the index is out of bounds.
  */
-void *array_get(Array *array, size_t index) {
+void *array_get(Array *array, uint32_t index) {
     if (index >= array->size) {
         return NULL;
     }
@@ -114,7 +114,7 @@ void *array_get(Array *array, size_t index) {
  * @param index The index of the element to set.
  * @param data The data to set at the specified index.
  */
-void array_set(Array *array, size_t index, void *data) {
+void array_set(Array *array, uint32_t index, void *data) {
     if (index < array->size) {
         array->data[index] = data;
     }
@@ -127,7 +127,7 @@ void array_set(Array *array, size_t index, void *data) {
  * @param index The index at which to insert the element.
  * @param data The data to be inserted.
  */
-void array_insert(Array *array, size_t index, void *data) {
+void array_insert(Array *array, uint32_t index, void *data) {
     if (index > array->size) {
         return;
     }
@@ -145,7 +145,7 @@ void array_insert(Array *array, size_t index, void *data) {
  * @param array The array from which to remove the element.
  * @param index The index of the element to remove.
  */
-void array_remove(Array *array, size_t index) {
+void array_remove(Array *array, uint32_t index) {
     if (index >= array->size) {
         return;
     }

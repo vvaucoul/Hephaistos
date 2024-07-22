@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:56:55 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 11:17:33 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:21:33 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,23 @@
 
 typedef struct Array {
     void **data;
-    size_t size;
-    size_t capacity;
+    uint32_t size;
+    uint32_t capacity;
 } Array;
 
-Array *array_create(size_t capacity);
+Array *array_create(uint32_t capacity);
 void array_destroy(Array *array);
 
-void array_resize(Array *array, size_t new_capacity);
+void array_resize(Array *array, uint32_t new_capacity);
 
 void array_push(Array *array, void *data);
 void *array_pop(Array *array);
 
-void *array_get(Array *array, size_t index);
+void *array_get(Array *array, uint32_t index);
 
-void array_set(Array *array, size_t index, void *data);
-void array_insert(Array *array, size_t index, void *data);
+void array_set(Array *array, uint32_t index, void *data);
+void array_insert(Array *array, uint32_t index, void *data);
 
-void array_remove(Array *array, size_t index);
+void array_remove(Array *array, uint32_t index);
 
 #endif /* !ARRAY_H */
