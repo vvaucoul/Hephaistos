@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:54:41 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 12:17:24 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:32:00 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@
 #include <libs/algorithms/sort/sort.h>
 #include <libs/algorithms/stack/stack.h>
 
+// Uncomment to disable all asserts
+// #define NDEBUG
 #include <libs/assert/assert.h>
+
 #include <libs/bit/bit.h>
 #include <libs/convert/convert.h>
 #include <libs/ctype/ctype.h>
