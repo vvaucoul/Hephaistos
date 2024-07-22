@@ -3,38 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaucoul <vvaucoul@student.42.Fr>          +#+  +:+       +#+        */
+/*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:11:09 by vvaucoul          #+#    #+#             */
-/*   Updated: 2022/12/03 23:43:19 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 20:57:53 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "time.h"
 #include <charon.h>
 
-void counter_start(counter_t *counter)
-{
+/**
+ * @brief Starts the time counter by recording the current timer ticks as the start time.
+ *
+ * @param counter Pointer to the counter structure to be started.
+ */
+void counter_start(counter_t *counter) {
+    assert(counter != NULL);
     counter->start = timer_ticks;
 }
 
-void counter_stop(counter_t *counter)
-{
+/**
+ * @brief Stops the time counter by recording the current timer ticks as the end time.
+ *
+ * @param counter Pointer to the counter structure to be stopped.
+ */
+void counter_stop(counter_t *counter) {
+    assert(counter != NULL);
     counter->end = timer_ticks;
 }
 
-uint32_t counter_get_start(counter_t *counter)
-{
-    return (counter->start);
+/**
+ * @brief Retrieves the start time of the counter.
+ *
+ * @param counter Pointer to the counter structure.
+ * @return The start time of the counter.
+ */
+uint32_t counter_get_start(counter_t *counter) {
+    assert(counter != NULL);
+    return counter->start;
 }
 
-uint32_t counter_get_end(counter_t *counter)
-{
-    return (counter->end);
+/**
+ * @brief Retrieves the end time of the counter.
+ *
+ * @param counter Pointer to the counter structure.
+ * @return The end time of the counter.
+ */
+uint32_t counter_get_end(counter_t *counter) {
+    assert(counter != NULL);
+    return counter->end;
 }
 
-uint32_t counter_get_time(counter_t *counter)
-{
-    return (counter->end - counter->start);
+/**
+ * @brief Calculates the elapsed time between the start and end of the counter.
+ *
+ * @param counter Pointer to the counter structure.
+ * @return The elapsed time between the start and end times of the counter.
+ */
+uint32_t counter_get_time(counter_t *counter) {
+    assert(counter != NULL);
+    return counter->end - counter->start;
 }
-

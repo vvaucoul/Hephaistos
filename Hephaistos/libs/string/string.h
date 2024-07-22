@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:31:06 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/20 20:10:09 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:22:34 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,24 @@ inline int32_t strncmp(const char *s1, const char *s2, uint32_t n) {
     return (__strncmp(s1, s2, n));
 }
 
-extern char *strtrtc(const char *str, const char c);
-extern char *strclr(char *new_str, char *str);
-extern char *strcpy(char *dest, const char *src);
-extern char *strncpy(char *dest, const char *src, uint32_t n);
-extern char *strcat(char *dest, const char *src);
-extern char *strjoin(char *s1, char *s2);
-extern char *strchr(const char *s, int c);
-extern char *strrchr(const char *s, int c);
-extern char *strdup(const char *s);
-extern char *strndup(const char *s, uint32_t n);
-extern char *strtrim(char const *s);
-extern char *strsub(char const *s, unsigned int start, uint32_t len);
-extern char **strsplit(char const *s, char c);
-extern char *strtok(char *str, const char *delim);
-extern char *strstr(const char *haystack, const char *needle);
-extern char *strpbrk(const char *s, const char *accept);
-extern char *strrev(char *str);
-extern char *strrevp(char *str, uint32_t start, uint32_t end);
-
-extern int isspace(char c);
+char *strtrtc(const char *str, const char c);
+char *strclr(char *new_str, char *str);
+char *strcpy(char *dest, const char *src);
+char *strncpy(char *dest, const char *src, uint32_t n);
+char *strcat(char *dest, const char *src);
+char *strjoin(char *s1, char *s2);
+char *strchr(const char *s, int c);
+char *strrchr(const char *s, int c);
+char *strdup(const char *s);
+char *strndup(const char *s, uint32_t n);
+char *strtrim(char const *s);
+char *strsub(char const *s, unsigned int start, uint32_t len);
+char **strsplit(char const *s, char c);
+char *strtok(char *str, const char *delim);
+char *strstr(const char *haystack, const char *needle);
+char *strpbrk(const char *s, const char *accept);
+char *strrev(char *str);
+char *strrevp(char *str, uint32_t start, uint32_t end);
+int isspace(char c);
 
 #endif /* !_STRING_H */
