@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:58:53 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/21 23:55:15 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:48:32 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,14 @@
 #define __ITOA_BUFFER_LENGTH__ 12
 #define __ASCII_BASE__ "0123456789ABCDEF"
 
+/* Conversion functions using stack-based buffers */
 extern int atoi(const char *str);
 extern int itoa(int nbr, char str[__ITOA_BUFFER_LENGTH__]);
 extern int uitoa(uint32_t nbr, char str[__ITOA_BUFFER_LENGTH__]);
 extern int itoa_base(int nbr, int base, char str[__ITOA_BUFFER_LENGTH__]);
 extern uint32_t uitoa_base(uint32_t nbr, int base, char str[__ITOA_BUFFER_LENGTH__]);
 
-// ! ||--------------------------------------------------------------------------------||
-// ! ||                        SAFE FUNCTIONS (MEMORY AVAILABLE)                       ||
-// ! ||--------------------------------------------------------------------------------||
-
+/* Conversion functions using heap-based buffers */
 extern int atoi_base_s(const char *str, int base);
 extern char *itoa_s(int nbr);
 extern char *uitoa_s(uint32_t nbr);
