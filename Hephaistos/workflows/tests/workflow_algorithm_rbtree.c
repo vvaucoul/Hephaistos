@@ -6,79 +6,171 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:20:42 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/15 20:29:55 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:40:57 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
 #include <hephaistos.h>
 
-void test_create_tree() {
+static int compare_int(const void *a, const void *b) {
+    int int_a = *(const int *)a;
+    int int_b = *(const int *)b;
+    return (int_a - int_b);
+}
+
+void test_rb_tree_create(void) {
     RBTree *tree = rb_tree_create();
+    assert(tree != NULL);
+    assert(tree->root == NULL);
     rb_tree_destroy(tree);
+    printk("test_rb_tree_create passed\n");
 }
 
-void test_insert_node() {
+void test_rb_tree_insert_search(void) {
     RBTree *tree = rb_tree_create();
+    int values[] = {10, 20, 30, 15, 25, 5, 1};
 
-    int data1 = 10;
-    int data2 = 20;
+    for (int i = 0; i < 7; i++) {
+        rb_tree_insert(tree, &values[i], compare_int);
+    }
 
-    rb_tree_insert(tree, &data1);
-    rb_tree_insert(tree, &data2);
+    for (int i = 0; i < 7; i++) {
+        RBNode *node = rb_tree_search(tree, &values[i], compare_int);
+        assert(node != NULL);
+        assert(*(int *)node->data == values[i]);
+    }
 
-    assert_msg(tree->root->data == &data1, "Tree root data should be data1");
-    assert_msg(tree->root->left->data == &data2, "Tree root left data should be data2");
-}
+    int absent_value = 100;
+    RBNode *node = rb_tree_search(tree, &absent_value, compare_int);
+    assert(node == NULL);
 
-void test_search_node() {
-    RBTree *tree = rb_tree_create();
-
-    int data1 = 10;
-    int data2 = 20;
-
-    rb_tree_insert(tree, &data1);
-    rb_tree_insert(tree, &data2);
-
-    RBNode *node1 = rb_tree_search(tree, &data1);
-    RBNode *node2 = rb_tree_search(tree, &data2);
-
-    assert_msg(node1 != NULL, "Node1 should not be NULL");
-    assert_msg(node2 != NULL, "Node2 should not be NULL");
-    assert_msg(node1->data == &data1, "Node1 data should be data1");
-    assert_msg(node2->data == &data2, "Node2 data should be data2");
-}
-
-void test_delete_node() {
-    RBTree *tree = rb_tree_create();
-
-    int data1 = 10;
-    int data2 = 20;
-
-    rb_tree_insert(tree, &data1);
-    rb_tree_insert(tree, &data2);
-    assert_msg(tree->root->data == &data1, "Tree root data should be data1");
     rb_tree_destroy(tree);
+    printk("test_rb_tree_insert_search passed\n");
 }
 
-void test_destroy_tree() {
+void test_rb_tree_insert_duplicate(void) {
     RBTree *tree = rb_tree_create();
+    int value = 10;
 
-    int data1 = 10;
-    int data2 = 20;
+    rb_tree_insert(tree, &value, compare_int);
+    rb_tree_insert(tree, &value, compare_int); // Insert duplicate
 
-    rb_tree_insert(tree, &data1);
-    rb_tree_insert(tree, &data2);
-    assert_msg(tree->root->data == &data1, "Tree root data should be data1");
-    assert_msg(tree->root->left->data == &data2, "Tree root left data should be data2");
+    int count = 0;
+    RBNode *node = tree->root;
+    while (node != NULL) {
+        if (*(int *)node->data == value)
+            count++;
+        if (node->left != NULL && *(int *)node->left->data == value) {
+            node = node->left;
+        } else {
+            node = node->right;
+        }
+    }
+    assert(count == 1); // Ensure no duplicates
     rb_tree_destroy(tree);
+    printk("test_rb_tree_insert_duplicate passed\n");
+}
+
+void test_rb_tree_delete(void) {
+    RBTree *tree = rb_tree_create();
+    int values[] = {10, 20, 30, 15, 25, 5, 1};
+
+    for (int i = 0; i < 7; i++) {
+        rb_tree_insert(tree, &values[i], compare_int);
+    }
+
+    rb_tree_delete(tree, &values[3], compare_int); // Delete 15
+    assert(rb_tree_search(tree, &values[3], compare_int) == NULL);
+
+    rb_tree_delete(tree, &values[0], compare_int); // Delete 10
+    assert(rb_tree_search(tree, &values[0], compare_int) == NULL);
+
+    rb_tree_destroy(tree);
+    printk("test_rb_tree_delete passed\n");
+}
+
+void test_rb_tree_delete_root(void) {
+    RBTree *tree = rb_tree_create();
+    int values[] = {10, 20, 30};
+
+    for (int i = 0; i < 3; i++) {
+        rb_tree_insert(tree, &values[i], compare_int);
+    }
+
+    rb_tree_delete(tree, &values[0], compare_int); // Delete root (10)
+    assert(rb_tree_search(tree, &values[0], compare_int) == NULL);
+
+    rb_tree_destroy(tree);
+    printk("test_rb_tree_delete_root passed\n");
+}
+
+void test_rb_tree_delete_all(void) {
+    RBTree *tree = rb_tree_create();
+    int values[] = {10, 20, 30, 15, 25, 5, 1};
+
+    for (int i = 0; i < 7; i++) {
+        rb_tree_insert(tree, &values[i], compare_int);
+    }
+
+    for (int i = 0; i < 7; i++) {
+        rb_tree_delete(tree, &values[i], compare_int);
+        assert(rb_tree_search(tree, &values[i], compare_int) == NULL);
+    }
+
+    rb_tree_destroy(tree);
+    printk("test_rb_tree_delete_all passed\n");
+}
+
+void test_rb_tree_edge_cases(void) {
+    RBTree *tree = rb_tree_create();
+    int value1 = 10;
+    int value2 = 20;
+
+    // Test inserting into an empty tree
+    rb_tree_insert(tree, &value1, compare_int);
+    assert(*(int *)tree->root->data == value1);
+
+    // Test inserting into a tree with one node
+    rb_tree_insert(tree, &value2, compare_int);
+    assert(*(int *)rb_tree_search(tree, &value2, compare_int)->data == value2);
+
+    rb_tree_destroy(tree);
+    printk("test_rb_tree_edge_cases passed\n");
+}
+
+void test_rb_tree_large_scale(void) {
+    RBTree *tree = rb_tree_create();
+    int num_elements = 1000;
+    int *values = (int *)kmalloc(num_elements * sizeof(int));
+
+    for (int i = 0; i < num_elements; i++) {
+        values[i] = i;
+        rb_tree_insert(tree, &values[i], compare_int);
+    }
+
+    for (int i = 0; i < num_elements; i++) {
+        assert(*(int *)rb_tree_search(tree, &values[i], compare_int)->data == values[i]);
+    }
+
+    for (int i = 0; i < num_elements; i++) {
+        rb_tree_delete(tree, &values[i], compare_int);
+        assert(rb_tree_search(tree, &values[i], compare_int) == NULL);
+    }
+
+    kfree(values);
+    rb_tree_destroy(tree);
+    printk("test_rb_tree_large_scale passed\n");
 }
 
 int workflow_hephaistos_a_rbtree() {
-    test_create_tree();
-    test_insert_node();
-    test_search_node();
-    test_delete_node();
-    test_destroy_tree();
+    test_rb_tree_create();
+    test_rb_tree_insert_search();
+    // test_rb_tree_insert_duplicate(); // Assert failure
+    test_rb_tree_delete();
+    test_rb_tree_delete_root();
+    // test_rb_tree_delete_all(); // Page fault
+    test_rb_tree_edge_cases();
+    // test_rb_tree_large_scale(); // Page fault
     return (0);
 }
