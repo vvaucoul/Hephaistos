@@ -6,60 +6,69 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:06:50 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/15 16:31:22 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:08:31 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
 #include <hephaistos.h>
 
-// Test function for btree_create
-void test_btree_create() {
-    BTree *btree = btree_create();
-    assert_msg(btree != NULL, "BTree should not be NULL");
-    btree_destroy(btree);
+static int compare_int(const void *a, const void *b) {
+    int int_a = *(const int *)a;
+    int int_b = *(const int *)b;
+    return (int_a - int_b);
 }
 
-// Test function for btree_create_node
-void test_btree_create_node() {
-    BTreeNode *node = btree_create_node("test");
-    assert_msg(node != NULL, "BTreeNode should not be NULL");
-    btree_destroy_node(node);
+void test_bst_create(void) {
+    BST *bst = bst_create();
+    assert(bst != NULL);
+    assert(bst->root == NULL);
+    bst_destroy(bst);
 }
 
-// Test function for btree_insert
-void test_btree_insert() {
-    BTree *btree = btree_create();
-    btree_insert(btree, "key1");
-    btree_insert(btree, "key2");
-    btree_insert(btree, "key3");
-    BTreeNode *node = btree->root;
-    assert_msg(node != NULL, "BTree root node should not be NULL");
-    assert_msg(strcmp(node->data, "key1") == 0, "BTree root node data should be key1");
-    btree_destroy(btree);
+void test_bst_insert(void) {
+    BST *bst = bst_create();
+    int values[] = {5, 3, 7, 2, 4, 6, 8};
+
+    for (int i = 0; i < 7; i++) {
+        bst_insert(bst, &values[i], compare_int);
+    }
+
+    assert(*(int *)bst->root->data == 5);
+    assert(*(int *)bst->root->left->data == 3);
+    assert(*(int *)bst->root->right->data == 7);
+    assert(*(int *)bst->root->left->left->data == 2);
+    assert(*(int *)bst->root->left->right->data == 4);
+    assert(*(int *)bst->root->right->left->data == 6);
+    assert(*(int *)bst->root->right->right->data == 8);
+
+    bst_destroy(bst);
 }
 
-// Test function for btree_destroy
-void test_btree_destroy() {
-    BTree *btree = btree_create();
-    btree_insert(btree, "key1");
-    btree_insert(btree, "key2");
-    btree_insert(btree, "key3");
-    btree_destroy(btree);
+void test_bst_search(void) {
+    BST *bst = bst_create();
+    int values[] = {5, 3, 7, 2, 4, 6, 8};
+
+    for (int i = 0; i < 7; i++) {
+        bst_insert(bst, &values[i], compare_int);
+    }
+
+    int search_val = 6;
+    void *found = bst_search(bst, &search_val, compare_int);
+    assert(found != NULL);
+    assert(*(int *)found == 6);
+
+    search_val = 10;
+    found = bst_search(bst, &search_val, compare_int);
+    assert(found == NULL);
+
+    bst_destroy(bst);
 }
 
-// Test function for btree_destroy_node
-void test_btree_destroy_node() {
-    BTreeNode *node = btree_create_node("test");
-    btree_destroy_node(node);
-}
+int workflow_hephaistos_a_bst(void) {
 
-// And here is the updated workflow_hephaistos_a_btree function that includes all the test functions:
-int workflow_hephaistos_a_btree(void) {
-    test_btree_create();
-    test_btree_create_node();
-    test_btree_insert();
-    test_btree_destroy();
-    test_btree_destroy_node();
+    test_bst_create();
+    test_bst_insert();
+    test_bst_search();
     return (0);
 }

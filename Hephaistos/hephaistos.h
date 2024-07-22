@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:54:41 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/15 16:28:08 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:02:58 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include <libs/algorithms/queue/queue.h>
 #include <libs/algorithms/stack/stack.h>
 #include <libs/algorithms/hashtable/hashtable.h>
-#include <libs/algorithms/btree/btree.h>
+#include <libs/algorithms/bst/bst.h>
 #include <libs/algorithms/rbtree/rbtree.h>
 
 #include <libs/bit/bit.h>

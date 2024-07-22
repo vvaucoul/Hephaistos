@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   btree.h                                            :+:      :+:    :+:   */
+/*   bst.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 00:40:45 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/14 01:23:27 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:03:41 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BTREE_H
-#define BTREE_H
+#ifndef BST_H
+#define BST_H
 
 #include <libs/stddef/stddef.h>
 
-typedef struct s_btree_node {
+typedef struct s_bst_node {
     void *data;
-    struct s_btree_node *left;
-    struct s_btree_node *right;
-} BTreeNode;
+    struct s_bst_node *left;
+    struct s_bst_node *right;
+} BSTNode;
 
-typedef struct s_btree {
-    BTreeNode *root;
-} BTree;
+typedef struct s_bst {
+    BSTNode *root;
+} BST;
 
-extern BTree *btree_create(void);
-extern BTreeNode *btree_create_node(void *data);
+BST *bst_create(void);
+BSTNode *bst_create_node(void *data);
 
-extern void btree_insert(BTree *btree, void *data);
+void bst_insert(BST *bst, void *data, int (*cmp)(const void *, const void *));
 
-extern void btree_destroy(BTree *btree);
-extern void btree_destroy_node(BTreeNode *node);
+void bst_destroy(BST *bst);
+void bst_destroy_node(BSTNode *node);
 
-#endif /* !BTREE_H */
+void *bst_search(BST *bst, void *data, int (*cmp)(const void *, const void *));
+
+#endif /* !BST_H */

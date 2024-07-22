@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:36:33 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/20 20:52:11 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:08:10 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,12 @@ int hephaistos_workflow(void) {
                 "[OK]"_END);
     }
 
-    if ((workflow_hephaistos_a_btree()) != 0) {
-        __INFOD("[HEPHAISTOS] [ALGORITHM - BTREE] "_RED
+    if ((workflow_hephaistos_a_bst()) != 0) {
+        __INFOD("[HEPHAISTOS] [ALGORITHM - BST] "_RED
                 "[KO]"_END);
         ret = 1;
     } else {
-        __INFOD("[HEPHAISTOS] [ALGORITHM - BTREE] "_GREEN
+        __INFOD("[HEPHAISTOS] [ALGORITHM - BST] "_GREEN
                 "[OK]"_END);
     }
 

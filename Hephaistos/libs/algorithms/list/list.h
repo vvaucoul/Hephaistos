@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 01:39:03 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/15 13:24:55 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:26:16 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,34 @@ typedef struct node {
 } node_t;
 
 typedef struct s_list {
-    node_t *root;
-    uint32_t size;
+    node_t *root; // Pointer to the first node
+    node_t *tail; // Pointer to the last node
+
+    uint32_t size;      // Number of elements in the list
+    uint32_t capacity;  // Allocated capacity (optional)
+    uint32_t ref_count; // Reference counter (optional)
+    void *context;      // Context/metadata pointer (optional)
+
+    // pthread_mutex_t lock; // Lock for concurrency (if necessary)
 } list_t;
 
-extern list_t *list_create(void);
-extern void list_destroy(list_t *list);
+list_t *list_create(void);
+void list_destroy(list_t *list);
 
-extern void list_add_back(list_t *list, void *data);
-extern void list_add_front(list_t *list, void *data);
+void list_add_back(list_t *list, void *data);
+void list_add_front(list_t *list, void *data);
 
-extern void list_remove(list_t *list, void *data);
-extern void list_clear(list_t *list);
+void list_remove(list_t *list, void *data);
+void list_clear(list_t *list);
 
-extern void list_insert(list_t *list, void *data, uint32_t index);
+void list_insert(list_t *list, void *data, uint32_t index);
 
-extern uint32_t list_size(list_t *list);
-extern int list_is_empty(list_t *list);
+uint32_t list_size(const list_t *list);
+int list_is_empty(const list_t *list);
 
-extern void list_iterate(list_t *list, void (*f)(void *));
-extern void list_sort(list_t *list, int (*cmp)(const void *, const void *));
+void list_iterate(const list_t *list, void (*f)(void *));
+void list_sort(list_t *list, int (*cmp)(const void *, const void *));
 
-extern void *list_get(list_t *list, uint32_t index);
+void *list_get(const list_t *list, uint32_t index);
 
 #endif /* !LIST_H */
