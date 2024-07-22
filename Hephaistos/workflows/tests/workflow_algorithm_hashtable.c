@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   workflow_algorithn_hashtable.c                     :+:      :+:    :+:   */
+/*   workflow_algorithm_hashtable.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:54:21 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/15 15:05:58 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:46:08 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
 #include <hephaistos.h>
+
 // Helper function to print the hashtable
 void print_hashtable(Hashtable *table) {
     if (table == NULL) {

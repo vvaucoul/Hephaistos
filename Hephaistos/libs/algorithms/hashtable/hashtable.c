@@ -6,217 +6,166 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 16:49:31 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/15 15:04:48 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:44:57 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hashtable.h"
 #include <charon.h>
-
 /**
- * @brief Creates a new hashtable.
+ * @brief Create a new hashtable
  *
- * This function creates a new hashtable and returns a pointer to it.
- *
- * @return A pointer to the newly created hashtable.
+ * @return A pointer to the newly created hashtable
  */
 Hashtable *hashtable_create(void) {
-    Hashtable *table = kmalloc(sizeof(Hashtable));
+    Hashtable *table = (Hashtable *)kmalloc(sizeof(Hashtable));
+    if (!table) return NULL;
 
-    if (table == NULL) {
-        return (NULL);
-    }
-
-    table->buckets = kmalloc(sizeof(HashEntry *) * HASHTABLE_SIZE);
-
-    if (table->buckets == NULL) {
+    table->buckets = (HashEntry **)kmalloc(sizeof(HashEntry *) * HASHTABLE_SIZE);
+    if (!table->buckets) {
         kfree(table);
-        return (NULL);
+        return NULL;
     }
 
-    memset(table->buckets, 0, sizeof(HashEntry *) * HASHTABLE_SIZE);
-    return (table);
+    for (uint32_t i = 0; i < HASHTABLE_SIZE; ++i) {
+        table->buckets[i] = NULL;
+    }
+
+    return table;
 }
 
 /**
- * @brief Destroys a hashtable and frees the allocated memory.
+ * @brief Free a hashtable entry
  *
- * This function destroys the given hashtable and frees the memory allocated for it.
+ * @param entry The hashtable entry to free
+ */
+static void hashtable_free_entry(HashEntry *entry) {
+    if (entry) {
+        kfree(entry->key);
+        kfree(entry);
+    }
+}
+
+/**
+ * @brief Delete a hashtable
  *
- * @param table The hashtable to be destroyed.
+ * @param table The hashtable to delete
  */
 void hashtable_delete(Hashtable *table) {
-    if (table == NULL) {
-        return;
-    }
-
-    for (int i = 0; i < HASHTABLE_SIZE; i++) {
-        HashEntry *entry = table->buckets[i];
-
-        while (entry != NULL) {
-            HashEntry *next = entry->next;
-            kfree(entry->key);
-            kfree(entry);
-            entry = next;
+    if (table) {
+        for (uint32_t i = 0; i < HASHTABLE_SIZE; ++i) {
+            HashEntry *entry = table->buckets[i];
+            while (entry) {
+                HashEntry *next = entry->next;
+                hashtable_free_entry(entry);
+                entry = next;
+            }
         }
+        kfree(table->buckets);
+        kfree(table);
     }
-
-    kfree(table->buckets);
-    kfree(table);
 }
 
 /**
- * @brief Hash function for the hashtable.
+ * @brief Hash function to generate an index for a given key
  *
- * This function is used to hash the given key and return the hash value.
- *
- * @param key The key to be hashed.
- * @return The hash value of the given key.
+ * @param key The key to hash
+ * @return The index in the hashtable
  */
 uint32_t hashtable_fn(const char *key) {
     uint32_t hash = 0;
-
-    for (int i = 0; key[i] != '\0'; i++) {
-        hash = (hash << 5) + hash + key[i];
+    while (*key) {
+        hash = (hash << 5) + *key++;
     }
-
-    return (hash % HASHTABLE_SIZE);
+    return hash % HASHTABLE_SIZE;
 }
 
 /**
- * @brief Inserts a key-value pair into the hashtable.
+ * @brief Insert a key-value pair into the hashtable
  *
- * This function inserts the given key-value pair into the hashtable.
- * If the key already exists in the hashtable, the value is updated.
- *
- * @param table The hashtable to insert the key-value pair into.
- * @param key The key to be inserted.
- * @param value The value to be inserted.
+ * @param table The hashtable to insert into
+ * @param key The key to insert
+ * @param value The value to insert
  */
 void hashtable_insert(Hashtable *table, const char *key, void *value) {
-    if (table == NULL || key == NULL) {
-        return;
-    }
+    uint32_t index = hashtable_fn(key);
+    HashEntry *entry = table->buckets[index];
 
-    uint32_t hash = hashtable_fn(key);
-    HashEntry *entry = table->buckets[hash];
-
-    while (entry != NULL) {
+    while (entry) {
         if (strcmp(entry->key, key) == 0) {
             entry->value = value;
             return;
         }
-
         entry = entry->next;
     }
 
-    entry = kmalloc(sizeof(HashEntry));
+    entry = (HashEntry *)kmalloc(sizeof(HashEntry));
+    if (!entry) return;
 
-    if (entry == NULL) {
-        return;
-    }
-
-    entry->key = strdup(key);
-
-    if (entry->key == NULL) {
+    entry->key = (char *)kmalloc(strlen(key) + 1);
+    if (!entry->key) {
         kfree(entry);
         return;
     }
-
+    strcpy(entry->key, key);
     entry->value = value;
-    entry->next = table->buckets[hash];
-    table->buckets[hash] = entry;
+    entry->next = table->buckets[index];
+    table->buckets[index] = entry;
 }
 
 /**
- * @brief Retrieves a value from the hashtable based on the given key.
+ * @brief Retrieve a value from the hashtable
  *
- * This function retrieves the value from the hashtable based on the given key.
- * If the key does not exist in the hashtable, NULL is returned.
- *
- * @param table The hashtable to retrieve the value from.
- * @param key The key to be retrieved.
- * @return The value associated with the given key, or NULL if the key does not exist in the hashtable.
+ * @param table The hashtable to retrieve from
+ * @param key The key to retrieve
+ * @return The value associated with the key, or NULL if not found
  */
 void *hashtable_get(Hashtable *table, const char *key) {
-    if (table == NULL || key == NULL) {
-        return (NULL);
-    }
+    uint32_t index = hashtable_fn(key);
+    HashEntry *entry = table->buckets[index];
 
-    uint32_t hash = hashtable_fn(key);
-    HashEntry *entry = table->buckets[hash];
-
-    while (entry != NULL) {
+    while (entry) {
         if (strcmp(entry->key, key) == 0) {
-            return (entry->value);
+            return entry->value;
         }
-
         entry = entry->next;
     }
-
-    return (NULL);
+    return NULL;
 }
 
 /**
- * @brief Removes a key-value pair from the hashtable.
+ * @brief Remove a key-value pair from the hashtable
  *
- * This function removes the key-value pair from the hashtable based on the given key.
- * If the key does not exist in the hashtable, nothing is done.
- *
- * @param table The hashtable to remove the key-value pair from.
- * @param key The key to be removed.
+ * @param table The hashtable to remove from
+ * @param key The key to remove
  */
 void hashtable_remove(Hashtable *table, const char *key) {
-    if (table == NULL || key == NULL) {
-        return;
-    }
-
-    uint32_t hash = hashtable_fn(key);
-    HashEntry *entry = table->buckets[hash];
+    uint32_t index = hashtable_fn(key);
+    HashEntry *entry = table->buckets[index];
     HashEntry *prev = NULL;
 
-    while (entry != NULL) {
+    while (entry) {
         if (strcmp(entry->key, key) == 0) {
-            if (prev == NULL) {
-                table->buckets[hash] = entry->next;
-            } else {
+            if (prev) {
                 prev->next = entry->next;
+            } else {
+                table->buckets[index] = entry->next;
             }
-
-            kfree(entry->key);
-            kfree(entry);
+            hashtable_free_entry(entry);
             return;
         }
-
         prev = entry;
         entry = entry->next;
     }
 }
 
 /**
- * @brief Checks if the hashtable contains the given key.
+ * @brief Check if a key exists in the hashtable
  *
- * This function checks if the hashtable contains the given key.
- *
- * @param table The hashtable to check.
- * @param key The key to check.
- * @return 1 if the hashtable contains the key, 0 otherwise.
+ * @param table The hashtable to check
+ * @param key The key to check
+ * @return 1 if the key exists, 0 otherwise
  */
 int hashtable_contains_key(Hashtable *table, const char *key) {
-    if (table == NULL || key == NULL) {
-        return (0);
-    }
-
-    uint32_t hash = hashtable_fn(key);
-    HashEntry *entry = table->buckets[hash];
-
-    while (entry != NULL) {
-        if (strcmp(entry->key, key) == 0) {
-            return (1);
-        }
-
-        entry = entry->next;
-    }
-
-    return (0);
+    return hashtable_get(table, key) != NULL;
 }
