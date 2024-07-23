@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 16:49:31 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 11:44:57 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:38:20 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
  */
 Hashtable *hashtable_create(void) {
     Hashtable *table = (Hashtable *)kmalloc(sizeof(Hashtable));
-    if (!table) return NULL;
+    if (!table) {
+        return NULL;
+    }
 
     table->buckets = (HashEntry **)kmalloc(sizeof(HashEntry *) * HASHTABLE_SIZE);
     if (!table->buckets) {
@@ -100,7 +102,8 @@ void hashtable_insert(Hashtable *table, const char *key, void *value) {
     }
 
     entry = (HashEntry *)kmalloc(sizeof(HashEntry));
-    if (!entry) return;
+    if (!entry)
+        return;
 
     entry->key = (char *)kmalloc(strlen(key) + 1);
     if (!entry->key) {

@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 16:46:01 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 11:43:37 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:39:30 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 #include <libs/stddef/stddef.h>
 
-#define HASHTABLE_SIZE 1024 // Define the size of the hashtable
+// Todo: Temporary define size to 128, default: 1024 -> memory crash, must be fixed
+#define HASHTABLE_SIZE 128 // Define the size of the hashtable
 
 // Define the structure for hashtable entries
 typedef struct HashEntry {
