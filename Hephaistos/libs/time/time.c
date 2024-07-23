@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:11:09 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 20:57:53 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:53:53 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  */
 void counter_start(counter_t *counter) {
     assert(counter != NULL);
-    counter->start = timer_ticks;
+    counter->start = pit_get_ticks();
 }
 
 /**
@@ -30,7 +30,7 @@ void counter_start(counter_t *counter) {
  */
 void counter_stop(counter_t *counter) {
     assert(counter != NULL);
-    counter->end = timer_ticks;
+    counter->end = pit_get_ticks();
 }
 
 /**

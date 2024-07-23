@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 16:46:01 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/23 11:39:30 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:03:01 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 #define HASHTABLE_H
 
 #include <libs/stddef/stddef.h>
-
-// Todo: Temporary define size to 128, default: 1024 -> memory crash, must be fixed
-#define HASHTABLE_SIZE 128 // Define the size of the hashtable
 
 // Define the structure for hashtable entries
 typedef struct HashEntry {
@@ -28,12 +25,13 @@ typedef struct HashEntry {
 // Define the hashtable structure
 typedef struct {
     HashEntry **buckets; // Array of pointers to HashEntry
+    uint8_t size;        // Hashtable max size
 } Hashtable;
 
 // Function prototypes
-Hashtable *hashtable_create(void);
+Hashtable *hashtable_create(uint8_t size);
 void hashtable_delete(Hashtable *table);
-uint32_t hashtable_fn(const char *key);
+uint32_t hashtable_fn(const char *key, uint8_t size);
 void hashtable_insert(Hashtable *table, const char *key, void *value);
 void *hashtable_get(Hashtable *table, const char *key);
 void hashtable_remove(Hashtable *table, const char *key);

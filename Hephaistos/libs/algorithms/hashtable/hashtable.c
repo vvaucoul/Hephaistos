@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 16:49:31 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/23 11:38:20 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:02:40 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,23 @@
  *
  * @return A pointer to the newly created hashtable
  */
-Hashtable *hashtable_create(void) {
+Hashtable *hashtable_create(uint8_t size) {
     Hashtable *table = (Hashtable *)kmalloc(sizeof(Hashtable));
     if (!table) {
         return NULL;
     }
 
-    table->buckets = (HashEntry **)kmalloc(sizeof(HashEntry *) * HASHTABLE_SIZE);
+    table->buckets = (HashEntry **)kmalloc(sizeof(HashEntry *) * size);
     if (!table->buckets) {
         kfree(table);
         return NULL;
     }
 
-    for (uint32_t i = 0; i < HASHTABLE_SIZE; ++i) {
+    for (uint32_t i = 0; i < size; ++i) {
         table->buckets[i] = NULL;
     }
+
+    table->size = size;
 
     return table;
 }
@@ -55,7 +57,7 @@ static void hashtable_free_entry(HashEntry *entry) {
  */
 void hashtable_delete(Hashtable *table) {
     if (table) {
-        for (uint32_t i = 0; i < HASHTABLE_SIZE; ++i) {
+        for (uint32_t i = 0; i < table->size; ++i) {
             HashEntry *entry = table->buckets[i];
             while (entry) {
                 HashEntry *next = entry->next;
@@ -74,12 +76,12 @@ void hashtable_delete(Hashtable *table) {
  * @param key The key to hash
  * @return The index in the hashtable
  */
-uint32_t hashtable_fn(const char *key) {
+uint32_t hashtable_fn(const char *key, uint8_t size) {
     uint32_t hash = 0;
     while (*key) {
         hash = (hash << 5) + *key++;
     }
-    return hash % HASHTABLE_SIZE;
+    return hash % size;
 }
 
 /**
@@ -90,7 +92,7 @@ uint32_t hashtable_fn(const char *key) {
  * @param value The value to insert
  */
 void hashtable_insert(Hashtable *table, const char *key, void *value) {
-    uint32_t index = hashtable_fn(key);
+    uint32_t index = hashtable_fn(key, table->size);
     HashEntry *entry = table->buckets[index];
 
     while (entry) {
@@ -124,7 +126,7 @@ void hashtable_insert(Hashtable *table, const char *key, void *value) {
  * @return The value associated with the key, or NULL if not found
  */
 void *hashtable_get(Hashtable *table, const char *key) {
-    uint32_t index = hashtable_fn(key);
+    uint32_t index = hashtable_fn(key, table->size);
     HashEntry *entry = table->buckets[index];
 
     while (entry) {
@@ -143,7 +145,7 @@ void *hashtable_get(Hashtable *table, const char *key) {
  * @param key The key to remove
  */
 void hashtable_remove(Hashtable *table, const char *key) {
-    uint32_t index = hashtable_fn(key);
+    uint32_t index = hashtable_fn(key, table->size);
     HashEntry *entry = table->buckets[index];
     HashEntry *prev = NULL;
 

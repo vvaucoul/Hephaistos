@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:54:21 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 11:46:08 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:04:12 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void print_hashtable(Hashtable *table) {
         return;
     }
 
-    for (int i = 0; i < HASHTABLE_SIZE; i++) {
+    for (int i = 0; i < table->size; i++) {
         HashEntry *entry = table->buckets[i];
 
         while (entry != NULL) {
@@ -32,14 +32,14 @@ void print_hashtable(Hashtable *table) {
 
 // Test function for hashtable_create
 void test_hashtable_create() {
-    Hashtable *table = hashtable_create();
+    Hashtable *table = hashtable_create(1);
     assert_msg(table != NULL, "Hashtable should not be NULL");
     hashtable_delete(table);
 }
 
 // Test function for hashtable_insert and hashtable_get
 void test_hashtable_insert_get() {
-    Hashtable *table = hashtable_create();
+    Hashtable *table = hashtable_create(2);
     const char *key1 = "key1";
     const char *key2 = "key2";
     const char *value1 = "value1";
@@ -59,7 +59,7 @@ void test_hashtable_insert_get() {
 
 // Test function for hashtable_remove
 void test_hashtable_remove() {
-    Hashtable *table = hashtable_create();
+    Hashtable *table = hashtable_create(2);
     const char *key1 = "key1";
     const char *key2 = "key2";
     const char *value1 = "value1";
@@ -77,19 +77,19 @@ void test_hashtable_remove() {
 
 // Test function for hashtable_delete
 void test_hashtable_delete() {
-    Hashtable *table = hashtable_create();
+    Hashtable *table = hashtable_create(1);
     hashtable_insert(table, "key1", "value1");
     hashtable_delete(table);
 }
 
 // Test function for hashtable_fn
 void test_hashtable_fn() {
-    assert_msg(hashtable_fn("test") > 0, "Hashtable function should return a positive value for a non-empty string");
+    assert_msg(hashtable_fn("test", 1) > 0, "Hashtable function should return a positive value for a non-empty string");
 }
 
 // Test function for hashtable_contains_key
 void test_hashtable_contains_key() {
-    Hashtable *table = hashtable_create();
+    Hashtable *table = hashtable_create(2);
     const char *key1 = "key1";
     const char *key2 = "key2";
     const char *value1 = "value1";
