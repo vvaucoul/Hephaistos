@@ -6,7 +6,7 @@
 #    By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 23:52:42 by vvaucoul          #+#    #+#              #
-#    Updated: 2024/07/21 11:03:12 by vvaucoul         ###   ########.fr        #
+#    Updated: 2024/07/26 22:20:34 by vvaucoul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ ASM				= nasm
 
 DEFAULT_FLAGS 	=	-Wall -Wextra -Werror -Wfatal-errors
 CFLAGS 			= 	-fno-builtin -fno-exceptions -fno-stack-protector \
-					-nostdlib -nodefaultlibs \
+					-nostdlib -nodefaultlibs -nostdinc \
 					-std=c99 -ffreestanding -O2 \
 					--std=c2x # Use C23 standard
 
@@ -53,8 +53,9 @@ LDFLAGS			= 	-g3 -m32
 ASM_FLAGS		=	-f elf32 
 
 LIB_DIR 		=	Hephaistos
+INCLUDES_DIR	=	include
 
-INCLUDES 		=	-I./$(LIB_DIR) \
+INCLUDES 		=	-I./$(LIB_DIR)/$(INCLUDES_DIR) \
 					-I../$(KERNEL_DIRECTORY)/includes
 
 SRCS_DIR 		=	$(LIB_DIR)
@@ -67,6 +68,10 @@ SRCS_ASM		=	$(shell find $(SRCS_DIR) -name "*.s")
 OBJS_ASM		=	$(SRCS_ASM:.s=.o)
 DEPENDS_ASM		=	$(SRCS_ASM:.s=.d)
 
+SRCS_CPP		=	$(shell find $(SRCS_DIR) -name "*.cpp")
+OBJS_CPP		=	$(SRCS_CPP:.cpp=.o)
+DEPENDS_CPP		=	$(SRCS_CPP:.cpp=.d)
+
 %.o: %.c
 	@printf "$(_LWHITE) $(_DIM)- Compiling: $(_END)$(_DIM)--------$(_END)$(_LCYAN) %s $(_END)$(_LGREEN)[$(_LWHITE)✓$(_LGREEN)]$(_END)\n" $< 
 	@$(CC) $(LDFLAGS) $(CFLAGS) $(INCLUDES) -MD -c $< -o $@
@@ -77,12 +82,12 @@ DEPENDS_ASM		=	$(SRCS_ASM:.s=.d)
 
 all: $(NAME)
 
-$(NAME): ascii $(OBJS) $(OBJS_ASM) 
-	@ar -rcs $(NAME) $(OBJS) $(OBJS_ASM)
+$(NAME): ascii $(OBJS) $(OBJS_ASM) $(OBJS_CPP)
+	@ar -rcs $(NAME) $(OBJS) $(OBJS_ASM) $(OBJS_CPP)
 	@printf "\n$(_LWHITE)-$(_END)$(_DIM)$(_END)$(_LWHITE) %s $(_END)$(_DIM)-------------$(_END)$(_LGREEN)[$(_LWHITE)✓$(_LGREEN)]$(_END)\n" "HEPHAISTOS"
 
 clean:
-	@rm -rf $(OBJS) $(OBJS_ASM) $(DEPENDS) $(DEPENDS_ASM)
+	@rm -rf $(OBJS) $(OBJS_ASM) $(OBJS_CPP) $(DEPENDS) $(DEPENDS_ASM) $(DEPENDS_CPP)
 
 clean-ccache:
 	@printf "$(_LWHITE)- CLEAN CCACHE $(_END)$(_DIM)----------$(_END) $(_LGREEN)[$(_LWHITE)✓$(_LGREEN)]$(_END)\n"
@@ -90,6 +95,8 @@ clean-ccache:
 
 fclean: clean clean-ccache
 	@rm -rf $(NAME) 
+
+fre: clean all
 
 re: fclean all
 
@@ -105,5 +112,6 @@ ascii:
 
 -include $(DEPENDS)
 -include $(DEPENDS_ASM)
+-include $(DEPENDS_CPP)
 
-.PHONY: all clean fclean re ascii workflow clean-ccache
+.PHONY: all clean fclean fre re ascii workflow clean-ccache

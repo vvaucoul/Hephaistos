@@ -3,10 +3,14 @@
         {
             "name": "Linux",
             "includePath": [
-                "${default}"
+                "${default}",
+                "${workspaceFolder}/Hephaistos/include",
+                "${workspaceFolder}/../kernel/includes"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/clang"
+            "compilerPath": "/usr/bin/clang-15",
+            "cStandard": "c23",
+            "cppStandard": "c++23"
         }
     ],
     "version": 4

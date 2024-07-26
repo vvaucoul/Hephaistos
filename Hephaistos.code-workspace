@@ -22,7 +22,12 @@
 			"printk.h": "c",
 			"stdio.h": "c",
 			"cctype": "c",
-			"sscank.h": "c"
+			"sscank.h": "c",
+			"stdarg.h": "c",
+			"math.h": "c",
+			"array.h": "c",
+			"ctype.h": "c",
+			"limits.h": "c"
 		}
 	}
 }
