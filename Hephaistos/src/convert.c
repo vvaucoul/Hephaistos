@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:59:13 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:09:37 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/26 22:40:06 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ uint32_t uitoa_base(uint32_t nbr, int base, char str[__ITOA_BUFFER_LENGTH__]) {
  */
 int itoa_base(int nbr, int base, char str[__ITOA_BUFFER_LENGTH__]) {
     int i;
-    int size;
     int isneg;
 
     if (!str) {
@@ -98,7 +97,6 @@ int itoa_base(int nbr, int base, char str[__ITOA_BUFFER_LENGTH__]) {
     if ((isneg = ((nbr >= -2147483648 && nbr < 0) ? 1 : 0)) == 1) {
         nbr *= -1;
     }
-    size = __get_nbr_base_length(nbr, base);
     i = (isneg ? 1 : 0);
     while (nbr != 0) {
         str[i] = __ASCII_BASE__[nbr % base];

@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:55:51 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 20:11:58 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/26 22:46:29 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <stdbool.h>
 
 #define __DEL_MOD 0x25 // '%'
 #define __DEL_D 0x64   // 'd'
