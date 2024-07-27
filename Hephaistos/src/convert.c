@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:59:13 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:40:06 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 00:44:17 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,24 @@
 #include <string.h>
 
 static int char_to_val(char c) {
-    const char *base = __ASCII_BASE__;
-    for (int i = 0; base[i]; i++) {
-        if (base[i] == c || base[i] == (c - 32)) { // Support for lowercase characters
-            return i;
-        }
-    }
-    return (-1);
+	const char *base = __ASCII_BASE__;
+
+	for (int i = 0; base[i]; i++) {
+		if (base[i] == c || base[i] == (c - 32)) { // Support for lowercase characters
+			return i;
+		}
+	}
+	return (-1);
 }
 
 static uint32_t __get_nbr_base_length(uint32_t nbr, uint32_t base) {
-    uint32_t length = 0;
-    while (nbr > 0) {
-        nbr /= base;
-        length++;
-    }
-    return (length);
+	uint32_t length = 0;
+
+	while (nbr > 0) {
+		nbr /= base;
+		length++;
+	}
+	return (length);
 }
 
 /**
@@ -48,26 +50,26 @@ static uint32_t __get_nbr_base_length(uint32_t nbr, uint32_t base) {
  * @return The pointer to the resulting string.
  */
 uint32_t uitoa_base(uint32_t nbr, int base, char str[__ITOA_BUFFER_LENGTH__]) {
-    int i;
-    int size;
+	int i;
+	int size;
 
-    size = __get_nbr_base_length(nbr, base);
-    if (str == NULL) {
-        return (1);
-    } else if (nbr == 0) {
-        str[0] = '0';
-        str[1] = '\0';
-        return (0);
-    } else {
-        i = size - 1;
-        while (nbr) {
-            str[i] = __ASCII_BASE__[nbr % base];
-            nbr /= base;
-            --i;
-        }
-        str[size] = '\0';
-    }
-    return (0);
+	size = __get_nbr_base_length(nbr, base);
+	if (str == NULL) {
+		return (1);
+	} else if (nbr == 0) {
+		str[0] = '0';
+		str[1] = '\0';
+		return (0);
+	} else {
+		i = size - 1;
+		while (nbr) {
+			str[i] = __ASCII_BASE__[nbr % base];
+			nbr /= base;
+			--i;
+		}
+		str[size] = '\0';
+	}
+	return (0);
 }
 
 /**
@@ -83,36 +85,36 @@ uint32_t uitoa_base(uint32_t nbr, int base, char str[__ITOA_BUFFER_LENGTH__]) {
  * @return The length of the resulting string.
  */
 int itoa_base(int nbr, int base, char str[__ITOA_BUFFER_LENGTH__]) {
-    int i;
-    int isneg;
+	int i;
+	int isneg;
 
-    if (!str) {
-        return (1);
-    } else if (nbr == 0) {
-        str[0] = '0';
-        str[1] = '\0';
-        return (0);
-    }
+	if (!str) {
+		return (1);
+	} else if (nbr == 0) {
+		str[0] = '0';
+		str[1] = '\0';
+		return (0);
+	}
 
-    if ((isneg = ((nbr >= -2147483648 && nbr < 0) ? 1 : 0)) == 1) {
-        nbr *= -1;
-    }
-    i = (isneg ? 1 : 0);
-    while (nbr != 0) {
-        str[i] = __ASCII_BASE__[nbr % base];
-        nbr /= base;
-        ++i;
-    }
-    str[i] = '\0';
-    if (isneg == 1) {
-        str = strrevp(str, 1, i - 1);
-    } else {
-        str = strrev(str);
-    }
-    if (isneg) {
-        str[0] = '-';
-    }
-    return (0);
+	if ((isneg = ((nbr >= -2147483648 && nbr < 0) ? 1 : 0)) == 1) {
+		nbr *= -1;
+	}
+	i = (isneg ? 1 : 0);
+	while (nbr != 0) {
+		str[i] = __ASCII_BASE__[nbr % base];
+		nbr /= base;
+		++i;
+	}
+	str[i] = '\0';
+	if (isneg == 1) {
+		str = strrevp(str, 1, i - 1);
+	} else {
+		str = strrev(str);
+	}
+	if (isneg) {
+		str[0] = '-';
+	}
+	return (0);
 }
 
 /**
@@ -124,25 +126,25 @@ int itoa_base(int nbr, int base, char str[__ITOA_BUFFER_LENGTH__]) {
  * @return The converted integer value.
  */
 int atoi(const char *str) {
-    int res = 0;
-    int sign = 1;
+	int res = 0;
+	int sign = 1;
 
-    if (*str == '-') {
-        sign = -1;
-        str++;
-    } else if (*str == '+') {
-        str++;
-    }
+	if (*str == '-') {
+		sign = -1;
+		str++;
+	} else if (*str == '+') {
+		str++;
+	}
 
-    while (*str) {
-        if (isdigit(*str) == 0) {
-            str++;
-            continue;
-        }
-        res = res * 10 + (*str - '0');
-        str++;
-    }
-    return (res * sign);
+	while (*str) {
+		if (isdigit(*str) == 0) {
+			str++;
+			continue;
+		}
+		res = res * 10 + (*str - '0');
+		str++;
+	}
+	return (res * sign);
 }
 
 /**
@@ -156,26 +158,26 @@ int atoi(const char *str) {
  * @return The converted integer value.
  */
 int atoi_base_s(const char *str, int base) {
-    int res = 0;
-    int sign = 1;
+	int res = 0;
+	int sign = 1;
 
-    if (*str == '-') {
-        sign = -1;
-        str++;
-    }
+	if (*str == '-') {
+		sign = -1;
+		str++;
+	}
 
-    while (*str) {
-        int digit = char_to_val(*str);
-        if (digit == -1 || digit >= base) {
-            // Invalid character or digit for the specified base
-            break;
-        }
+	while (*str) {
+		int digit = char_to_val(*str);
+		if (digit == -1 || digit >= base) {
+			// Invalid character or digit for the specified base
+			break;
+		}
 
-        res = res * base + digit;
-        str++;
-    }
+		res = res * base + digit;
+		str++;
+	}
 
-    return res * sign;
+	return res * sign;
 }
 
 /**
@@ -190,43 +192,43 @@ int atoi_base_s(const char *str, int base) {
  * @return void
  */
 int itoa(int nbr, char str[__ITOA_BUFFER_LENGTH__]) {
-    int i;
-    bool is_neg;
+	int i;
+	bool is_neg;
 
-    if (!str) {
-        return (1);
-    } else if (nbr == 0) {
-        str[0] = '0';
-        str[1] = '\0';
-        return (0);
-    } else if (nbr == INT_MIN) {
-        memcpy(str, "-2147483648", 12);
-        str[12] = '\0';
-        return (0);
-    } else if (nbr == INT_MAX) {
-        memcpy(str, "2147483647", 11);
-        str[11] = '\0';
-        return (0);
-    }
+	if (!str) {
+		return (1);
+	} else if (nbr == 0) {
+		str[0] = '0';
+		str[1] = '\0';
+		return (0);
+	} else if (nbr == INT_MIN) {
+		memcpy_s(str, __ITOA_BUFFER_LENGTH__, "-2147483648", 12);
+		str[12] = '\0';
+		return (0);
+	} else if (nbr == INT_MAX) {
+		memcpy_s(str, __ITOA_BUFFER_LENGTH__, "2147483647", 11);
+		str[11] = '\0';
+		return (0);
+	}
 
-    is_neg = ((nbr >= -2147483647 && nbr < 0) ? 1 : 0);
-    if (is_neg) {
-        nbr *= -1;
-    }
-    i = (is_neg ? 1 : 0);
-    while (nbr) {
-        str[i] = nbr % 10 + 48;
-        nbr /= 10;
-        ++i;
-    }
-    if (is_neg) {
-        str[0] = '-';
-        str = strrevp(str, 1, i - 1);
-    } else {
-        str = strrev(str);
-    }
-    str[i] = '\0';
-    return (0);
+	is_neg = ((nbr >= -2147483647 && nbr < 0) ? 1 : 0);
+	if (is_neg) {
+		nbr *= -1;
+	}
+	i = (is_neg ? 1 : 0);
+	while (nbr) {
+		str[i] = nbr % 10 + 48;
+		nbr /= 10;
+		++i;
+	}
+	if (is_neg) {
+		str[0] = '-';
+		str = strrevp(str, 1, i - 1);
+	} else {
+		str = strrev(str);
+	}
+	str[i] = '\0';
+	return (0);
 }
 
 /**
@@ -240,28 +242,28 @@ int itoa(int nbr, char str[__ITOA_BUFFER_LENGTH__]) {
  * @return None.
  */
 int uitoa(uint32_t nbr, char str[__ITOA_BUFFER_LENGTH__]) {
-    int i = 0;
+	int i = 0;
 
-    if (str == NULL) {
-        return (1);
-    } else if (nbr == 0) {
-        str[0] = '0';
-        str[1] = '\0';
-        return (0);
-    } else if (nbr == UINT_MAX) {
-        memcpy(str, "4294967295", 11);
-        str[11] = '\0';
-        return (0);
-    } else {
-        while (nbr) {
-            str[i] = nbr % 10 + 48;
-            nbr /= 10;
-            ++i;
-        }
-        str[i] = '\0';
-        str = strrev(str);
-    }
-    return (0);
+	if (str == NULL) {
+		return (1);
+	} else if (nbr == 0) {
+		str[0] = '0';
+		str[1] = '\0';
+		return (0);
+	} else if (nbr == UINT_MAX) {
+		memcpy_s(str, __ITOA_BUFFER_LENGTH__, "4294967295", 11);
+		str[11] = '\0';
+		return (0);
+	} else {
+		while (nbr) {
+			str[i] = nbr % 10 + 48;
+			nbr /= 10;
+			++i;
+		}
+		str[i] = '\0';
+		str = strrev(str);
+	}
+	return (0);
 }
 
 /**
@@ -273,16 +275,16 @@ int uitoa(uint32_t nbr, char str[__ITOA_BUFFER_LENGTH__]) {
  * @return A pointer to the string representation of the integer.
  */
 char *itoa_s(int nbr) {
-    uint32_t length = __get_nbr_base_length(nbr, 10);
-    char *str = kmalloc(sizeof(char) * (length + 2));
+	uint32_t length = __get_nbr_base_length(nbr, 10);
+	char *str = kmalloc(sizeof(char) * (length + 2));
 
-    if (str == NULL) {
-        return (NULL);
-    } else {
-        memset(str, 0, length + 2);
-    }
-    itoa(nbr, str);
-    return (str);
+	if (str == NULL) {
+		return (NULL);
+	} else {
+		memset_s(str, length + 2, 0, length + 2);
+	}
+	itoa(nbr, str);
+	return (str);
 }
 
 /**
@@ -294,16 +296,16 @@ char *itoa_s(int nbr) {
  * @return A pointer to the string representation of the integer.
  */
 char *uitoa_s(uint32_t nbr) {
-    uint32_t length = __get_nbr_base_length(nbr, 10);
-    char *str = kmalloc(sizeof(char) * (length + 2));
+	uint32_t length = __get_nbr_base_length(nbr, 10);
+	char *str = kmalloc(sizeof(char) * (length + 2));
 
-    if (str == NULL) {
-        return (NULL);
-    } else {
-        memset(str, 0, length + 2);
-    }
-    uitoa(nbr, str);
-    return (str);
+	if (str == NULL) {
+		return (NULL);
+	} else {
+		memset_s(str, length + 2, 0, length + 2);
+	}
+	uitoa(nbr, str);
+	return (str);
 }
 
 /**
@@ -317,16 +319,16 @@ char *uitoa_s(uint32_t nbr) {
  * @return A pointer to the string representation of the integer.
  */
 char *itoa_base_s(int nbr, int base) {
-    uint32_t length = __get_nbr_base_length(nbr, base);
-    char *str = kmalloc(sizeof(char) * (length + 2));
+	uint32_t length = __get_nbr_base_length(nbr, base);
+	char *str = kmalloc(sizeof(char) * (length + 2));
 
-    if (str == NULL) {
-        return (NULL);
-    } else {
-        memset(str, 0, length + 2);
-    }
-    itoa_base(nbr, base, str);
-    return (str);
+	if (str == NULL) {
+		return (NULL);
+	} else {
+		memset_s(str, length + 2, 0, length + 2);
+	}
+	itoa_base(nbr, base, str);
+	return (str);
 }
 
 /**
@@ -340,16 +342,16 @@ char *itoa_base_s(int nbr, int base) {
  * @return A char pointer to the string representation of the unsigned integer.
  */
 char *uitoa_base_s(uint32_t nbr, int base) {
-    uint32_t length = __get_nbr_base_length(nbr, base);
-    char *str = kmalloc(sizeof(char) * (length + 2));
+	uint32_t length = __get_nbr_base_length(nbr, base);
+	char *str = kmalloc(sizeof(char) * (length + 2));
 
-    if (str == NULL) {
-        return (NULL);
-    } else {
-        memset(str, 0, length + 2);
-    }
-    uitoa_base(nbr, base, str);
-    return (str);
+	if (str == NULL) {
+		return (NULL);
+	} else {
+		memset_s(str, length + 2, 0, length + 2);
+	}
+	uitoa_base(nbr, base, str);
+	return (str);
 }
 
 /**
@@ -363,55 +365,52 @@ char *uitoa_base_s(uint32_t nbr, int base) {
  * @return A pointer to the string representation of the floating-point number.
  */
 char *ftoa(double num, int precision) {
+	int buffer_size = 50;
 
-    int buffer_size = 50; // Taille suffisante pour la plupart des cas
-    char *str = kmalloc(buffer_size);
-    if (str == NULL) {
-        return NULL;
-    }
+	char *str = kmalloc(buffer_size);
+	if (str == NULL) {
+		return NULL;
+	}
 
-    int int_part = (int)num;
-    double dec_part = num - (double)int_part;
-    if (num < 0) {
-        dec_part = -dec_part; // Assurez-vous que la partie décimale est positive
-    }
+	int int_part = (int)num;
+	double dec_part = num - (double)int_part;
+	if (num < 0) {
+		dec_part = -dec_part;
+	}
 
-    int index = 0;
-    if (num < 0) {
-        str[index++] = '-';
-        int_part = -int_part; // Assurez-vous que la partie entière est positive pour la conversion
-    }
+	int index = 0;
+	if (num < 0) {
+		str[index++] = '-';
+		int_part = -int_part;
+	}
 
-    // Convertir la partie entière en chaîne
-    int start = index;
-    do {
-        str[index++] = (int_part % 10) + '0';
-        int_part /= 10;
-    } while (int_part != 0);
+	int start = index;
+	do {
+		str[index++] = (int_part % 10) + '0';
+		int_part /= 10;
+	} while (int_part != 0);
 
-    // Inverser les chiffres de la partie entière
-    int end = index - 1;
-    while (start < end) {
-        char temp = str[start];
-        str[start] = str[end];
-        str[end] = temp;
-        start++;
-        end--;
-    }
+	int end = index - 1;
+	while (start < end) {
+		char temp = str[start];
+		str[start] = str[end];
+		str[end] = temp;
+		start++;
+		end--;
+	}
 
-    // Ajouter la partie décimale
-    if (precision > 0) {
-        str[index++] = '.';
-        for (int i = 0; i < precision; i++) {
-            dec_part *= 10;
-            int digit = (int)dec_part;
-            str[index++] = digit + '0';
-            dec_part -= digit;
-        }
-    }
+	if (precision > 0) {
+		str[index++] = '.';
+		for (int i = 0; i < precision; i++) {
+			dec_part *= 10;
+			int digit = (int)dec_part;
+			str[index++] = digit + '0';
+			dec_part -= digit;
+		}
+	}
 
-    str[index] = '\0'; // Ajouter le caractère de fin de chaîne
-    return str;
+	str[index] = '\0';
+	return str;
 }
 
 /**
@@ -421,27 +420,27 @@ char *ftoa(double num, int precision) {
  * @return The ASCII representation of the hexadecimal number.
  */
 char *htoa(uint32_t num) {
-    char *str = kmalloc(sizeof(char) * 9);
-    uint32_t size = __get_nbr_base_length(num, 16);
-    int i = 0;
+	char *str = kmalloc(sizeof(char) * 9);
+	uint32_t size = __get_nbr_base_length(num, 16);
+	int i = 0;
 
-    if (str == NULL) {
-        return (NULL);
-    } else if (num == 0) {
-        str[0] = '0';
-        str[1] = '\0';
-        return (str);
-    } else {
-        memset(str, 0, 9);
-    }
-    while (i < 8) {
-        int temp = i++;
-        str[temp] = __ASCII_BASE__[(num >> (temp * 4)) & 0xF];
-    }
-    str[i] = '\0';
-    str[size] = '\0';
-    str = strrev(str);
-    return (str);
+	if (str == NULL) {
+		return (NULL);
+	} else if (num == 0) {
+		str[0] = '0';
+		str[1] = '\0';
+		return (str);
+	} else {
+		memset_s(str, __ITOA_BUFFER_LENGTH__, 0, 9);
+	}
+	while (i < 8) {
+		int temp = i++;
+		str[temp] = __ASCII_BASE__[(num >> (temp * 4)) & 0xF];
+	}
+	str[i] = '\0';
+	str[size] = '\0';
+	str = strrev(str);
+	return (str);
 }
 
 /**
@@ -451,27 +450,27 @@ char *htoa(uint32_t num) {
  * @return The ASCII representation of the binary number.
  */
 char *btoa(uint32_t num) {
-    char *str = kmalloc(sizeof(char) * 33);
-    uint32_t size = __get_nbr_base_length(num, 2);
-    int i = 0;
+	char *str = kmalloc(sizeof(char) * 33);
+	uint32_t size = __get_nbr_base_length(num, 2);
+	int i = 0;
 
-    if (str == NULL) {
-        return (NULL);
-    } else if (num == 0) {
-        str[0] = '0';
-        str[1] = '\0';
-        return (str);
-    } else {
-        memset(str, 0, 33);
-    }
-    while (i < 32) {
-        int temp = i++;
-        str[temp] = __ASCII_BASE__[(num >> (temp * 1)) & 0x1];
-    }
-    str[i] = '\0';
-    str[size] = '\0';
-    str = strrev(str);
-    return (str);
+	if (str == NULL) {
+		return (NULL);
+	} else if (num == 0) {
+		str[0] = '0';
+		str[1] = '\0';
+		return (str);
+	} else {
+		memset_s(str, 33, 0, 33);
+	}
+	while (i < 32) {
+		int temp = i++;
+		str[temp] = __ASCII_BASE__[(num >> (temp * 1)) & 0x1];
+	}
+	str[i] = '\0';
+	str[size] = '\0';
+	str = strrev(str);
+	return (str);
 }
 
 /**
@@ -481,28 +480,28 @@ char *btoa(uint32_t num) {
  * @return The ASCII representation of the octal number.
  */
 char *otoa(uint32_t num) {
-    char *str = kmalloc(sizeof(char) * 12);
-    uint32_t size = __get_nbr_base_length(num, 8);
+	char *str = kmalloc(sizeof(char) * 12);
+	uint32_t size = __get_nbr_base_length(num, 8);
 
-    int i = 0;
+	int i = 0;
 
-    if (str == NULL) {
-        return (NULL);
-    } else if (num == 0) {
-        str[0] = '0';
-        str[1] = '\0';
-        return (str);
-    } else {
-        memset(str, 0, 12);
-    }
-    while (i < 11) {
-        int temp = i++;
-        str[temp] = __ASCII_BASE__[(num >> (temp * 3)) & 0x7];
-    }
-    str[i] = '\0';
-    str[size] = '\0';
-    str = strrev(str);
-    return (str);
+	if (str == NULL) {
+		return (NULL);
+	} else if (num == 0) {
+		str[0] = '0';
+		str[1] = '\0';
+		return (str);
+	} else {
+		memset_s(str, 12, 0, 12);
+	}
+	while (i < 11) {
+		int temp = i++;
+		str[temp] = __ASCII_BASE__[(num >> (temp * 3)) & 0x7];
+	}
+	str[i] = '\0';
+	str[size] = '\0';
+	str = strrev(str);
+	return (str);
 }
 
 /**
@@ -512,23 +511,23 @@ char *otoa(uint32_t num) {
  * @return The floating-point number representation of the string.
  */
 double atof(const char *str) {
-    double res = 0;
-    double sign = 1;
-    double factor = 1;
+	double res = 0;
+	double sign = 1;
+	double factor = 1;
 
-    if (*str == '-') {
-        sign = -1;
-        str++;
-    }
-    for (; *str; str++) {
-        if (*str == '.') {
-            factor = 10.0;
-            continue;
-        }
-        res = res * 10.0 + (*str - '0');
-        if (factor > 1) {
-            factor *= 10.0;
-        }
-    }
-    return sign * res / (factor > 1 ? factor / 10.0 : 1);
+	if (*str == '-') {
+		sign = -1;
+		str++;
+	}
+	for (; *str; str++) {
+		if (*str == '.') {
+			factor = 10.0;
+			continue;
+		}
+		res = res * 10.0 + (*str - '0');
+		if (factor > 1) {
+			factor *= 10.0;
+		}
+	}
+	return sign * res / (factor > 1 ? factor / 10.0 : 1);
 }

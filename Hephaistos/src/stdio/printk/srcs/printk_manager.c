@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 15:54:20 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:16:22 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 01:44:56 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <string.h>
 
-size_t __kpf_manage_mod(const char *format, size_t i) {
+uint32_t __kpf_manage_mod(const char *format, uint32_t i) {
     __kpf_manage_space_front(1);
     --i;
     if (format[i + 1] != __DEL_MOD)
@@ -80,8 +80,8 @@ void __kpf_manage_hexa() {
 }
 
 void __kpf_manage_unsigned() {
-    uint32_t nbr = va_arg(_g_printk.args, uint32_t);
-    uint32_t len = _g_printk.precision < 0 ? nbrlen(nbr) : _g_printk.precision;
+    uint64_t nbr = va_arg(_g_printk.args, uint64_t);
+    uint64_t len = _g_printk.precision < 0 ? nbrlen(nbr) : _g_printk.precision;
 
     __kpf_manage_space_front(len);
     putunbr_len(nbr, len);

@@ -6,13 +6,174 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:55:48 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:11:32 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:40:13 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stddef.h>
 #include <charon.h>
+#include <stddef.h>
+#include <string.h>
+
+/**
+ * @file string.c
+ * @brief Implementation of string functions.
+ *
+ * This file contains the implementation of string functions used in the Hephaistos project.
+ * The USE_ASM_STRING_FUNCTIONS macro controls whether assembly language or C language string functions are used.
+ */
+#if USE_ASM_STRING_FUNCTIONS == 0
+/**
+ * @brief Calculate the number of digits in a signed integer.
+ *
+ * This function calculates the number of digits in a signed integer.
+ *
+ * @param nbr The signed integer for which to calculate the number of digits.
+ * @return The number of digits in the signed integer.
+ */
+uint32_t nbrlen(int32_t nbr) {
+	uint32_t len = 0;
+	if (nbr == 0) {
+		return (1);
+	}
+	if (nbr < 0) {
+		len++;
+		nbr = -nbr;
+	}
+	while (nbr > 0) {
+		nbr /= 10;
+		len++;
+	}
+	return (len);
+}
+
+/**
+ * @brief Calculate the length of an unsigned 32-bit integer when converted to a string.
+ *
+ * This function calculates the number of characters required to represent an unsigned 32-bit integer
+ * when converted to a string. It does not include the null-terminating character.
+ *
+ * @param nbr The unsigned 32-bit integer to calculate the length for.
+ * @return The length of the unsigned 32-bit integer when converted to a string.
+ */
+uint32_t unbrlen(uint32_t nbr) {
+	uint32_t len = 0;
+	if (nbr == 0) {
+		return (1);
+	}
+	while (nbr > 0) {
+		nbr /= 10;
+		len++;
+	}
+	return (len);
+}
+
+/**
+ * Calculates the length of a null-terminated string.
+ *
+ * @param str The input string.
+ * @return The length of the string.
+ */
+uint32_t strlen(const char *str) {
+	uint32_t len = 0;
+	while (str[len]) {
+		len++;
+	}
+	return (len);
+}
+
+/**
+ * @brief Calculates the number of digits in an integer when represented in a given base.
+ *
+ * This function takes an integer and a base as input and returns the number of digits required to represent the integer in the given base.
+ *
+ * @param nbr The integer for which the number of digits needs to be calculated.
+ * @param base The base in which the integer is represented.
+ *
+ * @return The number of digits required to represent the integer in the given base.
+ */
+uint32_t nbrlen_base(const int32_t nbr, const uint8_t base) {
+	uint32_t len = 0;
+	int32_t n = nbr;
+
+	if (n == 0) {
+		return (1);
+	}
+	if (n < 0) {
+		len++;
+		n = -n;
+	}
+	while (n > 0) {
+		n /= base;
+		len++;
+	}
+	return (len);
+}
+
+/**
+ * Calculates the length of an unsigned integer when represented in a given base.
+ *
+ * @param nbr The unsigned integer for which to calculate the length.
+ * @param base The base in which the integer is represented.
+ * @return The length of the integer when represented in the given base.
+ */
+uint32_t unbrlen_base(const uint32_t nbr, const uint8_t base) {
+	uint32_t len = 0;
+	int32_t n = nbr;
+
+	if (nbr == 0) {
+		return (1);
+	}
+	while (n > 0) {
+		n /= base;
+		len++;
+	}
+	return (len);
+}
+
+/**
+ * @brief Compares two strings.
+ *
+ * This function compares the string pointed to by `s1` to the string pointed to by `s2`.
+ * The comparison is done lexicographically, character by character.
+ *
+ * @param s1 Pointer to the first string to be compared.
+ * @param s2 Pointer to the second string to be compared.
+ *
+ * @return An integer less than, equal to, or greater than zero if `s1` is found, respectively, to be less than, to match, or be greater than `s2`.
+ */
+int32_t strcmp(const char *s1, const char *s2) {
+	uint32_t i = 0;
+	while (s1[i] && s2[i]) {
+		if (s1[i] != s2[i]) {
+			return (s1[i] - s2[i]);
+		}
+		i++;
+	}
+	return (s1[i] - s2[i]);
+}
+
+/**
+ * @brief Compares at most n characters of two strings.
+ *
+ * This function compares the first n characters of the strings s1 and s2. It returns an integer less than, equal to, or greater than zero if s1 is found, respectively, to be less than, to match, or be greater than s2.
+ *
+ * @param s1 Pointer to the first string to be compared.
+ * @param s2 Pointer to the second string to be compared.
+ * @param n Number of characters to compare.
+ * @return An integer less than, equal to, or greater than zero if s1 is found, respectively, to be less than, to match, or be greater than s2.
+ */
+int32_t strncmp(const char *s1, const char *s2, uint32_t n) {
+	uint32_t i = 0;
+
+	while (s1[i] && s2[i] && i < n) {
+		if (s1[i] != s2[i]) {
+			return (s1[i] - s2[i]);
+		}
+		i++;
+	}
+	return (s1[i] - s2[i]);
+}
+#endif
 
 /**
  * @brief Copies the C string pointed by source into the array pointed by destination, including the null character.
@@ -23,17 +184,17 @@
  * @return Pointer to the destination array.
  */
 char *strcpy(char *dest, const char *src) {
-    if (dest == NULL || src == NULL) {
-        return (NULL);
-    }
+	if (dest == NULL || src == NULL) {
+		return (NULL);
+	}
 
-    uint32_t i = 0;
-    while (src[i]) {
-        dest[i] = src[i];
-        i++;
-    }
-    dest[i] = '\0';
-    return (dest);
+	uint32_t i = 0;
+	while (src[i]) {
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
 
 /**
@@ -49,17 +210,17 @@ char *strcpy(char *dest, const char *src) {
  * @return A pointer to the destination string.
  */
 char *strncpy(char *dest, const char *src, uint32_t n) {
-    if (dest == NULL || src == NULL) {
-        return (NULL);
-    }
+	if (dest == NULL || src == NULL) {
+		return (NULL);
+	}
 
-    uint32_t i = 0;
-    while (src[i] && i < n) {
-        dest[i] = src[i];
-        i++;
-    }
-    dest[i] = '\0';
-    return (dest);
+	uint32_t i = 0;
+	while (src[i] && i < n) {
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
 
 /**
@@ -70,24 +231,24 @@ char *strncpy(char *dest, const char *src, uint32_t n) {
  * @return The truncated string.
  */
 char *strtrtc(const char *str, const char c) {
-    if (str == NULL) {
-        return (NULL);
-    }
+	if (str == NULL) {
+		return (NULL);
+	}
 
-    char *new_str = kmalloc(sizeof(char) * strlen(str) + 1);
-    if (new_str == NULL) {
-        return (NULL);
-    }
+	char *new_str = kmalloc(sizeof(char) * strlen(str) + 1);
+	if (new_str == NULL) {
+		return (NULL);
+	}
 
-    bzero(new_str, strlen(str) + 1);
+	bzero(new_str, strlen(str) + 1);
 
-    uint32_t i = 0;
-    while (str[i] && str[i] != c) {
-        new_str[i] = str[i];
-        i++;
-    }
-    new_str[i] = '\0';
-    return (new_str);
+	uint32_t i = 0;
+	while (str[i] && str[i] != c) {
+		new_str[i] = str[i];
+		i++;
+	}
+	new_str[i] = '\0';
+	return (new_str);
 }
 
 /**
@@ -98,35 +259,35 @@ char *strtrtc(const char *str, const char c) {
  * @return The cleared string.
  */
 char *strclr(char *new_str, char *str) {
-    if (str == NULL) {
-        return (NULL);
-    }
-    bzero(new_str, strlen(new_str));
+	if (str == NULL) {
+		return (NULL);
+	}
+	bzero(new_str, strlen(new_str));
 
-    uint32_t i = 0;
-    /* Skip all firsts spaces */
-    while (str[i] && str[i] == ' ') {
-        i++;
-    }
+	uint32_t i = 0;
+	/* Skip all firsts spaces */
+	while (str[i] && str[i] == ' ') {
+		i++;
+	}
 
-    uint32_t j = 0;
+	uint32_t j = 0;
 
-    /* Skip all spaces in the string */
-    while (str[i]) {
-        if (str[i] == ' ') {
-            while (str[i] && str[i] == ' ')
-                i++;
-            if (str[i] == '\0')
-                break;
-            new_str[j] = ' ';
-            j++;
-        }
-        new_str[j] = str[i];
-        i++;
-        j++;
-    }
-    new_str[j] = '\0';
-    return (new_str);
+	/* Skip all spaces in the string */
+	while (str[i]) {
+		if (str[i] == ' ') {
+			while (str[i] && str[i] == ' ')
+				i++;
+			if (str[i] == '\0')
+				break;
+			new_str[j] = ' ';
+			j++;
+		}
+		new_str[j] = str[i];
+		i++;
+		j++;
+	}
+	new_str[j] = '\0';
+	return (new_str);
 }
 
 /**
@@ -140,22 +301,22 @@ char *strclr(char *new_str, char *str) {
  * @return A pointer to the resulting string.
  */
 char *strcat(char *dest, const char *src) {
-    if (dest == NULL || src == NULL) {
-        return (NULL);
-    }
+	if (dest == NULL || src == NULL) {
+		return (NULL);
+	}
 
-    uint32_t i = 0;
-    uint32_t j = 0;
-    while (dest[i]) {
-        i++;
-    }
-    while (src[j]) {
-        dest[i] = src[j];
-        i++;
-        j++;
-    }
-    dest[i] = '\0';
-    return (dest);
+	uint32_t i = 0;
+	uint32_t j = 0;
+	while (dest[i]) {
+		i++;
+	}
+	while (src[j]) {
+		dest[i] = src[j];
+		i++;
+		j++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
 
 /**
@@ -166,20 +327,20 @@ char *strcat(char *dest, const char *src) {
  * @return A pointer to the joined string.
  */
 char *strjoin(char *s1, char *s2) {
-    if (s1 == NULL || s2 == NULL) {
-        return (NULL);
-    }
+	if (s1 == NULL || s2 == NULL) {
+		return (NULL);
+	}
 
-    char *new_str = kmalloc(sizeof(char) * (strlen(s1) + strlen(s2) + 1));
-    if (new_str == NULL) {
-        return (NULL);
-    }
+	char *new_str = kmalloc(sizeof(char) * (strlen(s1) + strlen(s2) + 1));
+	if (new_str == NULL) {
+		return (NULL);
+	}
 
-    bzero(new_str, strlen(s1) + strlen(s2) + 1);
+	bzero(new_str, strlen(s1) + strlen(s2) + 1);
 
-    strcpy(new_str, s1);
-    strcat(new_str, s2);
-    return (new_str);
+	strcpy(new_str, s1);
+	strcat(new_str, s2);
+	return (new_str);
 }
 
 /**
@@ -192,18 +353,18 @@ char *strjoin(char *s1, char *s2) {
  *         or NULL if the character is not found.
  */
 char *strchr(const char *s, int c) {
-    if (s == NULL) {
-        return (NULL);
-    }
+	if (s == NULL) {
+		return (NULL);
+	}
 
-    uint32_t i = 0;
-    while (s[i]) {
-        if (s[i] == c) {
-            return ((char *)&s[i]);
-        }
-        i++;
-    }
-    return (NULL);
+	uint32_t i = 0;
+	while (s[i]) {
+		if (s[i] == c) {
+			return ((char *)&s[i]);
+		}
+		i++;
+	}
+	return (NULL);
 }
 
 /**
@@ -214,18 +375,18 @@ char *strchr(const char *s, int c) {
  * @return A pointer to the last occurrence of the character in the string, or NULL if the character is not found.
  */
 char *strrchr(const char *s, int c) {
-    if (s == NULL) {
-        return (NULL);
-    }
+	if (s == NULL) {
+		return (NULL);
+	}
 
-    uint32_t i = strlen(s);
-    while (i > 0) {
-        if (s[i] == c) {
-            return ((char *)&s[i]);
-        }
-        i--;
-    }
-    return (NULL);
+	uint32_t i = strlen(s);
+	while (i > 0) {
+		if (s[i] == c) {
+			return ((char *)&s[i]);
+		}
+		i--;
+	}
+	return (NULL);
 }
 
 /**
@@ -236,19 +397,19 @@ char *strrchr(const char *s, int c) {
  * @return A pointer to the duplicated string, or NULL if insufficient memory was available.
  */
 char *strdup(const char *s) {
-    if (s == NULL) {
-        return (NULL);
-    }
+	if (s == NULL) {
+		return (NULL);
+	}
 
-    char *new_str = kmalloc(sizeof(char) * strlen(s) + 1);
-    if (new_str == NULL) {
-        return (NULL);
-    }
+	char *new_str = kmalloc(sizeof(char) * strlen(s) + 1);
+	if (new_str == NULL) {
+		return (NULL);
+	}
 
-    bzero(new_str, strlen(s) + 1);
+	bzero(new_str, strlen(s) + 1);
 
-    strcpy(new_str, s);
-    return (new_str);
+	strcpy(new_str, s);
+	return (new_str);
 }
 
 /**
@@ -262,19 +423,19 @@ char *strdup(const char *s) {
  * @return A pointer to the newly allocated string, or NULL if an error occurred.
  */
 char *strndup(const char *s, uint32_t n) {
-    if (s == NULL) {
-        return (NULL);
-    }
+	if (s == NULL) {
+		return (NULL);
+	}
 
-    char *new_str = kmalloc(sizeof(char) * n + 1);
-    if (new_str == NULL) {
-        return (NULL);
-    }
+	char *new_str = kmalloc(sizeof(char) * n + 1);
+	if (new_str == NULL) {
+		return (NULL);
+	}
 
-    bzero(new_str, n + 1);
+	bzero(new_str, n + 1);
 
-    strncpy(new_str, s, n);
-    return (new_str);
+	strncpy(new_str, s, n);
+	return (new_str);
 }
 
 /**
@@ -286,19 +447,19 @@ char *strndup(const char *s, uint32_t n) {
  * @return The trimmed string.
  */
 char *strtrim(char const *s) {
-    if (s == NULL) {
-        return (NULL);
-    }
+	if (s == NULL) {
+		return (NULL);
+	}
 
-    char *new_str = kmalloc(sizeof(char) * strlen(s) + 1);
-    if (new_str == NULL) {
-        return (NULL);
-    }
+	char *new_str = kmalloc(sizeof(char) * strlen(s) + 1);
+	if (new_str == NULL) {
+		return (NULL);
+	}
 
-    bzero(new_str, strlen(s) + 1);
+	bzero(new_str, strlen(s) + 1);
 
-    strclr(new_str, (char *)s);
-    return (new_str);
+	strclr(new_str, (char *)s);
+	return (new_str);
 }
 
 /**
@@ -314,19 +475,19 @@ char *strtrim(char const *s) {
  * @return The extracted substring as a dynamically allocated string.
  */
 char *strsub(char const *s, unsigned int start, uint32_t len) {
-    if (s == NULL) {
-        return (NULL);
-    }
+	if (s == NULL) {
+		return (NULL);
+	}
 
-    char *new_str = kmalloc(sizeof(char) * len + 1);
-    if (new_str == NULL) {
-        return (NULL);
-    }
+	char *new_str = kmalloc(sizeof(char) * len + 1);
+	if (new_str == NULL) {
+		return (NULL);
+	}
 
-    bzero(new_str, len + 1);
+	bzero(new_str, len + 1);
 
-    strncpy(new_str, &s[start], len);
-    return (new_str);
+	strncpy(new_str, &s[start], len);
+	return (new_str);
 }
 
 /**
@@ -340,66 +501,66 @@ char *strsub(char const *s, unsigned int start, uint32_t len) {
  * @return A pointer to an array of strings.
  */
 char **strsplit(char const *s, char c) {
-    if (s == NULL) {
-        return (NULL);
-    }
+	if (s == NULL) {
+		return (NULL);
+	}
 
-    char *new_str = strtrim(s);
-    if (new_str == NULL) {
-        return (NULL);
-    }
+	char *new_str = strtrim(s);
+	if (new_str == NULL) {
+		return (NULL);
+	}
 
-    uint32_t i = 0;
-    uint32_t j = 0;
-    uint32_t k = 0;
-    uint32_t nb_words = 0;
+	uint32_t i = 0;
+	uint32_t j = 0;
+	uint32_t k = 0;
+	uint32_t nb_words = 0;
 
-    while (new_str[i]) {
-        if (new_str[i] == c) {
-            nb_words++;
-        }
-        i++;
-    }
-    nb_words++;
+	while (new_str[i]) {
+		if (new_str[i] == c) {
+			nb_words++;
+		}
+		i++;
+	}
+	nb_words++;
 
-    char **tab = kmalloc(sizeof(char *) * (nb_words + 1));
-    if (tab == NULL) {
-        return (NULL);
-    }
+	char **tab = kmalloc(sizeof(char *) * (nb_words + 1));
+	if (tab == NULL) {
+		return (NULL);
+	}
 
-    i = 0;
-    while (new_str[i]) {
-        if (new_str[i] == c) {
-            tab[j] = strsub(new_str, k, i - k);
-            j++;
-            k = i + 1;
-        }
-        i++;
-    }
-    tab[j] = strsub(new_str, k, i - k);
-    tab[j + 1] = NULL;
-    kfree(new_str);
-    return (tab);
+	i = 0;
+	while (new_str[i]) {
+		if (new_str[i] == c) {
+			tab[j] = strsub(new_str, k, i - k);
+			j++;
+			k = i + 1;
+		}
+		i++;
+	}
+	tab[j] = strsub(new_str, k, i - k);
+	tab[j + 1] = NULL;
+	kfree(new_str);
+	return (tab);
 }
 
 static int strspn(const char *s, const char *accept) {
-    if (s == NULL || accept == NULL)
-        return (0);
+	if (s == NULL || accept == NULL)
+		return (0);
 
-    uint32_t i = 0;
-    uint32_t j = 0;
-    while (s[i]) {
-        j = 0;
-        while (accept[j]) {
-            if (s[i] == accept[j])
-                break;
-            j++;
-        }
-        if (accept[j] == '\0')
-            return (i);
-        i++;
-    }
-    return (i);
+	uint32_t i = 0;
+	uint32_t j = 0;
+	while (s[i]) {
+		j = 0;
+		while (accept[j]) {
+			if (s[i] == accept[j])
+				break;
+			j++;
+		}
+		if (accept[j] == '\0')
+			return (i);
+		i++;
+	}
+	return (i);
 }
 
 /**
@@ -413,23 +574,23 @@ static int strspn(const char *s, const char *accept) {
  * @return A pointer to the first occurrence of any character from 'charset' in 'str', or a null pointer if no match is found.
  */
 char *strpbrk(const char *s, const char *accept) {
-    if (s == NULL || accept == NULL) {
-        return (NULL);
-    }
+	if (s == NULL || accept == NULL) {
+		return (NULL);
+	}
 
-    uint32_t i = 0;
-    uint32_t j = 0;
-    while (s[i]) {
-        j = 0;
-        while (accept[j]) {
-            if (s[i] == accept[j]) {
-                return ((char *)&s[i]);
-            }
-            j++;
-        }
-        i++;
-    }
-    return (NULL);
+	uint32_t i = 0;
+	uint32_t j = 0;
+	while (s[i]) {
+		j = 0;
+		while (accept[j]) {
+			if (s[i] == accept[j]) {
+				return ((char *)&s[i]);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (NULL);
 }
 
 /**
@@ -453,27 +614,27 @@ char *strpbrk(const char *s, const char *accept) {
  *       This pointer is stored internally in the function and is not accessible to the calling program.
  */
 char *strtok(char *str, const char *delim) {
-    static char *last;
-    char *token;
+	static char *last;
+	char *token;
 
-    if (str == NULL) {
-        str = last;
-    }
+	if (str == NULL) {
+		str = last;
+	}
 
-    str += strspn(str, delim);
-    if (*str == '\0') {
-        return (NULL);
-    }
+	str += strspn(str, delim);
+	if (*str == '\0') {
+		return (NULL);
+	}
 
-    token = str;
-    str = strpbrk(token, delim);
-    if (str == NULL) {
-        last = NULL;
-    } else {
-        *str = '\0';
-        last = str + 1;
-    }
-    return (token);
+	token = str;
+	str = strpbrk(token, delim);
+	if (str == NULL) {
+		last = NULL;
+	} else {
+		*str = '\0';
+		last = str + 1;
+	}
+	return (token);
 }
 
 /**
@@ -486,21 +647,21 @@ char *strtok(char *str, const char *delim) {
  *         string haystack, or NULL if the substring is not found.
  */
 char *strstr(const char *haystack, const char *needle) {
-    if (haystack == NULL || needle == NULL) {
-        return (NULL);
-    }
+	if (haystack == NULL || needle == NULL) {
+		return (NULL);
+	}
 
-    uint32_t i = 0;
-    uint32_t j = 0;
-    while (haystack[i]) {
-        j = 0;
-        while (needle[j] && haystack[i + j] == needle[j])
-            j++;
-        if (needle[j] == '\0')
-            return ((char *)&haystack[i]);
-        i++;
-    }
-    return (NULL);
+	uint32_t i = 0;
+	uint32_t j = 0;
+	while (haystack[i]) {
+		j = 0;
+		while (needle[j] && haystack[i + j] == needle[j])
+			j++;
+		if (needle[j] == '\0')
+			return ((char *)&haystack[i]);
+		i++;
+	}
+	return (NULL);
 }
 
 /**
@@ -512,22 +673,22 @@ char *strstr(const char *haystack, const char *needle) {
  * @return The reversed string.
  */
 char *strrev(char *str) {
-    if (str == NULL) {
-        return (NULL);
-    }
+	if (str == NULL) {
+		return (NULL);
+	}
 
-    uint32_t i = 0;
-    uint32_t j = strlen(str) - 1;
-    char tmp;
+	uint32_t i = 0;
+	uint32_t j = strlen(str) - 1;
+	char tmp;
 
-    while (i < j) {
-        tmp = str[i];
-        str[i] = str[j];
-        str[j] = tmp;
-        i++;
-        j--;
-    }
-    return (str);
+	while (i < j) {
+		tmp = str[i];
+		str[i] = str[j];
+		str[j] = tmp;
+		i++;
+		j--;
+	}
+	return (str);
 }
 
 /**
@@ -541,20 +702,20 @@ char *strrev(char *str) {
  * @return The reversed string.
  */
 char *strrevp(char *str, uint32_t start, uint32_t end) {
-    if (str == NULL) {
-        return (NULL);
-    }
+	if (str == NULL) {
+		return (NULL);
+	}
 
-    uint32_t i = start;
-    uint32_t j = end;
-    char tmp;
+	uint32_t i = start;
+	uint32_t j = end;
+	char tmp;
 
-    while (i < j) {
-        tmp = str[i];
-        str[i] = str[j];
-        str[j] = tmp;
-        i++;
-        j--;
-    }
-    return (str);
+	while (i < j) {
+		tmp = str[i];
+		str[i] = str[j];
+		str[j] = tmp;
+		i++;
+		j--;
+	}
+	return (str);
 }

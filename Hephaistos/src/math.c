@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:30:23 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 21:59:24 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:26:47 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@
  * @return The natural logarithm of x
  */
 float ln(float x) {
-    float result = 0.0;
-    float term = (x - 1) / (x + 1);
-    float term_squared = term * term;
-    float current_term = term;
-    int n;
+	float result = 0.0;
+	float term = (x - 1) / (x + 1);
+	float term_squared = term * term;
+	float current_term = term;
+	int n;
 
-    for (n = 1; n <= 100; n += 2) {
-        result += current_term / n;
-        current_term *= term_squared;
-    }
+	for (n = 1; n <= 100; n += 2) {
+		result += current_term / n;
+		current_term *= term_squared;
+	}
 
-    return 2 * result;
+	return 2 * result;
 }
 
 /**
@@ -38,13 +38,14 @@ float ln(float x) {
  * @return The sine of the angle
  */
 float sin(float x) {
-    float result = x;
-    float term = x;
-    for (int n = 1; n <= 10; ++n) {
-        term *= -x * x / (2 * n * (2 * n + 1));
-        result += term;
-    }
-    return result;
+	float result = x;
+	float term = x;
+
+	for (int n = 1; n <= 10; ++n) {
+		term *= -x * x / (2 * n * (2 * n + 1));
+		result += term;
+	}
+	return result;
 }
 
 /**
@@ -53,15 +54,15 @@ float sin(float x) {
  * @return The cosine of the angle
  */
 float cos(float x) {
-    float result = 1.0;
-    float term = 1.0;
-    for (int n = 1; n <= 10; ++n) {
-        term *= -x * x / (2 * n * (2 * n - 1));
-        result += term;
-    }
-    return result;
-}
+	float result = 1.0;
+	float term = 1.0;
 
+	for (int n = 1; n <= 10; ++n) {
+		term *= -x * x / (2 * n * (2 * n - 1));
+		result += term;
+	}
+	return result;
+}
 
 /**
  * @brief Calculate the exponential function of a number
@@ -69,13 +70,14 @@ float cos(float x) {
  * @return The exponential of x
  */
 float exp(float x) {
-    float result = 1.0;
-    float term = 1.0;
-    for (int n = 1; n <= 10; ++n) {
-        term *= x / n;
-        result += term;
-    }
-    return result;
+	float result = 1.0;
+	float term = 1.0;
+
+	for (int n = 1; n <= 10; ++n) {
+		term *= x / n;
+		result += term;
+	}
+	return result;
 }
 
 /**
@@ -84,7 +86,7 @@ float exp(float x) {
  * @return The tangent of the angle
  */
 float tan(float x) {
-    return sin(x) / cos(x);
+	return sin(x) / cos(x);
 }
 
 /**
@@ -95,9 +97,13 @@ float tan(float x) {
  * @return The clamped value
  */
 int clamp(int value, int min, int max) {
-    if (value < min) return min;
-    if (value > max) return max;
-    return value;
+	if (value < min) {
+		return min;
+	}
+	if (value > max) {
+		return max;
+	}
+	return value;
 }
 
 /**
@@ -107,7 +113,7 @@ int clamp(int value, int min, int max) {
  * @return The length of the hypotenuse
  */
 float hypot(float x, float y) {
-    return sqrt(x * x + y * y);
+	return sqrt(x * x + y * y);
 }
 
 /**
@@ -116,5 +122,5 @@ float hypot(float x, float y) {
  * @return 1 if x is positive, -1 if x is negative, 0 if x is zero
  */
 int signum(float x) {
-    return (x > 0) - (x < 0);
+	return (x > 0) - (x < 0);
 }

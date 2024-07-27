@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:55:33 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 21:06:45 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/27 19:07:58 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ extern int workflow_hephaistos_a_array(void);
 extern int workflow_hephaistos_a_avl(void);
 
 extern int hephaistos_workflow(void);
+
+extern void hephaistos_off_tests(void);
 
 #endif /* !__H_WORKFLOWS_H */

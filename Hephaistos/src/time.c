@@ -6,13 +6,13 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:11:09 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:00:08 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:23:51 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <assert.h>
 #include <charon.h>
 #include <time.h>
-#include <assert.h>
 
 /**
  * @brief Starts the time counter by recording the current timer ticks as the start time.
@@ -20,8 +20,8 @@
  * @param counter Pointer to the counter structure to be started.
  */
 void counter_start(counter_t *counter) {
-    assert(counter != NULL);
-    counter->start = pit_get_ticks();
+	assert(counter != NULL);
+	counter->start = pit_get_ticks();
 }
 
 /**
@@ -30,8 +30,8 @@ void counter_start(counter_t *counter) {
  * @param counter Pointer to the counter structure to be stopped.
  */
 void counter_stop(counter_t *counter) {
-    assert(counter != NULL);
-    counter->end = pit_get_ticks();
+	assert(counter != NULL);
+	counter->end = pit_get_ticks();
 }
 
 /**
@@ -41,8 +41,8 @@ void counter_stop(counter_t *counter) {
  * @return The start time of the counter.
  */
 uint32_t counter_get_start(counter_t *counter) {
-    assert(counter != NULL);
-    return counter->start;
+	assert(counter != NULL);
+	return counter->start;
 }
 
 /**
@@ -52,8 +52,8 @@ uint32_t counter_get_start(counter_t *counter) {
  * @return The end time of the counter.
  */
 uint32_t counter_get_end(counter_t *counter) {
-    assert(counter != NULL);
-    return counter->end;
+	assert(counter != NULL);
+	return counter->end;
 }
 
 /**
@@ -63,6 +63,6 @@ uint32_t counter_get_end(counter_t *counter) {
  * @return The elapsed time between the start and end times of the counter.
  */
 uint32_t counter_get_time(counter_t *counter) {
-    assert(counter != NULL);
-    return counter->end - counter->start;
+	assert(counter != NULL);
+	return counter->end - counter->start;
 }

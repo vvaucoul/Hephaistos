@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:55:51 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:46:29 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 01:34:29 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 
 typedef struct s_printk {
     va_list args;
-    char *format;
+    char format[1024];
 
     int32_t space;
     bool space_is_star;
@@ -54,7 +54,7 @@ extern void vsprintk(const char *str, void (*write)(const char), const char *for
 extern void __kpf_manage_space_front(const int arg_len);
 extern void __kpf_manage_space_back(const int arg_len);
 
-extern size_t __kpf_manage_mod(const char *format, size_t i);
+extern uint32_t __kpf_manage_mod(const char *format, uint32_t i);
 extern void __kpf_manage_char();
 extern void __kpf_manage_nbr();
 extern void __kpf_manage_str();
@@ -63,7 +63,7 @@ extern void __kpf_manage_hexa();
 extern void __kpf_manage_unsigned();
 extern void __kpf_manage_float();
 
-extern size_t __kptrlen(const void *ptr);
+extern uint32_t __kptrlen(const void *ptr);
 extern uint32_t __k_get_len(uint32_t arg_len);
 
 #endif /* !PRINTK_H */

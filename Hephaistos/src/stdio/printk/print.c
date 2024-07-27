@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 12:19:39 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:16:45 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 01:37:55 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,7 +337,7 @@ void putunbr_hex_len(uint32_t n, int len) {
 void putptr_len(void *ptr, int len) {
     // 0x added without counting it in len
     putstr("0x");
-    putunbr_hex_len((uint32_t)ptr, len);
+    putunbr_hex_len((uintptr_t)ptr, len);
 }
 
 void putf_len(const float value, int len) {

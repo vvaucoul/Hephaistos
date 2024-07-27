@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:24:25 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:11:53 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:29:03 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @return true if the character is alphanumeric, false otherwise.
  */
 bool isalnum(int c) {
-    return (isalpha(c) || isdigit(c));
+	return (isalpha(c) || isdigit(c));
 }
 
 /**
@@ -29,7 +29,7 @@ bool isalnum(int c) {
  * @return true if the character is alphabetic, false otherwise.
  */
 bool isalpha(int c) {
-    return (islower(c) || isupper(c));
+	return (islower(c) || isupper(c));
 }
 
 /**
@@ -39,7 +39,7 @@ bool isalpha(int c) {
  * @return true if the character is a blank space or tab, false otherwise.
  */
 bool isblank(int c) {
-    return (c == ' ' || c == '\t');
+	return (c == ' ' || c == '\t');
 }
 
 /**
@@ -49,7 +49,7 @@ bool isblank(int c) {
  * @return true if the character is a control character, false otherwise.
  */
 bool iscntrl(int c) {
-    return (c >= 0 && c <= 31) || c == 127;
+	return (c >= 0 && c <= 31) || c == 127;
 }
 
 /**
@@ -59,7 +59,7 @@ bool iscntrl(int c) {
  * @return true if the character is a digit, false otherwise.
  */
 bool isdigit(int c) {
-    return (c >= '0' && c <= '9');
+	return (c >= '0' && c <= '9');
 }
 
 /**
@@ -69,7 +69,7 @@ bool isdigit(int c) {
  * @return true if the character is a printable character except space, false otherwise.
  */
 bool isgraph(int c) {
-    return (c >= 33 && c <= 126);
+	return (c >= 33 && c <= 126);
 }
 
 /**
@@ -79,7 +79,7 @@ bool isgraph(int c) {
  * @return true if the character is a lowercase letter, false otherwise.
  */
 bool islower(int c) {
-    return (c >= 'a' && c <= 'z');
+	return (c >= 'a' && c <= 'z');
 }
 
 /**
@@ -89,7 +89,7 @@ bool islower(int c) {
  * @return true if the character is a printable character, false otherwise.
  */
 bool isprint(int c) {
-    return (c >= 32 && c <= 126);
+	return (c >= 32 && c <= 126);
 }
 
 /**
@@ -99,7 +99,7 @@ bool isprint(int c) {
  * @return true if the character is a punctuation character, false otherwise.
  */
 bool ispunct(int c) {
-    return (isgraph(c) && !isalnum(c));
+	return (isgraph(c) && !isalnum(c));
 }
 
 /**
@@ -109,7 +109,7 @@ bool ispunct(int c) {
  * @return true if the character is an uppercase letter, false otherwise.
  */
 bool isupper(int c) {
-    return (c >= 'A' && c <= 'Z');
+	return (c >= 'A' && c <= 'Z');
 }
 
 /**
@@ -119,7 +119,7 @@ bool isupper(int c) {
  * @return true if the character is a hexadecimal digit, false otherwise.
  */
 bool isxdigit(int c) {
-    return (isdigit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'));
+	return (isdigit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'));
 }
 
 /**
@@ -129,7 +129,7 @@ bool isxdigit(int c) {
  * @return true if the character is a valid ASCII character, false otherwise.
  */
 bool isascii(int c) {
-    return (c >= 0 && c <= 127);
+	return (c >= 0 && c <= 127);
 }
 
 /**
@@ -139,7 +139,7 @@ bool isascii(int c) {
  * @return Non-zero value if the character is a white-space character, 0 otherwise.
  */
 bool isspace(int c) {
-    return c == ' ' || c == '\t' || c == '\n' || c == '\r';
+	return c == ' ' || c == '\t' || c == '\n' || c == '\r';
 }
 
 /**
@@ -149,7 +149,7 @@ bool isspace(int c) {
  * @return The ASCII equivalent of the character.
  */
 int toascii(int c) {
-    return (c & 0x7F);
+	return (c & 0x7F);
 }
 
 /**
@@ -159,7 +159,7 @@ int toascii(int c) {
  * @return The lowercase equivalent of the character.
  */
 int tolower(int c) {
-    return (isupper(c) ? c + 32 : c);
+	return (isupper(c) ? c + 32 : c);
 }
 
 /**
@@ -169,5 +169,5 @@ int tolower(int c) {
  * @return The uppercase equivalent of the character.
  */
 int toupper(int c) {
-    return (islower(c) ? c - 32 : c);
+	return (islower(c) ? c - 32 : c);
 }

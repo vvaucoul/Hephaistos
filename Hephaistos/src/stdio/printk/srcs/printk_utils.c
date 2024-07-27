@@ -6,14 +6,14 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 16:11:35 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:12:40 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 01:15:42 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio/printk.h>
 
-size_t __kptrlen(const void *ptr) {
-    size_t len = 0;
+uint32_t __kptrlen(const void *ptr) {
+    uint32_t len = 0;
     unsigned char *p = (unsigned char *)ptr;
 
     if (ptr == NULL)

@@ -6,12 +6,13 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:25:42 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:18:07 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 01:25:23 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <memory.h>
 #include <stddef.h>
+#include <stdint.h>
 
 /**
  * @brief Fills the first length bytes of the memory area pointed to by ptr with the constant byte value.

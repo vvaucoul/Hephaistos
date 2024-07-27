@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:10:07 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 21:59:54 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/27 16:12:48 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 
 #include <stdint.h>
 
-typedef struct s_counter
-{
-    uint32_t start;
+typedef struct s_counter {
+	uint32_t start;
     uint32_t end;
 } counter_t;
 
