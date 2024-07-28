@@ -6,12 +6,14 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:03:38 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/01/15 13:26:08 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:00:37 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
-#include <hephaistos.h>
+
+#include <algorithms/queue.h>
+#include <assert.h>
 
 static int __data[] = {0, 1, 2, 3, 4, 5};
 

@@ -6,12 +6,12 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:36:33 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/27 19:02:03 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 10:35:46 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
-#include <../workflows/workflows.h>
+#include "workflows.h"
 
 /**
  * @brief This function is a test called in the kernel to check all the lib.

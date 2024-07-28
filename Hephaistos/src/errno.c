@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:00:29 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/27 17:27:20 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:22:57 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ static const char *error_messages[] = {
  * @return A pointer to a string containing the error message.
  */
 const char *strerror(errno_t errnum) {
-	if (errnum >= 0 && errnum < sizeof(error_messages) / sizeof(error_messages[0]) && error_messages[errnum] != NULL) {
+	if ((unsigned int)errnum < sizeof(error_messages) / sizeof(error_messages[0]) && error_messages[errnum] != NULL) {
 		return error_messages[errnum];
 	}
 	return "Unknown error";

@@ -6,13 +6,14 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:25:42 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 01:25:23 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:25:48 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <memory.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <macros.h>
 
 /**
  * @brief Fills the first length bytes of the memory area pointed to by ptr with the constant byte value.
@@ -405,7 +406,7 @@ errno_t memrchr_s(const void *s, rsize_t smax, int c, rsize_t *idx) {
  *         If 'result' is not NULL and 'little' is not found in 'big', the function returns a non-zero error code and sets 'result' to NULL.
  *         If 'result' is NULL and 'little' is not found in 'big', the function returns a non-zero error code.
  */
-errno_t memmem_s(const void *big, rsize_t bigmax, const void *little, rsize_t littlemax, void **result) {
+errno_t memmem_s(const void *big, rsize_t bigmax, const void *little, __unused__ rsize_t littlemax, void **result) {
     if (big == NULL || little == NULL || result == NULL) {
         return EINVAL;
     }

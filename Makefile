@@ -6,7 +6,7 @@
 #    By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 23:52:42 by vvaucoul          #+#    #+#              #
-#    Updated: 2024/07/28 01:30:17 by vvaucoul         ###   ########.fr        #
+#    Updated: 2024/07/28 11:12:23 by vvaucoul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ include ../mk-files/utils/Colors.mk
 include ../mk-files/rules/Rules.mk
 CCACHE_DIR			=	ccache
 
-#*******************************************************************************
-#*                          DEFAULT COMPILATION RULES                          *
-#*******************************************************************************
+# ! ||--------------------------------------------------------------------------------||
+# ! ||                            DEFAULT COMPILATION RULES                           ||
+# ! ||--------------------------------------------------------------------------------||
 
 ifeq ($(CCACHE_INSTALLED), false)
 	CCACHE			=	../$(DEPENDENCIES_DIR)/$(CCACHE_DIR)/ccache
@@ -30,23 +30,25 @@ else
 	CC				=	$(CCACHE) clang-15
 endif
 
+COMPILE_WORKFLOWS 	:=	$(shell sh ./scripts/HephaistosCompileWorkflows.sh)
+
 SCRIPTS_DIR			=	scripts
 
 KERNEL_DIRECTORY	=	kernel
 VERSION				:=	$(shell sh $(SCRIPTS_DIR)/HephaistosVersion.sh)
 
-#*******************************************************************************
-#*                           HEPHAISTOS COMPILATION                            *
-#*******************************************************************************
+# ! ||--------------------------------------------------------------------------------||
+# ! ||                             HEPHAISTOS COMPILATION                             ||
+# ! ||--------------------------------------------------------------------------------||
 
 NAME 			= Hephaistos.a
 ASM				= nasm
 
-DEFAULT_FLAGS 	=	-Wall -Wextra -Werror -Wfatal-errors
+DEFAULT_FLAGS 	=	-Wall -Wextra # -Werror -Wfatal-errors
 CFLAGS 			= 	-fno-builtin -fno-exceptions -fno-stack-protector \
 					-nostdlib -nodefaultlibs -nostdinc \
-					-std=c99 -ffreestanding -O2 \
-					--std=c2x # Use C23 standard
+					-ffreestanding -O2 \
+					-std=c2x # Use C23 standard
 
 LDFLAGS			= 	-g3 -m32
 
@@ -58,7 +60,16 @@ INCLUDES_DIR	=	include
 INCLUDES 		=	-I./$(LIB_DIR)/$(INCLUDES_DIR) \
 					-I../$(KERNEL_DIRECTORY)/includes
 
-SRCS_DIR 		=	$(LIB_DIR)
+
+WORKFLOW_DIR	:=	workflows \
+					tests
+
+SRCS_DIR 		:=	$(LIB_DIR)
+
+# Check if COMPILE_WORKFLOWS returns 1
+ifeq ($(COMPILE_WORKFLOWS), 1)
+	SRCS_DIR 		+=	$(WORKFLOW_DIR)
+endif
 
 SRCS			=	$(shell find $(SRCS_DIR) -name "*.c")
 OBJS			=	$(SRCS:.c=.o)
@@ -74,7 +85,7 @@ DEPENDS_CPP		=	$(SRCS_CPP:.cpp=.d)
 
 %.o: %.c
 	@printf "$(_LWHITE) $(_DIM)- Compiling: $(_END)$(_DIM)--------$(_END)$(_LCYAN) %s $(_END)$(_LGREEN)[$(_LWHITE)✓$(_LGREEN)]$(_END)\n" $< 
-	@$(CC) $(LDFLAGS) $(CFLAGS) $(INCLUDES) -MD -c $< -o $@
+	@$(CC) $(LDFLAGS) $(DEFAULT_FLAGS) $(CFLAGS) $(INCLUDES) -MD -c $< -o $@
 
 %.o: %.s
 	@printf "$(_LWHITE) $(_DIM)- Compiling: $(_END)$(_DIM)--------$(_END)$(_LPURPLE) %s $(_END)$(_LGREEN)[$(_LWHITE)✓$(_LGREEN)]$(_END)\n" $< 

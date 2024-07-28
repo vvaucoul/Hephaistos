@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:55:33 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 01:49:47 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 10:44:00 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @note This define is used in the Makefile to compile the test.
  */
 #ifndef __TEST_HEPHAISTOS__
-#define __TEST_HEPHAISTOS__ 0
+#define __TEST_HEPHAISTOS__ 1
 #endif
 
 extern int workflow_hephaistos_strings(void);

@@ -6,13 +6,14 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 12:19:39 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 01:37:55 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:25:22 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
 #include <convert.h>
 #include <stdio.h>
+#include <macros.h>
 
 // ! ||--------------------------------------------------------------------------------||
 // ! ||                              BASIC PRINT FUNCTIONS                             ||
@@ -199,7 +200,7 @@ void putptr_precision(void *ptr, int precision) {
     putunbr_hex_precision((uint32_t)ptr, precision);
 }
 
-void putf_precision(const float value, int precision) {
+void putf_precision(const float value, __unused__ int precision) {
     char buffer[32];
     bzero(buffer, 32);
     __ftoa(buffer, value);
@@ -266,7 +267,7 @@ void putnbr_base_len(int n, uint8_t base, int len) {
     do {
         numStr[i++] = s_base[n % base];
         n /= base;
-    } while (n > 0 && i < sizeof(numStr));
+    } while (n > 0 && (uint32_t)i < sizeof(numStr));
 
     len = (i > len) ? len : i;
 
@@ -286,7 +287,7 @@ void putunbr_base_len(uint32_t n, uint8_t base, int len) {
     do {
         numStr[i++] = s_base[n % base];
         n /= base;
-    } while (n > 0 && i < sizeof(numStr));
+    } while (n > 0 && (uint32_t)i < sizeof(numStr));
 
     len = (i > len) ? len : i;
 
@@ -305,7 +306,7 @@ void putunbr_len(uint32_t n, int len) {
     do {
         numStr[i++] = (n % 10) + '0';
         n /= 10;
-    } while (n > 0 && i < sizeof(numStr));
+    } while (n > 0 && (uint32_t)i < sizeof(numStr));
 
     len = (i > len) ? len : i;
 
@@ -325,7 +326,7 @@ void putunbr_hex_len(uint32_t n, int len) {
     do {
         numStr[i++] = s_base[n % 16];
         n /= 16;
-    } while (n > 0 && i < sizeof(numStr));
+    } while (n > 0 && (uint32_t)i < sizeof(numStr));
 
     len = (i > len) ? len : i;
 
@@ -340,7 +341,7 @@ void putptr_len(void *ptr, int len) {
     putunbr_hex_len((uintptr_t)ptr, len);
 }
 
-void putf_len(const float value, int len) {
+void putf_len(const float value, __unused__ int len) {
     char buffer[32];
     bzero(buffer, 32);
     __ftoa(buffer, value);

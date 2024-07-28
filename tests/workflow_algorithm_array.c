@@ -6,12 +6,14 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 20:31:48 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 11:19:48 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:00:23 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
-#include <hephaistos.h>
+
+#include <algorithms/array.h>
+#include <assert.h>
 
 void test_array_create(void) {
     Array *array = array_create(2);

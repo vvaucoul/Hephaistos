@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 01:39:03 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:04:15 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:10:34 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,18 @@
 #include <stdint.h>
 
 typedef struct node {
-    void *data;
-    struct node *next;
+	void *data;
+	struct node *next;
 } node_t;
 
 typedef struct s_list {
-    node_t *root; // Pointer to the first node
-    node_t *tail; // Pointer to the last node
+	node_t *root; // Pointer to the first node
+	node_t *tail; // Pointer to the last node
 
-    uint32_t size;      // Number of elements in the list
-    uint32_t capacity;  // Allocated capacity (optional)
-    uint32_t ref_count; // Reference counter (optional)
-    void *context;      // Context/metadata pointer (optional)
-
-    // pthread_mutex_t lock; // Lock for concurrency (if necessary)
+	uint32_t size;		// Number of elements in the list
+	uint32_t capacity;	// Allocated capacity (optional)
+	uint32_t ref_count; // Reference counter (optional)
+	void *context;		// Context/metadata pointer (optional)
 } list_t;
 
 list_t *list_create(void);

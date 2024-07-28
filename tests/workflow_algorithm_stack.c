@@ -6,15 +6,20 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 12:00:41 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 12:20:04 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:14:46 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
-#include <hephaistos.h>
+
+#include <algorithms/stack.h>
+#include <assert.h>
+
+#define STACK_DEBUG 0
 
 static int __data[STACK_MAX_SIZE];
 
+#if STACK_DEBUG == 1
 static void __display_stack(stack_t *stack) {
     printk("Stack size: %d\n", stack_get_size(stack));
     for (int i = 0; i < stack_get_size(stack); i++) {
@@ -26,6 +31,7 @@ static void __display_stack(stack_t *stack) {
     }
     printk("\n");
 }
+#endif
 
 static void initialize_data() {
     for (int i = 0; i < 128; i++) {

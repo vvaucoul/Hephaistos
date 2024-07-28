@@ -6,15 +6,20 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:15:27 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 12:22:51 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:15:15 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
-#include <hephaistos.h>
+
+#include <algorithms/avl.h>
+#include <assert.h>
 
 static int __data[128];
 
+#define AVL_DEBUG 0
+
+#if AVL_DEBUG == 1
 static void __display_avl(AVLNode *node, int level) {
     if (node != NULL) {
         __display_avl(node->right, level + 1);
@@ -23,6 +28,7 @@ static void __display_avl(AVLNode *node, int level) {
         __display_avl(node->left, level + 1);
     }
 }
+#endif
 
 static void initialize_data() {
     for (int i = 0; i < 128; i++) {

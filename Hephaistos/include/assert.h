@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:56:53 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 21:57:59 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 10:34:38 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ typedef unsigned short __assert_t;
 
 #define __ASSERT_SUCCESS 0
 #define __ASSERT_FAILED 1
+
+// Uncomment to disable all asserts
+// #define NDEBUG
 
 #ifdef NDEBUG
     #define assert(condition) ((void)0)

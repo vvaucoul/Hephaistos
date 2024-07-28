@@ -6,20 +6,21 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:35:30 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/21 19:54:26 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:16:15 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
-#include <hephaistos.h>
+
+#include <stdio.h>
+#include <string.h>
 
 static int __test_sscank(void) {
-    int ret = 0;
     char *str = kmalloc(sizeof(char) * 100);
 
     memset(str, 0, 100);
 
-    ret = sscank("Hello World", "%s", str);
+    sscank("Hello World", "%s", str);
 
     printk("SSCANK: %s\n", str);
 
@@ -32,12 +33,11 @@ static int __test_sscank(void) {
 }
 
 static int __test_snprintk(void) {
-    int ret = 0;
     char *str = kmalloc(sizeof(char) * 100);
 
     // Test 1 : Chaîne de caractères
     memset(str, 0, 100);
-    ret = snprintk(str, 100, "Hello %s", "World");
+    snprintk(str, 100, "Hello %s", "World");
     printk("SNPRINTK: %s\n", str);
     if (strcmp(str, "Hello World") != 0) {
         printk("SNPRINTK: [KO]\n");
@@ -46,7 +46,7 @@ static int __test_snprintk(void) {
 
     // Test 2 : Entier
     memset(str, 0, 100);
-    ret = snprintk(str, 100, "The answer is %d", 42);
+    snprintk(str, 100, "The answer is %d", 42);
     printk("SNPRINTK: %s\n", str);
     if (strcmp(str, "The answer is 42") != 0) {
         printk("SNPRINTK: [KO]\n");
@@ -55,7 +55,7 @@ static int __test_snprintk(void) {
 
     // Test 3 : Flottant avec 2 décimales
     memset(str, 0, 100);
-    ret = snprintk(str, 100, "The value of pi is %.2f", 3.14159);
+    snprintk(str, 100, "The value of pi is %.2f", 3.14159);
     printk("SNPRINTK: %s\n", str);
     if (strcmp(str, "The value of pi is 3.14") != 0) {
         printk("SNPRINTK: [KO]\n");
@@ -64,7 +64,7 @@ static int __test_snprintk(void) {
 
     // Test 4 : Long
     memset(str, 0, 100);
-    ret = snprintk(str, 100, "Long number: %ld", 123456789L);
+    snprintk(str, 100, "Long number: %ld", 123456789L);
     printk("SNPRINTK: %s\n", str);
     if (strcmp(str, "Long number: 123456789") != 0) {
         printk("SNPRINTK: [KO]\n");
@@ -73,7 +73,7 @@ static int __test_snprintk(void) {
 
     // Test 5 : Chaîne simple sans format
     memset(str, 0, 100);
-    ret = snprintk(str, 100, "This is a test");
+    snprintk(str, 100, "This is a test");
     printk("SNPRINTK: %s\n", str);
     if (strcmp(str, "This is a test") != 0) {
         printk("SNPRINTK: [KO]\n");
@@ -82,7 +82,7 @@ static int __test_snprintk(void) {
 
     // Test 6 : Grand entier
     memset(str, 0, 100);
-    ret = snprintk(str, 100, "The result is %d", 1000);
+    snprintk(str, 100, "The result is %d", 1000);
     printk("SNPRINTK: %s\n", str);
     if (strcmp(str, "The result is 1000") != 0) {
         printk("SNPRINTK: [KO]\n");
@@ -91,7 +91,7 @@ static int __test_snprintk(void) {
 
     // Test 7 : Flottant avec 4 décimales
     memset(str, 0, 100);
-    ret = snprintk(str, 100, "The value of e is %.4f", 2.71828);
+    snprintk(str, 100, "The value of e is %.4f", 2.71828);
     printk("SNPRINTK: %s\n", str);
     if (strcmp(str, "The value of e is 2.7183") != 0) {
         printk("SNPRINTK: [KO]\n");
@@ -100,7 +100,7 @@ static int __test_snprintk(void) {
 
     // Test 8 : Entier négatif
     memset(str, 0, 100);
-    ret = snprintk(str, 100, "The result is %d", -42);
+    snprintk(str, 100, "The result is %d", -42);
     printk("SNPRINTK: %s\n", str);
     if (strcmp(str, "The result is -42") != 0) {
         printk("SNPRINTK: [KO]\n");
@@ -109,7 +109,7 @@ static int __test_snprintk(void) {
 
     // Test 9 : Flottant arrondi à l'entier
     memset(str, 0, 100);
-    ret = snprintk(str, 100, "The value of pi is %.0f", 3.14159);
+    snprintk(str, 100, "The value of pi is %.0f", 3.14159);
     printk("SNPRINTK: %s\n", str);
     if (strcmp(str, "The value of pi is 3") != 0) {
         printk("SNPRINTK: [KO]\n");
@@ -118,7 +118,7 @@ static int __test_snprintk(void) {
 
     // Test 10 : Zéro
     memset(str, 0, 100);
-    ret = snprintk(str, 100, "The result is %d", 0);
+    snprintk(str, 100, "The result is %d", 0);
     printk("SNPRINTK: %s\n", str);
     if (strcmp(str, "The result is 0") != 0) {
         printk("SNPRINTK: [KO]\n");
@@ -127,7 +127,7 @@ static int __test_snprintk(void) {
 
     // Test 11 : Flottant avec 6 décimales
     memset(str, 0, 100);
-    ret = snprintk(str, 100, "The value of pi is %.6f", 3.14159);
+    snprintk(str, 100, "The value of pi is %.6f", 3.14159);
     printk("SNPRINTK: %s\n", str);
     if (strcmp(str, "The value of pi is 3.141590") != 0) {
         printk("SNPRINTK: [KO]\n");
@@ -136,7 +136,7 @@ static int __test_snprintk(void) {
 
     // Test 12 : Grand nombre
     memset(str, 0, 100);
-    ret = snprintk(str, 100, "The result is %d", 999999);
+    snprintk(str, 100, "The result is %d", 999999);
     printk("SNPRINTK: %s\n", str);
     if (strcmp(str, "The result is 999999") != 0) {
         printk("SNPRINTK: [KO]\n");

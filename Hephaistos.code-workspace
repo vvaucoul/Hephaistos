@@ -28,7 +28,9 @@
 			"array.h": "c",
 			"ctype.h": "c",
 			"limits.h": "c",
-			"stdint.h": "c"
+			"stdint.h": "c",
+			"bst.h": "c",
+			"rbtree.h": "c"
 		}
 	}
 }

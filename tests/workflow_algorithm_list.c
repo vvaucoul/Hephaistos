@@ -6,12 +6,14 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:20:25 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 10:30:15 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 10:59:10 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
-#include <hephaistos.h>
+
+#include <algorithms/list.h>
+#include <assert.h>
 
 static void sum_data(void *data) {
     int *num = (int *)data;

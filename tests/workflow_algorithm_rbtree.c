@@ -6,12 +6,14 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:20:42 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 11:54:33 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:00:09 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
-#include <hephaistos.h>
+
+#include <algorithms/rbtree.h>
+#include <assert.h>
 
 static int compare_int(const void *a, const void *b) {
     int int_a = *(const int *)a;

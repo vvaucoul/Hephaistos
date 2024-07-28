@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hephaistos.h                                       :+:      :+:    :+:   */
+/*   vsprintk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/19 23:54:41 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 11:06:24 by vvaucoul         ###   ########.fr       */
+/*   Created: 2024/07/28 10:02:13 by vvaucoul          #+#    #+#             */
+/*   Updated: 2024/07/28 10:11:04 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _HEPHAISTOS_H
-#define _HEPHAISTOS_H
+#ifndef VSPRINTK_H
+#define VSPRINTK_H
 
-#include "./workflows/workflows.h"
+#include <stdarg.h>
 
-#define _HEPHAISTOS_VERSION "0.2.1"
-#define _HEPHAISTOS_AUTHOR "vvaucoul"
-#define _HEPHAISTOS_AUTHOR_MAIL "vvaucoul@student.42.fr"
-#define _HEPHAISTOS_LICENSE "MIT"
+int vsprintk(char *str, const char *format, va_list args);
 
-#endif /* !_HEPHAISTOS_H */
+#endif /* !VSPRINTK_H */

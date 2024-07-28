@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:13:31 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 20:02:36 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 10:13:02 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@
 #include <stdio/scank.h>
 #include <stdio/snprintk.h>
 #include <stdio/sscank.h>
+#include <stdio/vsprintk.h>
 
 /* Basic print functions */
 extern void putchar(char c);
@@ -100,19 +101,19 @@ extern void putptr_len(void *ptr, int len);
 extern void putf_len(const float value, int len);
 
 static inline void putnbr_hex(int n) {
-    putnbr_base(n, 16);
+	putnbr_base(n, 16);
 }
 
 static inline void putnbr_bin(int n) {
-    putnbr_base(n, 2);
+	putnbr_base(n, 2);
 }
 
 static inline void putunbr_hex(uint32_t n) {
-    putunbr_base(n, 16);
+	putunbr_base(n, 16);
 }
 
 static inline void putunbr_bin(uint32_t n) {
-    putunbr_base(n, 2);
+	putunbr_base(n, 2);
 }
 
 #endif /* !_STDIO_H */

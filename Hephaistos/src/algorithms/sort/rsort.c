@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 15:33:51 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:02:42 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:18:44 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static int get_max(void *array, uint32_t size, uint32_t elem_size, int (*cmp)(const void *, const void *)) {
     int max = cmp(array, array + (size - 1) * elem_size);
 
-    for (size_t i = 1; i < size; ++i) {
+    for (uint32_t i = 1; i < size; ++i) {
         if (cmp(array + i * elem_size, array + (i - 1) * elem_size) > max) {
             max = cmp(array + i * elem_size, array + (i - 1) * elem_size);
         }
@@ -31,13 +31,13 @@ void counting_sort(void *array, uint32_t size, uint32_t elem_size, int (*cmp)(co
     char output[size * elem_size];
 
     memset(count, 0, sizeof(count));
-    for (size_t i = 0; i < size; ++i) {
+    for (uint32_t i = 0; i < size; ++i) {
         ++count[cmp(array + i * elem_size, array + (i - 1) * elem_size)];
     }
-    for (size_t i = 1; i <= max; ++i) {
+    for (int i = 1; i <= max; ++i) {
         count[i] += count[i - 1];
     }
-    for (size_t i = size - 1; i >= 0; --i) {
+    for (uint32_t i = size - 1; i >= 0; --i) {
         memcpy(output + (count[cmp(array + i * elem_size, array + (i - 1) * elem_size)] - 1) * elem_size, array + i * elem_size, elem_size);
         --count[cmp(array + i * elem_size, array + (i - 1) * elem_size)];
     }
