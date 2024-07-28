@@ -6,14 +6,14 @@
 #    By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/28 10:37:32 by vvaucoul          #+#    #+#              #
-#    Updated: 2024/07/28 10:54:54 by vvaucoul         ###   ########.fr        #
+#    Updated: 2024/07/28 11:53:22 by vvaucoul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #!/bin/bash
 
 # Check if __TEST_HEPHAISTOS__ is set to 1 in "./workflows/workflows.h"
-FILE="./workflows/workflows.h"
+FILE="./workflows/hephaistos_workflows.h"
 
 # Check if the file exists
 if [ ! -f "$FILE" ]; then

@@ -3,8 +3,6 @@ bits 32
 global __nbrlen
 __nbrlen:
 
-
-
     push ebp
     mov ebp, esp
     sub esp, 4
@@ -14,57 +12,41 @@ __nbrlen:
     xor eax, eax
     xor ecx, ecx
 
-    mov esi, [ebp + 8]
+    mov esi, [ebp + 8]    ; Retrieve the argument (the number)
 
     cmp esi, 0
-    je _case_zero
-    jl _mul
-    jmp _loop
-
-_mul:
-    push eax
-    push ecx
-
-    mov eax, -1
-    mov ecx, 0
-    mul edx
-
-    mov esi, eax
-
-    pop ecx
-    pop eax
-    jmp _loop
-
-_inc:
-    push eax
-    push ecx
-    
-    mov eax, esi
-    mov edx, 0
-    mov ecx, 10
-    div ecx
-    mov esi, eax
-
-    pop ecx
-    pop eax
-
-    inc ecx
+    je _case_zero         ; If the number is zero, jump to _case_zero
+    jl _negate            ; If the number is negative, jump to _negate
 
 _loop:
-    cmp esi, 10
-    jge _inc
+    ; Loop to count the digits
+    inc ecx               ; Increment the digit counter
+    mov eax, esi
+    cdq                   ; Sign-extend EAX into EDX
+    mov ecx, 10
+    idiv ecx              ; Divide EAX by 10
+    mov esi, eax          ; Place the quotient in ESI
+    cmp esi, 0            ; If the quotient is zero, exit the loop
+    jne _loop
+
     jmp _end
 
+_negate:
+    ; If the number is negative, convert it to positive and count the digits
+    neg esi               ; Convert to positive
+    jmp _loop
+
 _case_zero:
-    pop esi
-    mov esp, ebp
-    pop ebp
+    ; Handling the case where the number is zero
     mov eax, 1
-    ret
+    jmp _cleanup
 
 _end:
+    ; Put the digit counter in EAX
     mov eax, ecx
-    inc eax
+
+_cleanup:
+    ; Clean up the stack and return
     pop esi
     mov esp, ebp
     pop ebp

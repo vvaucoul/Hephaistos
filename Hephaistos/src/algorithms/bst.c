@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 01:07:04 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:04:26 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 13:30:27 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,79 @@ void bst_insert(BST *bst, void *data, int (*cmp)(const void *, const void *)) {
         } else {
             parent->right = node;
         }
+    }
+}
+
+/**
+ * Removes a node with the specified data from the binary search tree.
+ *
+ * @param bst The binary search tree.
+ * @param data The data to be removed.
+ * @param cmp The comparison function used to compare data.
+ */
+void bst_remove(BST *bst, void *data, int (*cmp)(const void *, const void *)) {
+    BSTNode *current = bst->root;
+    BSTNode *parent = NULL;
+
+    while (current != NULL) {
+        int comparison = cmp(data, current->data);
+        if (comparison == 0) {
+            break;
+        } else {
+            parent = current;
+            if (comparison < 0) {
+                current = current->left;
+            } else {
+                current = current->right;
+            }
+        }
+    }
+
+    if (current == NULL) {
+        return;
+    }
+
+    if (current->left == NULL && current->right == NULL) {
+        if (parent == NULL) {
+            bst->root = NULL;
+        } else if (parent->left == current) {
+            parent->left = NULL;
+        } else {
+            parent->right = NULL;
+        }
+        kfree(current);
+    } else if (current->left == NULL) {
+        if (parent == NULL) {
+            bst->root = current->right;
+        } else if (parent->left == current) {
+            parent->left = current->right;
+        } else {
+            parent->right = current->right;
+        }
+        kfree(current);
+    } else if (current->right == NULL) {
+        if (parent == NULL) {
+            bst->root = current->left;
+        } else if (parent->left == current) {
+            parent->left = current->left;
+        } else {
+            parent->right = current->left;
+        }
+        kfree(current);
+    } else {
+        BSTNode *successor = current->right;
+        parent = NULL;
+        while (successor->left != NULL) {
+            parent = successor;
+            successor = successor->left;
+        }
+        current->data = successor->data;
+        if (parent == NULL) {
+            current->right = successor->right;
+        } else {
+            parent->left = successor->right;
+        }
+        kfree(successor);
     }
 }
 

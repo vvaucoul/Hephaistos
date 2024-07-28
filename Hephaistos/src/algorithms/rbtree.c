@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:51:25 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:04:51 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 13:38:27 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@
  * @return A pointer to the newly created node.
  */
 static RBNode *rb_create_node(void *data) {
-    RBNode *node = (RBNode *)kmalloc(sizeof(RBNode));
-    if (!node)
-        return NULL;
+	RBNode *node = (RBNode *)kmalloc(sizeof(RBNode));
+	if (!node)
+		return NULL;
 
-    node->data = data;
-    node->color = RB_RED;
-    node->left = NULL;
-    node->right = NULL;
-    node->parent = NULL;
+	node->data = data;
+	node->color = RB_RED;
+	node->left = NULL;
+	node->right = NULL;
+	node->parent = NULL;
 
-    return node;
+	return node;
 }
 
 /**
@@ -39,12 +39,12 @@ static RBNode *rb_create_node(void *data) {
  * @return A pointer to the newly created RBTree.
  */
 RBTree *rb_tree_create(void) {
-    RBTree *tree = (RBTree *)kmalloc(sizeof(RBTree));
-    if (!tree)
-        return NULL;
+	RBTree *tree = (RBTree *)kmalloc(sizeof(RBTree));
+	if (!tree)
+		return NULL;
 
-    tree->root = NULL;
-    return tree;
+	tree->root = NULL;
+	return tree;
 }
 
 /**
@@ -54,20 +54,20 @@ RBTree *rb_tree_create(void) {
  * @param x The node to rotate.
  */
 static void rb_rotate_left(RBTree *tree, RBNode *x) {
-    RBNode *y = x->right;
-    x->right = y->left;
-    if (y->left)
-        y->left->parent = x;
-    y->parent = x->parent;
-    if (!x->parent) {
-        tree->root = y;
-    } else if (x == x->parent->left) {
-        x->parent->left = y;
-    } else {
-        x->parent->right = y;
-    }
-    y->left = x;
-    x->parent = y;
+	RBNode *y = x->right;
+	x->right = y->left;
+	if (y->left)
+		y->left->parent = x;
+	y->parent = x->parent;
+	if (!x->parent) {
+		tree->root = y;
+	} else if (x == x->parent->left) {
+		x->parent->left = y;
+	} else {
+		x->parent->right = y;
+	}
+	y->left = x;
+	x->parent = y;
 }
 
 /**
@@ -77,20 +77,20 @@ static void rb_rotate_left(RBTree *tree, RBNode *x) {
  * @param x The node to rotate.
  */
 static void rb_rotate_right(RBTree *tree, RBNode *x) {
-    RBNode *y = x->left;
-    x->left = y->right;
-    if (y->right)
-        y->right->parent = x;
-    y->parent = x->parent;
-    if (!x->parent) {
-        tree->root = y;
-    } else if (x == x->parent->right) {
-        x->parent->right = y;
-    } else {
-        x->parent->left = y;
-    }
-    y->right = x;
-    x->parent = y;
+	RBNode *y = x->left;
+	x->left = y->right;
+	if (y->right)
+		y->right->parent = x;
+	y->parent = x->parent;
+	if (!x->parent) {
+		tree->root = y;
+	} else if (x == x->parent->right) {
+		x->parent->right = y;
+	} else {
+		x->parent->left = y;
+	}
+	y->right = x;
+	x->parent = y;
 }
 
 /**
@@ -100,42 +100,42 @@ static void rb_rotate_right(RBTree *tree, RBNode *x) {
  * @param z The newly inserted node.
  */
 static void rb_insert_fixup(RBTree *tree, RBNode *z) {
-    while (z->parent && z->parent->color == RB_RED) {
-        if (z->parent == z->parent->parent->left) {
-            RBNode *y = z->parent->parent->right;
-            if (y && y->color == RB_RED) {
-                z->parent->color = RB_BLACK;
-                y->color = RB_BLACK;
-                z->parent->parent->color = RB_RED;
-                z = z->parent->parent;
-            } else {
-                if (z == z->parent->right) {
-                    z = z->parent;
-                    rb_rotate_left(tree, z);
-                }
-                z->parent->color = RB_BLACK;
-                z->parent->parent->color = RB_RED;
-                rb_rotate_right(tree, z->parent->parent);
-            }
-        } else {
-            RBNode *y = z->parent->parent->left;
-            if (y && y->color == RB_RED) {
-                z->parent->color = RB_BLACK;
-                y->color = RB_BLACK;
-                z->parent->parent->color = RB_RED;
-                z = z->parent->parent;
-            } else {
-                if (z == z->parent->left) {
-                    z = z->parent;
-                    rb_rotate_right(tree, z);
-                }
-                z->parent->color = RB_BLACK;
-                z->parent->parent->color = RB_RED;
-                rb_rotate_left(tree, z->parent->parent);
-            }
-        }
-    }
-    tree->root->color = RB_BLACK;
+	while (z->parent && z->parent->color == RB_RED) {
+		if (z->parent == z->parent->parent->left) {
+			RBNode *y = z->parent->parent->right;
+			if (y && y->color == RB_RED) {
+				z->parent->color = RB_BLACK;
+				y->color = RB_BLACK;
+				z->parent->parent->color = RB_RED;
+				z = z->parent->parent;
+			} else {
+				if (z == z->parent->right) {
+					z = z->parent;
+					rb_rotate_left(tree, z);
+				}
+				z->parent->color = RB_BLACK;
+				z->parent->parent->color = RB_RED;
+				rb_rotate_right(tree, z->parent->parent);
+			}
+		} else {
+			RBNode *y = z->parent->parent->left;
+			if (y && y->color == RB_RED) {
+				z->parent->color = RB_BLACK;
+				y->color = RB_BLACK;
+				z->parent->parent->color = RB_RED;
+				z = z->parent->parent;
+			} else {
+				if (z == z->parent->left) {
+					z = z->parent;
+					rb_rotate_right(tree, z);
+				}
+				z->parent->color = RB_BLACK;
+				z->parent->parent->color = RB_RED;
+				rb_rotate_left(tree, z->parent->parent);
+			}
+		}
+	}
+	tree->root->color = RB_BLACK;
 }
 
 /**
@@ -149,32 +149,36 @@ static void rb_insert_fixup(RBTree *tree, RBNode *z) {
  *             and zero if the arguments are equal.
  */
 void rb_tree_insert(RBTree *tree, void *data, int (*cmp)(const void *, const void *)) {
-    RBNode *z = rb_create_node(data);
-    if (!z)
-        return;
+	RBNode *z = rb_create_node(data);
+	if (!z)
+		return;
 
-    RBNode *y = NULL;
-    RBNode *x = tree->root;
+	RBNode *y = NULL;
+	RBNode *x = tree->root;
 
-    while (x != NULL) {
-        y = x;
-        if (cmp(z->data, x->data) < 0) {
-            x = x->left;
-        } else {
-            x = x->right;
-        }
-    }
+	while (x != NULL) {
+		y = x;
+		int cmp_result = cmp(z->data, x->data);
+		if (cmp_result == 0) {
+			kfree(z); // Libérer le nœud créé car la valeur existe déjà
+			return;
+		} else if (cmp_result < 0) {
+			x = x->left;
+		} else {
+			x = x->right;
+		}
+	}
 
-    z->parent = y;
-    if (y == NULL) {
-        tree->root = z;
-    } else if (cmp(z->data, y->data) < 0) {
-        y->left = z;
-    } else {
-        y->right = z;
-    }
+	z->parent = y;
+	if (y == NULL) {
+		tree->root = z;
+	} else if (cmp(z->data, y->data) < 0) {
+		y->left = z;
+	} else {
+		y->right = z;
+	}
 
-    rb_insert_fixup(tree, z);
+	rb_insert_fixup(tree, z);
 }
 
 /**
@@ -187,10 +191,10 @@ void rb_tree_insert(RBTree *tree, void *data, int (*cmp)(const void *, const voi
  * @return The minimum node in the tree.
  */
 static RBNode *rb_minimum(RBNode *node) {
-    while (node->left != NULL) {
-        node = node->left;
-    }
-    return node;
+	while (node->left != NULL) {
+		node = node->left;
+	}
+	return node;
 }
 
 /**
@@ -201,16 +205,16 @@ static RBNode *rb_minimum(RBNode *node) {
  * @param v The node to replace `u`.
  */
 static void rb_transplant(RBTree *tree, RBNode *u, RBNode *v) {
-    if (u->parent == NULL) {
-        tree->root = v;
-    } else if (u == u->parent->left) {
-        u->parent->left = v;
-    } else {
-        u->parent->right = v;
-    }
-    if (v != NULL) {
-        v->parent = u->parent;
-    }
+	if (u->parent == NULL) {
+		tree->root = v;
+	} else if (u == u->parent->left) {
+		u->parent->left = v;
+	} else {
+		u->parent->right = v;
+	}
+	if (v != NULL) {
+		v->parent = u->parent;
+	}
 }
 
 /**
@@ -220,7 +224,7 @@ static void rb_transplant(RBTree *tree, RBNode *u, RBNode *v) {
  * @param x The node to fix up.
  */
 static void rb_delete_fixup(RBTree *tree, RBNode *x) {
-    while (x != tree->root && x->color == RB_BLACK) {
+    while (x != tree->root && (x == NULL || x->color == RB_BLACK)) {
         if (x == x->parent->left) {
             RBNode *w = x->parent->right;
             if (w->color == RB_RED) {
@@ -299,7 +303,7 @@ void rb_tree_delete(RBTree *tree, void *data, int (*cmp)(const void *, const voi
         return;
 
     RBNode *y = z;
-    RBNode *x;
+    RBNode *x = NULL;
     RBColor y_original_color = y->color;
 
     if (z->left == NULL) {
@@ -329,7 +333,7 @@ void rb_tree_delete(RBTree *tree, void *data, int (*cmp)(const void *, const voi
 
     kfree(z);
 
-    if (y_original_color == RB_BLACK) {
+    if (y_original_color == RB_BLACK && x != NULL) {
         rb_delete_fixup(tree, x);
     }
 }
@@ -343,18 +347,18 @@ void rb_tree_delete(RBTree *tree, void *data, int (*cmp)(const void *, const voi
  * @return     A pointer to the node containing the data, or NULL if not found.
  */
 RBNode *rb_tree_search(RBTree *tree, void *data, int (*cmp)(const void *, const void *)) {
-    RBNode *current = tree->root;
-    while (current != NULL) {
-        int result = cmp(data, current->data);
-        if (result == 0) {
-            return current;
-        } else if (result < 0) {
-            current = current->left;
-        } else {
-            current = current->right;
-        }
-    }
-    return NULL;
+	RBNode *current = tree->root;
+	while (current != NULL) {
+		int result = cmp(data, current->data);
+		if (result == 0) {
+			return current;
+		} else if (result < 0) {
+			current = current->left;
+		} else {
+			current = current->right;
+		}
+	}
+	return NULL;
 }
 
 /**
@@ -363,11 +367,11 @@ RBNode *rb_tree_search(RBTree *tree, void *data, int (*cmp)(const void *, const 
  * @param node The node to be freed.
  */
 static void rb_free_node(RBNode *node) {
-    if (node) {
-        rb_free_node(node->left);
-        rb_free_node(node->right);
-        kfree(node);
-    }
+	if (node) {
+		rb_free_node(node->left);
+		rb_free_node(node->right);
+		kfree(node);
+	}
 }
 
 /**
@@ -382,8 +386,8 @@ static void rb_free_node(RBNode *node) {
  * @param tree The red-black tree to be destroyed.
  */
 void rb_tree_destroy(RBTree *tree) {
-    if (tree) {
-        rb_free_node(tree->root);
-        kfree(tree);
-    }
+	if (tree) {
+		rb_free_node(tree->root);
+		kfree(tree);
+	}
 }

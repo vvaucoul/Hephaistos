@@ -6,14 +6,14 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:55:48 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 11:30:35 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 12:42:56 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 
 #include <charon.h>
-#include <stddef.h>
+#include <ctype.h>
 #include <macros.h>
 
 /**
@@ -144,14 +144,19 @@ uint32_t unbrlen_base(const uint32_t nbr, const uint8_t base) {
  * @return An integer less than, equal to, or greater than zero if `s1` is found, respectively, to be less than, to match, or be greater than `s2`.
  */
 int32_t strcmp(const char *s1, const char *s2) {
-	uint32_t i = 0;
+	if (s1 == NULL || s2 == NULL) {
+		return -1;
+	}
+
+	size_t i = 0;
 	while (s1[i] && s2[i]) {
 		if (s1[i] != s2[i]) {
-			return (s1[i] - s2[i]);
+			return (unsigned char)s1[i] - (unsigned char)s2[i];
 		}
 		i++;
 	}
-	return (s1[i] - s2[i]);
+
+	return (unsigned char)s1[i] - (unsigned char)s2[i];
 }
 
 /**
@@ -165,15 +170,26 @@ int32_t strcmp(const char *s1, const char *s2) {
  * @return An integer less than, equal to, or greater than zero if s1 is found, respectively, to be less than, to match, or be greater than s2.
  */
 int32_t strncmp(const char *s1, const char *s2, uint32_t n) {
-	uint32_t i = 0;
+	if (s1 == NULL || s2 == NULL || n == 0) {
+		return 0;
+	}
 
-	while (s1[i] && s2[i] && i < n) {
+	size_t i = 0;
+	while (i < n) {
+		if (s1[i] == '\0' || s2[i] == '\0') {
+			break;
+		}
 		if (s1[i] != s2[i]) {
-			return (s1[i] - s2[i]);
+			return (unsigned char)s1[i] - (unsigned char)s2[i];
 		}
 		i++;
 	}
-	return (s1[i] - s2[i]);
+
+	if (i < n) {
+		return (unsigned char)s1[i] - (unsigned char)s2[i];
+	}
+
+	return 0;
 }
 #endif
 
@@ -381,14 +397,23 @@ char *strrchr(const char *s, int c) {
 		return (NULL);
 	}
 
-	uint32_t i = strlen(s);
-	while (i > 0) {
-		if (s[i] == c) {
-			return ((char *)&s[i]);
+	// Pointer to the last occurrence of c
+	char *last_occurrence = NULL;
+
+	// Traverse the string until the null character
+	while (*s != '\0') {
+		if (*s == c) {
+			last_occurrence = (char *)s;
 		}
-		i--;
+		s++;
 	}
-	return (NULL);
+
+	// Check if the null character is c
+	if (*s == c) {
+		return (char *)s;
+	}
+
+	return last_occurrence;
 }
 
 /**
@@ -450,18 +475,34 @@ char *strndup(const char *s, uint32_t n) {
  */
 char *strtrim(char const *s) {
 	if (s == NULL) {
-		return (NULL);
+		return NULL;
 	}
 
-	char *new_str = kmalloc(sizeof(char) * strlen(s) + 1);
+	// Find the start of the trimmed string
+	while (isspace((unsigned char)*s)) {
+		s++;
+	}
+
+	// Find the end of the trimmed string
+	const char *end = s + strlen(s) - 1;
+	while (end > s && isspace((unsigned char)*end)) {
+		end--;
+	}
+
+	// Calculate the length of the trimmed string
+	size_t len = end - s + 1;
+
+	// Allocate memory for the new trimmed string
+	char *new_str = kmalloc(len + 1);
 	if (new_str == NULL) {
-		return (NULL);
+		return NULL;
 	}
 
-	bzero(new_str, strlen(s) + 1);
+	// Copy the trimmed string to the new memory
+	strncpy(new_str, s, len);
+	new_str[len] = '\0';
 
-	strclr(new_str, (char *)s);
-	return (new_str);
+	return new_str;
 }
 
 /**
@@ -478,18 +519,28 @@ char *strtrim(char const *s) {
  */
 char *strsub(char const *s, unsigned int start, uint32_t len) {
 	if (s == NULL) {
-		return (NULL);
+		return NULL;
 	}
 
-	char *new_str = kmalloc(sizeof(char) * len + 1);
+	uint32_t str_len = strlen(s);
+	if (start >= str_len) {
+		return NULL;
+	}
+
+	// Adjust length if it goes beyond the end of the string
+	if (start + len > str_len) {
+		len = str_len - start;
+	}
+
+	char *new_str = kmalloc(sizeof(char) * (len + 1));
 	if (new_str == NULL) {
-		return (NULL);
+		return NULL;
 	}
 
-	bzero(new_str, len + 1);
+	strncpy(new_str, s + start, len);
+	new_str[len] = '\0';
 
-	strncpy(new_str, &s[start], len);
-	return (new_str);
+	return new_str;
 }
 
 /**
@@ -546,23 +597,22 @@ char **strsplit(char const *s, char c) {
 }
 
 static int strspn(const char *s, const char *accept) {
-	if (s == NULL || accept == NULL)
-		return (0);
-
-	uint32_t i = 0;
-	uint32_t j = 0;
-	while (s[i]) {
-		j = 0;
-		while (accept[j]) {
-			if (s[i] == accept[j])
-				break;
-			j++;
-		}
-		if (accept[j] == '\0')
-			return (i);
-		i++;
+	if (s == NULL || accept == NULL) {
+		return 0;
 	}
-	return (i);
+
+	const char *p = s;
+	while (*p) {
+		const char *a = accept;
+		while (*a && *p != *a) {
+			a++;
+		}
+		if (*a == '\0') {
+			break;
+		}
+		p++;
+	}
+	return p - s;
 }
 
 /**
@@ -577,22 +627,20 @@ static int strspn(const char *s, const char *accept) {
  */
 char *strpbrk(const char *s, const char *accept) {
 	if (s == NULL || accept == NULL) {
-		return (NULL);
+		return NULL;
 	}
 
-	uint32_t i = 0;
-	uint32_t j = 0;
-	while (s[i]) {
-		j = 0;
-		while (accept[j]) {
-			if (s[i] == accept[j]) {
-				return ((char *)&s[i]);
+	while (*s) {
+		const char *a = accept;
+		while (*a) {
+			if (*s == *a) {
+				return (char *)s;
 			}
-			j++;
+			a++;
 		}
-		i++;
+		s++;
 	}
-	return (NULL);
+	return NULL;
 }
 
 /**
@@ -623,11 +671,18 @@ char *strtok(char *str, const char *delim) {
 		str = last;
 	}
 
-	str += strspn(str, delim);
-	if (*str == '\0') {
-		return (NULL);
+	if (str == NULL) {
+		return NULL;
 	}
 
+	// Skip leading delimiters
+	str += strspn(str, delim);
+	if (*str == '\0') {
+		last = NULL;
+		return NULL;
+	}
+
+	// Find the end of the token
 	token = str;
 	str = strpbrk(token, delim);
 	if (str == NULL) {
@@ -635,8 +690,12 @@ char *strtok(char *str, const char *delim) {
 	} else {
 		*str = '\0';
 		last = str + 1;
+
+		// Skip consecutive delimiters
+		last += strspn(last, delim);
 	}
-	return (token);
+
+	return token;
 }
 
 /**
@@ -735,12 +794,12 @@ char *strrevp(char *str, uint32_t start, uint32_t end) {
  * @return Pointer to the memory area ptr.
  */
 void *memset(void *ptr, int value, uint32_t length) {
-    uint32_t i = 0;
-    while (i < length) {
-        ((uint8_t *)ptr)[i] = (uint8_t)value;
-        ++i;
-    }
-    return ptr;
+	uint32_t i = 0;
+	while (i < length) {
+		((uint8_t *)ptr)[i] = (uint8_t)value;
+		++i;
+	}
+	return ptr;
 }
 
 /**
@@ -753,14 +812,14 @@ void *memset(void *ptr, int value, uint32_t length) {
  * @return Pointer to the next character in dest after c, or NULL if c was not found in the first length characters of src.
  */
 void *memccpy(void *dest, const void *src, int c, uint32_t length) {
-    uint32_t i = 0;
-    while (i < length) {
-        ((uint8_t *)dest)[i] = ((uint8_t *)src)[i];
-        if (((uint8_t *)src)[i] == (uint8_t)c)
-            return ((uint8_t *)dest + i + 1);
-        ++i;
-    }
-    return NULL;
+	uint32_t i = 0;
+	while (i < length) {
+		((uint8_t *)dest)[i] = ((uint8_t *)src)[i];
+		if (((uint8_t *)src)[i] == (uint8_t)c)
+			return ((uint8_t *)dest + i + 1);
+		++i;
+	}
+	return NULL;
 }
 
 /**
@@ -772,12 +831,12 @@ void *memccpy(void *dest, const void *src, int c, uint32_t length) {
  * @return Pointer to the destination array dest.
  */
 void *memcpy(void *dest, const void *src, uint32_t length) {
-    uint32_t i = 0;
-    while (i < length) {
-        ((uint8_t *)dest)[i] = ((uint8_t *)src)[i];
-        ++i;
-    }
-    return dest;
+	uint32_t i = 0;
+	while (i < length) {
+		((uint8_t *)dest)[i] = ((uint8_t *)src)[i];
+		++i;
+	}
+	return dest;
 }
 
 /**
@@ -790,10 +849,10 @@ void *memcpy(void *dest, const void *src, uint32_t length) {
  * @return Pointer to the destination array dest, or NULL if dest_size is smaller than length.
  */
 void *memscpy(void *dest, uint32_t dest_size, const void *src, uint32_t length) {
-    if (dest_size < length) {
-        return NULL;
-    }
-    return memcpy(dest, src, length);
+	if (dest_size < length) {
+		return NULL;
+	}
+	return memcpy(dest, src, length);
 }
 
 /**
@@ -805,16 +864,16 @@ void *memscpy(void *dest, uint32_t dest_size, const void *src, uint32_t length) 
  * @return Pointer to the destination array dest.
  */
 void *memmove(void *dest, const void *src, uint32_t length) {
-    if (src < dest) {
-        for (uint32_t i = length; i != 0; --i) {
-            ((uint8_t *)dest)[i - 1] = ((uint8_t *)src)[i - 1];
-        }
-    } else {
-        for (uint32_t i = 0; i < length; ++i) {
-            ((uint8_t *)dest)[i] = ((uint8_t *)src)[i];
-        }
-    }
-    return dest;
+	if (src < dest) {
+		for (uint32_t i = length; i != 0; --i) {
+			((uint8_t *)dest)[i - 1] = ((uint8_t *)src)[i - 1];
+		}
+	} else {
+		for (uint32_t i = 0; i < length; ++i) {
+			((uint8_t *)dest)[i] = ((uint8_t *)src)[i];
+		}
+	}
+	return dest;
 }
 
 /**
@@ -826,11 +885,11 @@ void *memmove(void *dest, const void *src, uint32_t length) {
  * @return Pointer to the first occurrence of the character c in the memory area s, or NULL if the character is not found.
  */
 void *memchr(const void *s, int c, uint32_t n) {
-    for (uint32_t i = 0; i < n; ++i) {
-        if (((uint8_t *)s)[i] == (uint8_t)c)
-            return (uint8_t *)s + i;
-    }
-    return NULL;
+	for (uint32_t i = 0; i < n; ++i) {
+		if (((uint8_t *)s)[i] == (uint8_t)c)
+			return (uint8_t *)s + i;
+	}
+	return NULL;
 }
 
 /**
@@ -842,11 +901,11 @@ void *memchr(const void *s, int c, uint32_t n) {
  * @return An integer less than, equal to, or greater than zero if the first n bytes of s1 is found to be less than, to match, or be greater than the first n bytes of s2.
  */
 int memcmp(const void *s1, const void *s2, uint32_t n) {
-    for (uint32_t i = 0; i < n; ++i) {
-        if (((uint8_t *)s1)[i] != ((uint8_t *)s2)[i])
-            return ((uint8_t *)s1)[i] - ((uint8_t *)s2)[i];
-    }
-    return 0;
+	for (uint32_t i = 0; i < n; ++i) {
+		if (((uint8_t *)s1)[i] != ((uint8_t *)s2)[i])
+			return ((uint8_t *)s1)[i] - ((uint8_t *)s2)[i];
+	}
+	return 0;
 }
 
 /**
@@ -859,10 +918,10 @@ int memcmp(const void *s1, const void *s2, uint32_t n) {
  * @return Pointer to the joined memory area.
  */
 void *memjoin(void *s1, const void *s2, uint32_t n1, uint32_t n2) {
-    for (uint32_t i = 0; i < n2; ++i) {
-        ((uint8_t *)s1)[n1 + i] = ((uint8_t *)s2)[i];
-    }
-    return s1;
+	for (uint32_t i = 0; i < n2; ++i) {
+		((uint8_t *)s1)[n1 + i] = ((uint8_t *)s2)[i];
+	}
+	return s1;
 }
 
 /**
@@ -873,7 +932,7 @@ void *memjoin(void *s1, const void *s2, uint32_t n1, uint32_t n2) {
  * @return Pointer to the memory area ptr.
  */
 void *bzero(void *ptr, uint32_t len) {
-    return memset(ptr, 0, len);
+	return memset(ptr, 0, len);
 }
 
 // ! ||--------------------------------------------------------------------------------||
@@ -901,17 +960,17 @@ void *bzero(void *ptr, uint32_t len) {
  *         - `ENOMEM`: Insufficient memory to perform the operation.
  */
 errno_t memset_s(void *ptr, rsize_t smax, int value, rsize_t length) {
-    if (ptr == NULL) {
-        return EINVAL;
-    }
-    if (smax < length) {
-        return ERANGE;
-    }
-    volatile uint8_t *p = ptr;
-    while (length--) {
-        *p++ = value;
-    }
-    return 0;
+	if (ptr == NULL) {
+		return EINVAL;
+	}
+	if (smax < length) {
+		return ERANGE;
+	}
+	volatile uint8_t *p = ptr;
+	while (length--) {
+		*p++ = value;
+	}
+	return 0;
 }
 
 /**
@@ -928,26 +987,26 @@ errno_t memset_s(void *ptr, rsize_t smax, int value, rsize_t length) {
  * @return If successful, zero is returned; otherwise, an error code is returned.
  */
 errno_t memmove_s(void *dest, rsize_t destmax, const void *src, rsize_t length) {
-    if (dest == NULL || src == NULL) {
-        return EINVAL;
-    }
-    if (destmax < length) {
-        return ERANGE;
-    }
-    volatile uint8_t *d = dest;
-    const volatile uint8_t *s = src;
-    if (d < s) {
-        while (length--) {
-            *d++ = *s++;
-        }
-    } else {
-        d += length;
-        s += length;
-        while (length--) {
-            *--d = *--s;
-        }
-    }
-    return 0;
+	if (dest == NULL || src == NULL) {
+		return EINVAL;
+	}
+	if (destmax < length) {
+		return ERANGE;
+	}
+	volatile uint8_t *d = dest;
+	const volatile uint8_t *s = src;
+	if (d < s) {
+		while (length--) {
+			*d++ = *s++;
+		}
+	} else {
+		d += length;
+		s += length;
+		while (length--) {
+			*--d = *--s;
+		}
+	}
+	return 0;
 }
 
 /**
@@ -961,22 +1020,22 @@ errno_t memmove_s(void *dest, rsize_t destmax, const void *src, rsize_t length) 
  * @param destmax Maximum number of bytes that can be written to the destination buffer.
  * @param src Pointer to the source of data to be copied.
  * @param length Number of bytes to copy from the source buffer to the destination buffer.
- * 
+ *
  * @return If successful, zero is returned. Otherwise, an error code is returned.
  */
 errno_t memcpy_s(void *dest, rsize_t destmax, const void *src, rsize_t length) {
-    if (dest == NULL || src == NULL) {
-        return EINVAL;
-    }
-    if (destmax < length) {
-        return ERANGE;
-    }
-    volatile uint8_t *d = dest;
-    const volatile uint8_t *s = src;
-    while (length--) {
-        *d++ = *s++;
-    }
-    return 0;
+	if (dest == NULL || src == NULL) {
+		return EINVAL;
+	}
+	if (destmax < length) {
+		return ERANGE;
+	}
+	volatile uint8_t *d = dest;
+	const volatile uint8_t *s = src;
+	while (length--) {
+		*d++ = *s++;
+	}
+	return 0;
 }
 
 /**
@@ -990,26 +1049,26 @@ errno_t memcpy_s(void *dest, rsize_t destmax, const void *src, rsize_t length) {
  * @param src Pointer to the source memory area from where the bytes will be copied.
  * @param c The character that, if encountered, will stop the copy operation.
  * @param length Maximum number of bytes to be copied from the source memory area.
- * 
+ *
  * @return If successful, zero is returned. Otherwise, an error code is returned.
  */
 errno_t memccpy_s(void *dest, rsize_t destmax, const void *src, int c, rsize_t length) {
-    if (dest == NULL || src == NULL) {
-        return EINVAL;
-    }
-    if (destmax < length) {
-        return ERANGE;
-    }
-    volatile uint8_t *d = dest;
-    const volatile uint8_t *s = src;
-    while (length--) {
-        *d++ = *s;
-        if (*s == (uint8_t)c) {
-            return 0;
-        }
-        s++;
-    }
-    return 0;
+	if (dest == NULL || src == NULL) {
+		return EINVAL;
+	}
+	if (destmax < length) {
+		return ERANGE;
+	}
+	volatile uint8_t *d = dest;
+	const volatile uint8_t *s = src;
+	while (length--) {
+		*d++ = *s;
+		if (*s == (uint8_t)c) {
+			return 0;
+		}
+		s++;
+	}
+	return 0;
 }
 
 /**
@@ -1023,19 +1082,19 @@ errno_t memccpy_s(void *dest, rsize_t destmax, const void *src, int c, rsize_t l
  * @return      Zero if the character is found, otherwise an error code indicating the failure.
  */
 errno_t memchr_s(const void *s, rsize_t smax, int c, rsize_t *idx) {
-    if (s == NULL || idx == NULL) {
-        return EINVAL;
-    }
-    const volatile uint8_t *p = s;
-    while (smax--) {
-        if (*p == (uint8_t)c) {
-            *idx = p - (const uint8_t *)s;
-            return 0;
-        }
-        p++;
-    }
-    *idx = smax;
-    return 0;
+	if (s == NULL || idx == NULL) {
+		return EINVAL;
+	}
+	const volatile uint8_t *p = s;
+	while (smax--) {
+		if (*p == (uint8_t)c) {
+			*idx = p - (const uint8_t *)s;
+			return 0;
+		}
+		p++;
+	}
+	*idx = smax;
+	return 0;
 }
 
 /**
@@ -1057,21 +1116,21 @@ errno_t memchr_s(const void *s, rsize_t smax, int c, rsize_t *idx) {
  * @return       If successful, returns 0. If an error occurs, returns an error code.
  */
 errno_t memcmp_s(const void *s1, rsize_t s1max, const void *s2, rsize_t s2max, int *diff) {
-    if (s1 == NULL || s2 == NULL || diff == NULL) {
-        return EINVAL;
-    }
-    const volatile uint8_t *p1 = s1;
-    const volatile uint8_t *p2 = s2;
-    while (s1max-- && s2max--) {
-        if (*p1 != *p2) {
-            *diff = *p1 - *p2;
-            return 0;
-        }
-        p1++;
-        p2++;
-    }
-    *diff = s1max - s2max;
-    return 0;
+	if (s1 == NULL || s2 == NULL || diff == NULL) {
+		return EINVAL;
+	}
+	const volatile uint8_t *p1 = s1;
+	const volatile uint8_t *p2 = s2;
+	while (s1max-- && s2max--) {
+		if (*p1 != *p2) {
+			*diff = *p1 - *p2;
+			return 0;
+		}
+		p1++;
+		p2++;
+	}
+	*diff = s1max - s2max;
+	return 0;
 }
 
 /**
@@ -1088,18 +1147,18 @@ errno_t memcmp_s(const void *s1, rsize_t s1max, const void *s2, rsize_t s2max, i
  * @return      If successful, returns zero. If an error occurs, returns an error code defined in errno.h.
  */
 errno_t memrchr_s(const void *s, rsize_t smax, int c, rsize_t *idx) {
-    if (s == NULL || idx == NULL) {
-        return EINVAL;
-    }
-    const volatile uint8_t *p = s;
-    while (smax--) {
-        if (*p == (uint8_t)c) {
-            *idx = p - (const uint8_t *)s;
-        }
-        p++;
-    }
-    *idx = smax;
-    return 0;
+	if (s == NULL || idx == NULL) {
+		return EINVAL;
+	}
+	const volatile uint8_t *p = s;
+	while (smax--) {
+		if (*p == (uint8_t)c) {
+			*idx = p - (const uint8_t *)s;
+		}
+		p++;
+	}
+	*idx = smax;
+	return 0;
 }
 
 /**
@@ -1118,20 +1177,20 @@ errno_t memrchr_s(const void *s, rsize_t smax, int c, rsize_t *idx) {
  *         If 'result' is NULL and 'little' is not found in 'big', the function returns a non-zero error code.
  */
 errno_t memmem_s(const void *big, rsize_t bigmax, const void *little, __unused__ rsize_t littlemax, void **result) {
-    if (big == NULL || little == NULL || result == NULL) {
-        return EINVAL;
-    }
-    const volatile uint8_t *b = big;
-    const volatile uint8_t *l = little;
-    while (bigmax--) {
-        if (*b == *l) {
-            *result = (void *)b;
-            return 0;
-        }
-        b++;
-    }
-    *result = NULL;
-    return 0;
+	if (big == NULL || little == NULL || result == NULL) {
+		return EINVAL;
+	}
+	const volatile uint8_t *b = big;
+	const volatile uint8_t *l = little;
+	while (bigmax--) {
+		if (*b == *l) {
+			*result = (void *)b;
+			return 0;
+		}
+		b++;
+	}
+	*result = NULL;
+	return 0;
 }
 
 /**
@@ -1151,20 +1210,20 @@ errno_t memmem_s(const void *big, rsize_t bigmax, const void *little, __unused__
  * @return If successful, zero is returned. Otherwise, an error code indicating the cause of failure is returned.
  */
 errno_t memmoveup_s(void *dest, rsize_t destmax, const void *src, rsize_t length) {
-    if (dest == NULL || src == NULL) {
-        return EINVAL;
-    }
-    if (destmax < length) {
-        return ERANGE;
-    }
-    volatile uint8_t *d = dest;
-    const volatile uint8_t *s = src;
-    d += length;
-    s += length;
-    while (length--) {
-        *--d = *--s;
-    }
-    return 0;
+	if (dest == NULL || src == NULL) {
+		return EINVAL;
+	}
+	if (destmax < length) {
+		return ERANGE;
+	}
+	volatile uint8_t *d = dest;
+	const volatile uint8_t *s = src;
+	d += length;
+	s += length;
+	while (length--) {
+		*--d = *--s;
+	}
+	return 0;
 }
 
 /**
@@ -1181,18 +1240,18 @@ errno_t memmoveup_s(void *dest, rsize_t destmax, const void *src, rsize_t length
  * @return If successful, returns zero. Otherwise, returns an error code indicating the cause of failure.
  */
 errno_t memmovedown_s(void *dest, rsize_t destmax, const void *src, rsize_t length) {
-    if (dest == NULL || src == NULL) {
-        return EINVAL;
-    }
-    if (destmax < length) {
-        return ERANGE;
-    }
-    volatile uint8_t *d = dest;
-    const volatile uint8_t *s = src;
-    while (length--) {
-        *d++ = *s++;
-    }
-    return 0;
+	if (dest == NULL || src == NULL) {
+		return EINVAL;
+	}
+	if (destmax < length) {
+		return ERANGE;
+	}
+	volatile uint8_t *d = dest;
+	const volatile uint8_t *s = src;
+	while (length--) {
+		*d++ = *s++;
+	}
+	return 0;
 }
 
 /**
@@ -1207,16 +1266,16 @@ errno_t memmovedown_s(void *dest, rsize_t destmax, const void *src, rsize_t leng
  * @return If successful, returns zero; otherwise, returns an error code indicating the cause of failure.
  */
 errno_t memcpy_smax(void *dest, rsize_t destmax, const void *src, rsize_t length) {
-    if (dest == NULL || src == NULL) {
-        return EINVAL;
-    }
-    if (destmax < length) {
-        return ERANGE;
-    }
-    volatile uint8_t *d = dest;
-    const volatile uint8_t *s = src;
-    while (length--) {
-        *d++ = *s++;
-    }
-    return 0;
+	if (dest == NULL || src == NULL) {
+		return EINVAL;
+	}
+	if (destmax < length) {
+		return ERANGE;
+	}
+	volatile uint8_t *d = dest;
+	const volatile uint8_t *s = src;
+	while (length--) {
+		*d++ = *s++;
+	}
+	return 0;
 }

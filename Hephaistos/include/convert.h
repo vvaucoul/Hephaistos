@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:58:53 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:08:19 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 12:54:22 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdint.h>
 
 #define __ITOA_BUFFER_LENGTH__ 12
-#define __ASCII_BASE__ "0123456789ABCDEF"
+#define __ASCII_BASE__ "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 /* Conversion functions using stack-based buffers */
 extern int atoi(const char *str);

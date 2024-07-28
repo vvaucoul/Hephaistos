@@ -30,7 +30,9 @@
 			"limits.h": "c",
 			"stdint.h": "c",
 			"bst.h": "c",
-			"rbtree.h": "c"
+			"rbtree.h": "c",
+			"hephaistos_workflows.h": "c",
+			"algorithm": "c"
 		}
 	}
 }

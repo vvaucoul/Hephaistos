@@ -6,14 +6,12 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 13:47:12 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:15:11 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:47:47 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _CHARON_H
 #define _CHARON_H
-
-#pragma once
 
 /*
 ** Hephaistos CHARON:

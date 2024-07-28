@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:59:13 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 11:30:53 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 12:58:53 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 #include <ctype.h>
 #include <limits.h>
 #include <string.h>
+#include <math.h>
 
 static int char_to_val(char c) {
-	const char *base = __ASCII_BASE__;
-
-	for (int i = 0; base[i]; i++) {
-		if (base[i] == c || base[i] == (c - 32)) { // Support for lowercase characters
-			return i;
-		}
+	if (isdigit(c)) {
+		return c - '0';
+	} else if (isalpha(c)) {
+		return toupper(c) - 'A' + 10;
+	} else {
+		return -1;
 	}
-	return (-1);
 }
 
 static uint32_t __get_nbr_base_length(uint32_t nbr, uint32_t base) {
@@ -128,6 +128,11 @@ int atoi(const char *str) {
 	int res = 0;
 	int sign = 1;
 
+	while (isspace(*str)) {
+		str++;
+	}
+
+	// Gérer le signe
 	if (*str == '-') {
 		sign = -1;
 		str++;
@@ -135,15 +140,12 @@ int atoi(const char *str) {
 		str++;
 	}
 
-	while (*str) {
-		if (isdigit(*str) == 0) {
-			str++;
-			continue;
-		}
+	while (isdigit(*str)) {
 		res = res * 10 + (*str - '0');
 		str++;
 	}
-	return (res * sign);
+
+	return res * sign;
 }
 
 /**
@@ -157,18 +159,25 @@ int atoi(const char *str) {
  * @return The converted integer value.
  */
 int atoi_base_s(const char *str, int base) {
+	if (base < 2 || base > 36) {
+		return 0;
+	}
+
 	int res = 0;
 	int sign = 1;
 
+	// Gérer le signe
 	if (*str == '-') {
 		sign = -1;
 		str++;
+	} else if (*str == '+') {
+		str++;
 	}
 
+	// Convertir les chiffres
 	while (*str) {
 		int digit = char_to_val(*str);
 		if (digit == -1 || digit >= base) {
-			// Invalid character or digit for the specified base
 			break;
 		}
 
@@ -513,20 +522,65 @@ double atof(const char *str) {
 	double res = 0;
 	double sign = 1;
 	double factor = 1;
+	int exponent = 0;
+	int exponent_sign = 1;
+	bool has_exponent = false;
 
+	// Handle the sign
 	if (*str == '-') {
 		sign = -1;
 		str++;
+	} else if (*str == '+') {
+		str++;
 	}
+
+	// Convert the integer and decimal part
 	for (; *str; str++) {
 		if (*str == '.') {
 			factor = 10.0;
 			continue;
+		} else if (*str == 'e' || *str == 'E') {
+			str++;
+			has_exponent = true;
+			break;
 		}
+
+		if (!isdigit(*str)) {
+			return 0.0; // Error: unexpected non-numeric character
+		}
+
 		res = res * 10.0 + (*str - '0');
 		if (factor > 1) {
 			factor *= 10.0;
 		}
 	}
-	return sign * res / (factor > 1 ? factor / 10.0 : 1);
+
+	// Convert the exponent part
+	if (has_exponent) {
+		if (*str == '-') {
+			exponent_sign = -1;
+			str++;
+		} else if (*str == '+') {
+			str++;
+		}
+
+		for (; *str; str++) {
+			if (!isdigit(*str)) {
+				return 0.0; // Error: unexpected non-numeric character
+			}
+
+			exponent = exponent * 10 + (*str - '0');
+		}
+	}
+
+	// Calculate the final result
+	if (factor > 1) {
+		res = res / (factor / 10.0);
+	}
+
+	if (has_exponent) {
+		res = res * pow(10, exponent_sign * exponent);
+	}
+
+	return sign * res;
 }

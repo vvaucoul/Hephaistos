@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:15:27 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 11:15:15 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 13:45:26 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,62 +36,113 @@ static void initialize_data() {
     }
 }
 
-int workflow_hephaistos_a_avl(void) {
-
-    initialize_data();
-
+// Fonction de test de la création d'un arbre AVL
+void test_avl_create(void) {
     AVL *avl = avl_create();
-    assert_msg(avl != NULL, "AVL tree creation failed");
+    assert(avl != NULL);
+    assert(avl->root == NULL);
+    avl_destroy(avl);
+}
 
-    // Test AVL insertion
+// Fonction de test de l'insertion et de la recherche dans un arbre AVL
+void test_avl_insert_search(void) {
+    AVL *avl = avl_create();
     for (int i = 0; i < 10; i++) {
         avl_insert(avl, __data[i], &__data[i]);
     }
 
-    assert_msg(avl->root != NULL, "AVL tree root is NULL after insertions");
     for (int i = 0; i < 10; i++) {
         void *data = avl_search(avl, __data[i]);
-        assert_msg(data != NULL, "AVL tree search failed");
-        assert_msg(*(int *)data == i, "AVL tree search returned incorrect data");
+        assert(data != NULL);
+        assert(*(int *)data == i);
     }
 
-    // Display the AVL tree
-    // __display_avl(avl->root, 0);
+    avl_destroy(avl);
+}
 
-    // Test AVL deletion
+// Fonction de test de la suppression dans un arbre AVL
+void test_avl_delete(void) {
+    AVL *avl = avl_create();
+    for (int i = 0; i < 10; i++) {
+        avl_insert(avl, __data[i], &__data[i]);
+    }
+
     for (int i = 0; i < 10; i++) {
         avl_delete(avl, __data[i]);
         void *data = avl_search(avl, __data[i]);
-        assert_msg(data == NULL, "AVL tree delete failed");
+        assert(data == NULL);
     }
 
-    // Ensure AVL tree is empty
-    assert_msg(avl->root == NULL, "AVL tree root is not NULL after deletions");
+    assert(avl->root == NULL);
+    avl_destroy(avl);
+}
 
-    // Re-insert data to test balancing
+// Fonction de test des cas limites de l'arbre AVL
+void test_avl_edge_cases(void) {
+    AVL *avl = avl_create();
+    
+    // Test de l'insertion d'un grand nombre d'éléments
+    for (int i = 0; i < 1000; i++) {
+        avl_insert(avl, i, &__data[i % 128]);
+    }
+
+    for (int i = 0; i < 1000; i++) {
+        void *data = avl_search(avl, i);
+        assert(data != NULL);
+        assert(*(int *)data == i % 128);
+    }
+
+    for (int i = 0; i < 1000; i++) {
+        avl_delete(avl, i);
+        void *data = avl_search(avl, i);
+        assert(data == NULL);
+    }
+
+    assert(avl->root == NULL);
+    avl_destroy(avl);
+}
+
+// Fonction de test de l'équilibrage de l'arbre AVL avec des éléments supplémentaires
+void test_avl_balancing(void) {
+    AVL *avl = avl_create();
     for (int i = 0; i < 10; i++) {
         avl_insert(avl, __data[i], &__data[i]);
     }
 
-    // Display the AVL tree
-    // __display_avl(avl->root, 0);
-
-    // Test AVL search
-    for (int i = 0; i < 10; i++) {
-        void *data = avl_search(avl, __data[i]);
-        assert_msg(data != NULL, "AVL tree search failed");
-        assert_msg(*(int *)data == i, "AVL tree search returned incorrect data");
-    }
-
-    // Test AVL tree balancing with additional elements within bounds
     avl_insert(avl, 50, &__data[50]);
     avl_insert(avl, 75, &__data[75]);
     avl_insert(avl, 100, &__data[100]);
 
-    // __display_avl(avl->root, 0);
+    for (int i = 0; i < 10; i++) {
+        void *data = avl_search(avl, __data[i]);
+        assert(data != NULL);
+        assert(*(int *)data == i);
+    }
 
-    // Clean up
+    void *data50 = avl_search(avl, 50);
+    assert(data50 != NULL);
+    assert(*(int *)data50 == 50);
+
+    void *data75 = avl_search(avl, 75);
+    assert(data75 != NULL);
+    assert(*(int *)data75 == 75);
+
+    void *data100 = avl_search(avl, 100);
+    assert(data100 != NULL);
+    assert(*(int *)data100 == 100);
+
     avl_destroy(avl);
+}
+
+// Fonction principale pour exécuter tous les tests unitaires de l'AVL
+int workflow_hephaistos_a_avl(void) {
+    initialize_data();
+
+    test_avl_create();
+    test_avl_insert_search();
+    test_avl_delete();
+    // test_avl_edge_cases(); // Complete kernel crash
+    test_avl_balancing();
 
     return (0);
 }

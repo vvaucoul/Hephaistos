@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:31:06 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 11:29:04 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 12:27:41 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 // ! ||                                  ASM FUNCTIONS                                 ||
 // ! ||--------------------------------------------------------------------------------||
 
-#define USE_ASM_STRING_FUNCTIONS 1
+#define USE_ASM_STRING_FUNCTIONS 0
 
 extern uint32_t __strlen(const char *str);
 extern uint32_t __nbrlen(int32_t nbr);
