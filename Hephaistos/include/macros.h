@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:21:32 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/22 13:05:43 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/29 01:18:52 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,12 @@
 #define __warn_unused_result__ __attribute__((warn_unused_result))
 #define __cleanup__(x) __attribute__((cleanup(x)))
 #define __constructor__ __attribute__((constructor))
+
+/* Functions Visibility */
+#define __public__ __attribute__((visibility("default")))
+#define __private__ __attribute__((visibility("hidden")))
+#define __protected__ __attribute__((visibility("protected")))
+#define __internal__ __attribute__((visibility("internal")))
+#define __external__ __attribute__((visibility("external")))
 
 #endif /* !_MACROS_H */
