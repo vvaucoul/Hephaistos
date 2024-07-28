@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:10:07 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/27 16:12:48 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 01:55:15 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ typedef struct s_counter {
     uint32_t end;
 } counter_t;
 
-extern void counter_start(counter_t *counter);
-extern void counter_stop(counter_t *counter);
+extern int counter_start(counter_t *counter);
+extern int counter_stop(counter_t *counter);
 extern uint32_t counter_get_start(counter_t *counter);
 extern uint32_t counter_get_end(counter_t *counter);
 extern uint32_t counter_get_time(counter_t *counter);
