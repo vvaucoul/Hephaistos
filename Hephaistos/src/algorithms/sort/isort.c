@@ -6,12 +6,12 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 14:03:11 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:06:22 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:31:08 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <algorithms/sort.h>
-#include <memory.h>
+#include <string.h>
 #include <stddef.h>
 
 /**

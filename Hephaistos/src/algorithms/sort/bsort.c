@@ -6,12 +6,12 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 13:58:52 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:05:27 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:30:56 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <algorithms/sort.h>
-#include <memory.h>
+#include <string.h>
 
 /**
  * @brief Sorts an array using the bubble sort algorithm.

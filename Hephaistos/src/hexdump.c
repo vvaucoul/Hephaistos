@@ -6,11 +6,11 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 14:15:55 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 02:04:05 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:31:00 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <memory.h>
+#include <string.h>
 #include <stdio.h>
 
 void khexdump(uint32_t ebp, int limit) {

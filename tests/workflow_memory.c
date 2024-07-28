@@ -6,14 +6,13 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 18:59:37 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 10:57:25 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:31:17 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
 
 #include <assert.h>
-#include <memory.h>
 #include <string.h>
 
 void test_memset() {

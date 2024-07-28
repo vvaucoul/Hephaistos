@@ -6,13 +6,13 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 15:33:51 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 11:18:44 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:31:06 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <algorithms/sort.h>
 #include <stddef.h>
-#include <memory.h>
+#include <string.h>
 
 static int get_max(void *array, uint32_t size, uint32_t elem_size, int (*cmp)(const void *, const void *)) {
     int max = cmp(array, array + (size - 1) * elem_size);

@@ -6,12 +6,12 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 14:04:49 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:03:50 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:31:03 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <algorithms/sort.h>
-#include <memory.h>
+#include <string.h>
 
 /**
  * @brief Swaps two elements in an array.

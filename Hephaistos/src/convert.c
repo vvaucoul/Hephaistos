@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:59:13 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 02:05:02 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:30:53 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <convert.h>
 #include <ctype.h>
 #include <limits.h>
-#include <memory.h>
 #include <string.h>
 
 static int char_to_val(char c) {
