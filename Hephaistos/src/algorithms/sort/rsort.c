@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 15:33:51 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 11:31:06 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/31 02:04:54 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void counting_sort(void *array, uint32_t size, uint32_t elem_size, int (*cmp)(co
     for (int i = 1; i <= max; ++i) {
         count[i] += count[i - 1];
     }
-    for (uint32_t i = size - 1; i >= 0; --i) {
+    for (int32_t i = size - 1; i >= 0; --i) {
         memcpy(output + (count[cmp(array + i * elem_size, array + (i - 1) * elem_size)] - 1) * elem_size, array + i * elem_size, elem_size);
         --count[cmp(array + i * elem_size, array + (i - 1) * elem_size)];
     }

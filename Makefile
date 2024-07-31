@@ -6,7 +6,7 @@
 #    By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 23:52:42 by vvaucoul          #+#    #+#              #
-#    Updated: 2024/07/28 11:12:23 by vvaucoul         ###   ########.fr        #
+#    Updated: 2024/07/31 02:01:54 by vvaucoul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,11 +24,13 @@ else
 	CCACHE 			=	ccache
 endif
 
-ifeq ($(CLANG_INSTALLED), false)
-	CC				=	$(CCACHE) gcc
-else
-	CC				=	$(CCACHE) clang-15
-endif
+CC				=	$(CCACHE) gcc-12
+
+# ifeq ($(CLANG_INSTALLED), false)
+# 	CC				=	$(CCACHE) gcc
+# else
+# 	CC				=	$(CCACHE) clang-15
+# endif
 
 COMPILE_WORKFLOWS 	:=	$(shell sh ./scripts/HephaistosCompileWorkflows.sh)
 

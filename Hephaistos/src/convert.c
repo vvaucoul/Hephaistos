@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:59:13 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 12:58:53 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/31 02:04:15 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int itoa_base(int nbr, int base, char str[__ITOA_BUFFER_LENGTH__]) {
 		return (0);
 	}
 
-	if ((isneg = ((nbr >= -2147483648 && nbr < 0) ? 1 : 0)) == 1) {
+	if ((isneg = ((nbr >= -2147483647 && nbr < 0) ? 1 : 0)) == 1) {
 		nbr *= -1;
 	}
 	i = (isneg ? 1 : 0);
@@ -210,12 +210,12 @@ int itoa(int nbr, char str[__ITOA_BUFFER_LENGTH__]) {
 		str[1] = '\0';
 		return (0);
 	} else if (nbr == INT_MIN) {
-		memcpy_s(str, __ITOA_BUFFER_LENGTH__, "-2147483648", 12);
-		str[12] = '\0';
+		memcpy_s(str, __ITOA_BUFFER_LENGTH__, "-2147483648", sizeof("-2147483648"));
+		str[sizeof("-2147483648") - 1] = '\0';
 		return (0);
 	} else if (nbr == INT_MAX) {
-		memcpy_s(str, __ITOA_BUFFER_LENGTH__, "2147483647", 11);
-		str[11] = '\0';
+		memcpy_s(str, __ITOA_BUFFER_LENGTH__, "2147483647", sizeof("2147483647"));
+		str[sizeof("2147483647") - 1] = '\0';
 		return (0);
 	}
 

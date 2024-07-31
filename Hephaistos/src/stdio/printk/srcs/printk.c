@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:06:11 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 01:41:00 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/29 11:43:50 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 #include <string.h>
 
 printk_t _g_printk = {
-    .format = {0},
-    .space = 0,
-    .space_is_star = false,
-    .is_neg_space = false,
-    .use_zero = false,
-    .precision = -1,
+	.format = {0},
+	.space = 0,
+	.space_is_star = false,
+	.is_neg_space = false,
+	.use_zero = false,
+	.precision = -1,
 };
 
 static int check_special_strings(const char *str) {
@@ -195,6 +195,22 @@ static int kprint_mod(const char *format, uint32_t i) {
 		__kpf_manage_hexa();
 	else if (format[i] == __DEL_F)
 		__kpf_manage_float();
+	else if (format[i] == 'l' && format[i + 1] == 'l' && format[i + 2] == 'x') {
+		__kpf_manage_long_long_hexa();
+		i += 2; // Move past "llx"
+	} else if (format[i] == 'l' && format[i + 1] == 'd') {
+		__kpf_manage_long_nbr();
+		i += 1; // Move past "ld"
+	} else if (format[i] == 'l' && format[i + 1] == 'x') {
+		__kpf_manage_long_hexa();
+		i += 1; // Move past "lx"
+	} else if (format[i] == 'l' && format[i + 1] == 'l' && format[i + 2] == 'u') {
+		__kpf_manage_long_long_unsigned();
+		i += 2; // Move past "llu"
+	} else if (format[i] == 'l' && format[i + 1] == 'l' && format[i + 2] == 'd') {
+		__kpf_manage_long_long_nbr();
+		i += 2; // Move past "lld"
+	}
 	return (i);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 16:11:35 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 01:15:42 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/31 02:05:22 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ uint32_t __k_get_len(uint32_t arg_len) {
 
     // If precision is specified and is greater than the length of the argument,
     // use precision as the length of the display.
-    if (precision >= 0 && arg_len < precision) {
+    if (arg_len < precision) {
         arg_len = precision;
     }
 

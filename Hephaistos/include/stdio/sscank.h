@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:06:05 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 20:07:29 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/07/31 02:02:25 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define SSCANK_H
 
 #include <stddef.h>
+#include <stdbool.h>
 
 extern int sscank(const char *str, const char *format, ...);
 
