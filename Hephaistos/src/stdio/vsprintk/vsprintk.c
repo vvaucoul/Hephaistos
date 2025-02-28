@@ -6,11 +6,12 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:56:43 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 10:11:06 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:03:50 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <charon.h>
+#include <stdio/printk.h>
 #include <stdio/vsprintk.h>
 
 extern printk_t _g_printk;

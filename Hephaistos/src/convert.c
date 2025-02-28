@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:59:13 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/31 02:04:15 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:02:29 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include <convert.h>
 #include <ctype.h>
 #include <limits.h>
-#include <string.h>
 #include <math.h>
+#include <stddef.h>
+#include <string.h>
 
 static int char_to_val(char c) {
 	if (isdigit(c)) {

@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:31:06 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 12:27:41 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/10/19 19:02:04 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ inline int32_t strncmp(const char *s1, const char *s2, uint32_t n) {
 }
 
 #else
+
+#define __C_SRLEN(s) ((sizeof(s) - 1))
 
 uint32_t nbrlen(int32_t nbr);
 uint32_t unbrlen(uint32_t nbr);

@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   charon.h                                           :+:      :+:    :+:   */
+/*   bits.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/20 13:47:12 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/10/23 18:32:12 by vvaucoul         ###   ########.fr       */
+/*   Created: 2024/10/24 10:31:12 by vvaucoul          #+#    #+#             */
+/*   Updated: 2024/10/24 10:31:42 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _CHARON_H
-#define _CHARON_H
+#ifndef BITS_H
+#define BITS_H
 
-/*
-** Hephaistos CHARON:
-** Passing functions prototypes from KronOS to Hephaistos library
-*/
+#include <stdint.h>
 
-#ifndef __HEPHAISTOS__
-#define __HEPHAISTOS__
-#include <drivers/tty.h>
-// #include <kernel.h>
-#include <mm/kheap.h>
-#include <mm/mm.h>
-#include <system/pit.h>
+extern uint32_t count_set_bits(uint8_t byte);
 
-#define IS_MEMORY_AVAILABLE (kheap != NULL)
-
-#endif
-
-#endif /* !_CHARON_H */
+#endif /* !BITS_H */

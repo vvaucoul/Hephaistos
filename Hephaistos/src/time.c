@@ -6,12 +6,13 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:11:09 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/28 01:56:10 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/10/20 16:56:26 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <assert.h>
 #include <charon.h>
+#include <errno.h>
 #include <time.h>
 
 /**

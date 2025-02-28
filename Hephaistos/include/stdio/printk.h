@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 23:55:51 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/29 11:44:02 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/10/19 19:10:09 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,12 @@ extern printk_t _g_printk;
 extern uint32_t printk(const char *format, ...);
 // extern void vsprintk(const char *str, void (*write)(const char), const char *format, va_list arg);
 
-extern void __kpf_manage_space_front(const int arg_len);
-extern void __kpf_manage_space_back(const int arg_len);
+// extern void __kpf_manage_space_front(const int arg_len);
+// extern void __kpf_manage_space_back(const int arg_len);
+
+void __kpf_manage_space_front(uint32_t arg_len);
+void __kpf_manage_space_back(uint32_t arg_len);
+void __kpf_manage_spaces(uint32_t arg_len);
 
 extern uint32_t __kpf_manage_mod(const char *format, uint32_t i);
 extern void __kpf_manage_char();

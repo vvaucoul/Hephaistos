@@ -6,12 +6,13 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 00:00:03 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/26 22:00:49 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/10/20 16:56:15 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <algorithms/array.h>
 #include <charon.h>
+#include <string.h>
 
 /**
  * Creates a new Array with the specified capacity.
@@ -20,18 +21,18 @@
  * @return A pointer to the newly created Array.
  */
 Array *array_create(uint32_t capacity) {
-    Array *array = (Array *)kmalloc(sizeof(Array));
-    if (!array)
-        return NULL;
+	Array *array = (Array *)kmalloc(sizeof(Array));
+	if (!array)
+		return NULL;
 
-    array->data = (void **)kmalloc(capacity * sizeof(void *));
-    if (!array->data) {
-        kfree(array);
-        return NULL;
-    }
-    array->size = 0;
-    array->capacity = capacity;
-    return array;
+	array->data = (void **)kmalloc(capacity * sizeof(void *));
+	if (!array->data) {
+		kfree(array);
+		return NULL;
+	}
+	array->size = 0;
+	array->capacity = capacity;
+	return array;
 }
 
 /**
@@ -40,10 +41,10 @@ Array *array_create(uint32_t capacity) {
  * @param array The array to be destroyed.
  */
 void array_destroy(Array *array) {
-    if (array) {
-        kfree(array->data);
-        kfree(array);
-    }
+	if (array) {
+		kfree(array->data);
+		kfree(array);
+	}
 }
 
 /**
@@ -53,14 +54,14 @@ void array_destroy(Array *array) {
  * @param new_capacity The new capacity of the array.
  */
 void array_resize(Array *array, uint32_t new_capacity) {
-    if (new_capacity < array->size) {
-        new_capacity = array->size;
-    }
-    void **new_data = (void **)krealloc(array->data, new_capacity * sizeof(void *));
-    if (new_data) {
-        array->data = new_data;
-        array->capacity = new_capacity;
-    }
+	if (new_capacity < array->size) {
+		new_capacity = array->size;
+	}
+	void **new_data = (void **)krealloc(array->data, new_capacity * sizeof(void *));
+	if (new_data) {
+		array->data = new_data;
+		array->capacity = new_capacity;
+	}
 }
 
 /**
@@ -70,10 +71,10 @@ void array_resize(Array *array, uint32_t new_capacity) {
  * @param data The data to be added to the array.
  */
 void array_push(Array *array, void *data) {
-    if (array->size == array->capacity) {
-        array_resize(array, array->capacity * 2);
-    }
-    array->data[array->size++] = data;
+	if (array->size == array->capacity) {
+		array_resize(array, array->capacity * 2);
+	}
+	array->data[array->size++] = data;
 }
 
 /**
@@ -83,14 +84,14 @@ void array_push(Array *array, void *data) {
  * @return The removed element, or NULL if the array is empty.
  */
 void *array_pop(Array *array) {
-    if (array->size == 0) {
-        return NULL;
-    }
-    void *data = array->data[--array->size];
-    if (array->size > 0 && array->size < array->capacity / 4) {
-        array_resize(array, array->capacity / 2);
-    }
-    return data;
+	if (array->size == 0) {
+		return NULL;
+	}
+	void *data = array->data[--array->size];
+	if (array->size > 0 && array->size < array->capacity / 4) {
+		array_resize(array, array->capacity / 2);
+	}
+	return data;
 }
 
 /**
@@ -101,10 +102,10 @@ void *array_pop(Array *array) {
  * @return A pointer to the element at the specified index, or NULL if the index is out of bounds.
  */
 void *array_get(Array *array, uint32_t index) {
-    if (index >= array->size) {
-        return NULL;
-    }
-    return array->data[index];
+	if (index >= array->size) {
+		return NULL;
+	}
+	return array->data[index];
 }
 
 /**
@@ -115,9 +116,9 @@ void *array_get(Array *array, uint32_t index) {
  * @param data The data to set at the specified index.
  */
 void array_set(Array *array, uint32_t index, void *data) {
-    if (index < array->size) {
-        array->data[index] = data;
-    }
+	if (index < array->size) {
+		array->data[index] = data;
+	}
 }
 
 /**
@@ -128,15 +129,15 @@ void array_set(Array *array, uint32_t index, void *data) {
  * @param data The data to be inserted.
  */
 void array_insert(Array *array, uint32_t index, void *data) {
-    if (index > array->size) {
-        return;
-    }
-    if (array->size == array->capacity) {
-        array_resize(array, array->capacity * 2);
-    }
-    memmove(&array->data[index + 1], &array->data[index], (array->size - index) * sizeof(void *));
-    array->data[index] = data;
-    array->size++;
+	if (index > array->size) {
+		return;
+	}
+	if (array->size == array->capacity) {
+		array_resize(array, array->capacity * 2);
+	}
+	memmove(&array->data[index + 1], &array->data[index], (array->size - index) * sizeof(void *));
+	array->data[index] = data;
+	array->size++;
 }
 
 /**
@@ -146,12 +147,12 @@ void array_insert(Array *array, uint32_t index, void *data) {
  * @param index The index of the element to remove.
  */
 void array_remove(Array *array, uint32_t index) {
-    if (index >= array->size) {
-        return;
-    }
-    memmove(&array->data[index], &array->data[index + 1], (array->size - index - 1) * sizeof(void *));
-    array->size--;
-    if (array->size > 0 && array->size < array->capacity / 4) {
-        array_resize(array, array->capacity / 2);
-    }
+	if (index >= array->size) {
+		return;
+	}
+	memmove(&array->data[index], &array->data[index + 1], (array->size - index - 1) * sizeof(void *));
+	array->size--;
+	if (array->size > 0 && array->size < array->capacity / 4) {
+		array_resize(array, array->capacity / 2);
+	}
 }

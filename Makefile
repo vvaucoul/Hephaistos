@@ -6,84 +6,55 @@
 #    By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/19 23:52:42 by vvaucoul          #+#    #+#              #
-#    Updated: 2024/07/31 02:01:54 by vvaucoul         ###   ########.fr        #
+#    Updated: 2024/10/21 10:50:58 by vvaucoul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 include ../mk-files/utils/Colors.mk
 include ../mk-files/rules/Rules.mk
-CCACHE_DIR			=	ccache
 
-# ! ||--------------------------------------------------------------------------------||
-# ! ||                            DEFAULT COMPILATION RULES                           ||
-# ! ||--------------------------------------------------------------------------------||
+CCACHE_DIR = ccache
 
 ifeq ($(CCACHE_INSTALLED), false)
-	CCACHE			=	../$(DEPENDENCIES_DIR)/$(CCACHE_DIR)/ccache
+	CCACHE = ../$(DEPENDENCIES_DIR)/$(CCACHE_DIR)/ccache
 else
-	CCACHE 			=	ccache
+	CCACHE = ccache
 endif
 
-CC				=	$(CCACHE) gcc-12
+CC = i386-elf-gcc
 
-# ifeq ($(CLANG_INSTALLED), false)
-# 	CC				=	$(CCACHE) gcc
-# else
-# 	CC				=	$(CCACHE) clang-15
-# endif
+SCRIPTS_DIR = scripts
+KERNEL_DIRECTORY = kernel
+VERSION := $(shell sh $(SCRIPTS_DIR)/HephaistosVersion.sh)
 
-COMPILE_WORKFLOWS 	:=	$(shell sh ./scripts/HephaistosCompileWorkflows.sh)
+NAME = Hephaistos.a
+ASM = nasm
 
-SCRIPTS_DIR			=	scripts
+DEFAULT_FLAGS = -Wall -Wextra -Werror -Wfatal-errors
+CFLAGS = -fno-builtin -fno-exceptions -fno-stack-protector -nostdlib -nodefaultlibs -nostdinc \
+		 -ffreestanding -O0 -std=c2x -m32
+LDFLAGS = -g3 -m32
+ASM_FLAGS = -f elf32
 
-KERNEL_DIRECTORY	=	kernel
-VERSION				:=	$(shell sh $(SCRIPTS_DIR)/HephaistosVersion.sh)
+LIB_DIR = Hephaistos
+INCLUDES_DIR = include
+INCLUDES = -I./$(LIB_DIR)/$(INCLUDES_DIR) -I../$(KERNEL_DIRECTORY)/includes
 
-# ! ||--------------------------------------------------------------------------------||
-# ! ||                             HEPHAISTOS COMPILATION                             ||
-# ! ||--------------------------------------------------------------------------------||
+WORKFLOW_DIR := workflows tests
+SRCS_DIR := $(LIB_DIR)
 
-NAME 			= Hephaistos.a
-ASM				= nasm
-
-DEFAULT_FLAGS 	=	-Wall -Wextra # -Werror -Wfatal-errors
-CFLAGS 			= 	-fno-builtin -fno-exceptions -fno-stack-protector \
-					-nostdlib -nodefaultlibs -nostdinc \
-					-ffreestanding -O2 \
-					-std=c2x # Use C23 standard
-
-LDFLAGS			= 	-g3 -m32
-
-ASM_FLAGS		=	-f elf32 
-
-LIB_DIR 		=	Hephaistos
-INCLUDES_DIR	=	include
-
-INCLUDES 		=	-I./$(LIB_DIR)/$(INCLUDES_DIR) \
-					-I../$(KERNEL_DIRECTORY)/includes
-
-
-WORKFLOW_DIR	:=	workflows \
-					tests
-
-SRCS_DIR 		:=	$(LIB_DIR)
-
-# Check if COMPILE_WORKFLOWS returns 1
+COMPILE_WORKFLOWS := $(shell sh ./scripts/HephaistosCompileWorkflows.sh)
 ifeq ($(COMPILE_WORKFLOWS), 1)
-	SRCS_DIR 		+=	$(WORKFLOW_DIR)
+	SRCS_DIR += $(WORKFLOW_DIR)
 endif
 
-SRCS			=	$(shell find $(SRCS_DIR) -name "*.c")
-OBJS			=	$(SRCS:.c=.o)
-DEPENDS			=	$(SRCS:.c=.d)
+SRCS = $(shell find $(SRCS_DIR) -name "*.c")
+OBJS = $(SRCS:.c=.o)
+DEPENDS = $(SRCS:.c=.d)
 
-SRCS_ASM		=	$(shell find $(SRCS_DIR) -name "*.s")
-OBJS_ASM		=	$(SRCS_ASM:.s=.o)
-DEPENDS_ASM		=	$(SRCS_ASM:.s=.d)
-
-SRCS_CPP		=	$(shell find $(SRCS_DIR) -name "*.cpp")
-OBJS_CPP		=	$(SRCS_CPP:.cpp=.o)
-DEPENDS_CPP		=	$(SRCS_CPP:.cpp=.d)
+SRCS_ASM = $(shell find $(SRCS_DIR) -name "*.s")
+OBJS_ASM = $(SRCS_ASM:.s=.o)
+DEPENDS_ASM = $(SRCS_ASM:.s=.d)
 
 %.o: %.c
 	@printf "$(_LWHITE) $(_DIM)- Compiling: $(_END)$(_DIM)--------$(_END)$(_LCYAN) %s $(_END)$(_LGREEN)[$(_LWHITE)✓$(_LGREEN)]$(_END)\n" $< 
@@ -95,12 +66,12 @@ DEPENDS_CPP		=	$(SRCS_CPP:.cpp=.d)
 
 all: $(NAME)
 
-$(NAME): ascii $(OBJS) $(OBJS_ASM) $(OBJS_CPP)
-	@ar -rcs $(NAME) $(OBJS) $(OBJS_ASM) $(OBJS_CPP)
+$(NAME): ascii $(OBJS) $(OBJS_ASM)
+	@ar -rcs $(NAME) $(OBJS) $(OBJS_ASM)
 	@printf "\n$(_LWHITE)-$(_END)$(_DIM)$(_END)$(_LWHITE) %s $(_END)$(_DIM)-------------$(_END)$(_LGREEN)[$(_LWHITE)✓$(_LGREEN)]$(_END)\n" "HEPHAISTOS"
 
 clean:
-	@rm -rf $(OBJS) $(OBJS_ASM) $(OBJS_CPP) $(DEPENDS) $(DEPENDS_ASM) $(DEPENDS_CPP)
+	@rm -rf $(OBJS) $(OBJS_ASM) $(DEPENDS) $(DEPENDS_ASM)
 
 clean-ccache:
 	@printf "$(_LWHITE)- CLEAN CCACHE $(_END)$(_DIM)----------$(_END) $(_LGREEN)[$(_LWHITE)✓$(_LGREEN)]$(_END)\n"
@@ -114,17 +85,15 @@ fre: clean all
 re: fclean all
 
 ascii:
-	@printf "$(_LRED) _    _ ______ _____  _    _          _____  _____ _______ ____   _____ $(_END)\n"
-	@printf "$(_LRED)| |  | |  ____|  __ \| |  | |   /\   |_   _|/ ____|__   __/ __ \ / ____|$(_END)\n"
-	@printf "$(_LRED)| |__| | |__  | |__) | |__| |  /  \    | | | (___    | | | |  | | (___  $(_END)\n"
-	@printf "$(_LRED)|  __  |  __| |  ___/|  __  | / /\ \   | |  \___ \   | | | |  | |\___ \ $(_END)\n"
-	@printf "$(_LRED)| |  | | |____| |    | |  | |/ ____ \ _| |_ ____) |  | | | |__| |____) |$(_END)\n"
-	@printf "$(_LRED)|_|  |_|______|_|    |_|  |_/_/    \_\_____|_____/   |_|  \____/|_____/ $(_END)\n"
-	@printf "$(_LRED)                                                                        $(_END)\n"
-	@printf "$(_WHITE)Version $(VERSION)					       For KronOS Kernel\n\n"
+	@printf "$(_LRED)██╗░░██╗███████╗██████╗░██╗░░██╗░█████╗░██╗░██████╗████████╗░█████╗░░██████╗$(_END)\n"
+	@printf "$(_LRED)██║░░██║██╔════╝██╔══██╗██║░░██║██╔══██╗██║██╔════╝╚══██╔══╝██╔══██╗██╔════╝$(_END)\n"
+	@printf "$(_LRED)███████║█████╗░░██████╔╝███████║███████║██║╚█████╗░░░░██║░░░██║░░██║╚█████╗░$(_END)\n"
+	@printf "$(_LRED)██╔══██║██╔══╝░░██╔═══╝░██╔══██║██╔══██║██║░╚═══██╗░░░██║░░░██║░░██║░╚═══██╗$(_END)\n"
+	@printf "$(_LRED)██║░░██║███████╗██║░░░░░██║░░██║██║░░██║██║██████╔╝░░░██║░░░╚█████╔╝██████╔╝$(_END)\n"
+	@printf "$(_LRED)╚═╝░░╚═╝╚══════╝╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝╚═════╝░░░░╚═╝░░░░╚════╝░╚═════╝░$(_END)\n"
+	@printf "$(_WHITE)Version $(_LCYAN)$(_BOLD)$(VERSION)$(_WHITE)$(_END)$(_BOLD)					           $(_LRED)For KronOS Kernel$(_END)\n\n"
 
 -include $(DEPENDS)
 -include $(DEPENDS_ASM)
--include $(DEPENDS_CPP)
 
-.PHONY: all clean fclean fre re ascii workflow clean-ccache
+.PHONY: all clean fclean fre re ascii clean-ccache

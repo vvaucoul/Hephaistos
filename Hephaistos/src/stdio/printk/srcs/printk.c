@@ -6,7 +6,7 @@
 /*   By: vvaucoul <vvaucoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:06:11 by vvaucoul          #+#    #+#             */
-/*   Updated: 2024/07/29 11:43:50 by vvaucoul         ###   ########.fr       */
+/*   Updated: 2024/10/26 11:14:16 by vvaucoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,223 +16,194 @@
 #include <stdio/printk.h>
 #include <string.h>
 
-printk_t _g_printk = {
-	.format = {0},
-	.space = 0,
-	.space_is_star = false,
-	.is_neg_space = false,
-	.use_zero = false,
-	.precision = -1,
-};
+printk_t _g_printk = {0}; // Initialize all members to 0
 
 static int check_special_strings(const char *str) {
 	if (strncmp(str, _CURSOR_MOVE_UP, strlen(_CURSOR_MOVE_UP)) == 0) {
-		terminal_move_cursor_up();
+		tty_move_cursor_up();
 		return (strlen(_CURSOR_MOVE_UP));
 	}
 	return (0);
 }
 
+// Use an array to store color codes and their corresponding lengths
+static const char *color_codes[] = {
+	_END, _RED, _GREEN, _BLUE, _YELLOW, _MAGENTA, _CYAN, _LGREY, _LBLUE,
+	_LGREEN, _LCYAN, _LRED, _LMAGENTA, _LYELLOW, _WHITE, _BG_BLACK,
+	_BG_BLUE, _BG_GREEN, _BG_CYAN, _BG_RED, _BG_MAGENTA, _BG_YELLOW,
+	_BG_LGREY, _BG_LBLUE, _BG_LGREEN, _BG_LCYAN, _BG_LRED, _BG_LMAGENTA,
+	_BG_LYELLOW, _BG_WHITE};
+
+static const int color_code_lengths[] = {
+	__C_SRLEN(_END), __C_SRLEN(_RED), __C_SRLEN(_GREEN), __C_SRLEN(_BLUE), __C_SRLEN(_YELLOW),
+	__C_SRLEN(_MAGENTA), __C_SRLEN(_CYAN), __C_SRLEN(_LGREY), __C_SRLEN(_LBLUE),
+	__C_SRLEN(_LGREEN), __C_SRLEN(_LCYAN), __C_SRLEN(_LRED), __C_SRLEN(_LMAGENTA),
+	__C_SRLEN(_LYELLOW), __C_SRLEN(_WHITE), __C_SRLEN(_BG_BLACK), __C_SRLEN(_BG_BLUE),
+	__C_SRLEN(_BG_GREEN), __C_SRLEN(_BG_CYAN), __C_SRLEN(_BG_RED), __C_SRLEN(_BG_MAGENTA),
+	__C_SRLEN(_BG_YELLOW), __C_SRLEN(_BG_LGREY), __C_SRLEN(_BG_LBLUE), __C_SRLEN(_BG_LGREEN),
+	__C_SRLEN(_BG_LCYAN), __C_SRLEN(_BG_LRED), __C_SRLEN(_BG_LMAGENTA), __C_SRLEN(_BG_LYELLOW),
+	__C_SRLEN(_BG_WHITE)};
+
 static int check_colors(const char *str) {
-	/* Check Foreground colors */
-	if (strncmp(str, _END, strlen(_END)) == 0) {
-		terminal_set_color(VGA_COLOR_LIGHT_GREY);
-		terminal_set_background_color(VGA_COLOR_BLACK);
-		return (strlen(_END));
-	} else if (strncmp(str, _RED, strlen(_RED)) == 0) {
-		terminal_set_color(VGA_COLOR_RED);
-		return (strlen(_RED));
-	} else if (strncmp(str, _GREEN, strlen(_GREEN)) == 0) {
-		terminal_set_color(VGA_COLOR_GREEN);
-		return (strlen(_GREEN));
-	} else if (strncmp(str, _BLUE, strlen(_BLUE)) == 0) {
-		terminal_set_color(VGA_COLOR_BLUE);
-		return (strlen(_BLUE));
-	} else if (strncmp(str, _YELLOW, strlen(_YELLOW)) == 0) {
-		terminal_set_color(VGA_COLOR_BROWN);
-		return (strlen(_YELLOW));
-	} else if (strncmp(str, _MAGENTA, strlen(_MAGENTA)) == 0) {
-		terminal_set_color(VGA_COLOR_MAGENTA);
-		return (strlen(_MAGENTA));
-	} else if (strncmp(str, _CYAN, strlen(_CYAN)) == 0) {
-		terminal_set_color(VGA_COLOR_CYAN);
-		return (strlen(_CYAN));
-	} else if (strncmp(str, _LGREY, strlen(_LGREY)) == 0) {
-		terminal_set_color(VGA_COLOR_LIGHT_GREY);
-		return (strlen(_LGREY));
-	} else if (strncmp(str, _LBLUE, strlen(_LBLUE)) == 0) {
-		terminal_set_color(VGA_COLOR_LIGHT_BLUE);
-		return (strlen(_LBLUE));
-	} else if (strncmp(str, _LGREEN, strlen(_LGREEN)) == 0) {
-		terminal_set_color(VGA_COLOR_LIGHT_GREEN);
-		return (strlen(_LGREEN));
-	} else if (strncmp(str, _LCYAN, strlen(_LCYAN)) == 0) {
-		terminal_set_color(VGA_COLOR_LIGHT_CYAN);
-		return (strlen(_LCYAN));
-	} else if (strncmp(str, _LRED, strlen(_LRED)) == 0) {
-		terminal_set_color(VGA_COLOR_LIGHT_RED);
-		return (strlen(_LRED));
-	} else if (strncmp(str, _LMAGENTA, strlen(_LMAGENTA)) == 0) {
-		terminal_set_color(VGA_COLOR_LIGHT_MAGENTA);
-		return (strlen(_LMAGENTA));
-	} else if (strncmp(str, _LYELLOW, strlen(_LYELLOW)) == 0) {
-		terminal_set_color(VGA_COLOR_LIGHT_BROWN);
-		return (strlen(_LYELLOW));
-	} else if (strncmp(str, _WHITE, strlen(_WHITE)) == 0) {
-		terminal_set_color(VGA_COLOR_WHITE);
-		return (strlen(_WHITE));
+	for (size_t i = 0; i < sizeof(color_codes) / sizeof(color_codes[0]); ++i) {
+		if (strncmp(str, color_codes[i], color_code_lengths[i]) == 0) {
+			switch (i) {
+				case 0:
+					tty_setcolor(VGA_COLOR_LIGHT_GREY);
+					tty_set_background_color(VGA_COLOR_BLACK);
+					break;
+				case 1: tty_setcolor(VGA_COLOR_RED); break;
+				case 2: tty_setcolor(VGA_COLOR_GREEN); break;
+				case 3: tty_setcolor(VGA_COLOR_BLUE); break;
+				case 4: tty_setcolor(VGA_COLOR_BROWN); break;
+				case 5: tty_setcolor(VGA_COLOR_MAGENTA); break;
+				case 6: tty_setcolor(VGA_COLOR_CYAN); break;
+				case 7: tty_setcolor(VGA_COLOR_LIGHT_GREY); break;
+				case 8: tty_setcolor(VGA_COLOR_LIGHT_BLUE); break;
+				case 9: tty_setcolor(VGA_COLOR_LIGHT_GREEN); break;
+				case 10: tty_setcolor(VGA_COLOR_LIGHT_CYAN); break;
+				case 11: tty_setcolor(VGA_COLOR_LIGHT_RED); break;
+				case 12: tty_setcolor(VGA_COLOR_LIGHT_MAGENTA); break;
+				case 13: tty_setcolor(VGA_COLOR_LIGHT_BROWN); break;
+				case 14: tty_setcolor(VGA_COLOR_WHITE); break;
+				case 15: tty_set_background_color(VGA_COLOR_BLACK); break;
+				case 16: tty_set_background_color(VGA_COLOR_BLUE); break;
+				case 17: tty_set_background_color(VGA_COLOR_GREEN); break;
+				case 18: tty_set_background_color(VGA_COLOR_CYAN); break;
+				case 19: tty_set_background_color(VGA_COLOR_RED); break;
+				case 20: tty_set_background_color(VGA_COLOR_MAGENTA); break;
+				case 21: tty_set_background_color(VGA_COLOR_BROWN); break;
+				case 22: tty_set_background_color(VGA_COLOR_LIGHT_GREY); break;
+				case 23: tty_set_background_color(VGA_COLOR_LIGHT_BLUE); break;
+				case 24: tty_set_background_color(VGA_COLOR_LIGHT_GREEN); break;
+				case 25: tty_set_background_color(VGA_COLOR_LIGHT_CYAN); break;
+				case 26: tty_set_background_color(VGA_COLOR_LIGHT_RED); break;
+				case 27: tty_set_background_color(VGA_COLOR_LIGHT_MAGENTA); break;
+				case 28: tty_set_background_color(VGA_COLOR_LIGHT_BROWN); break;
+				case 29: tty_set_background_color(VGA_COLOR_WHITE); break;
+				default:
+					// Handle unexpected cases
+					return 0;
+			}
+			return (color_code_lengths[i]);
+		}
 	}
-
-	/* Check Background colors */
-	if (strncmp(str, _BG_BLACK, strlen(_BG_BLACK)) == 0) {
-		terminal_set_background_color(VGA_COLOR_BLACK);
-		return (strlen(_BG_BLACK));
-	} else if (strncmp(str, _BG_BLUE, strlen(_BG_BLUE)) == 0) {
-		terminal_set_background_color(VGA_COLOR_BLUE);
-		return (strlen(_BG_BLUE));
-	} else if (strncmp(str, _BG_GREEN, strlen(_BG_GREEN)) == 0) {
-		terminal_set_background_color(VGA_COLOR_GREEN);
-		return (strlen(_BG_GREEN));
-	} else if (strncmp(str, _BG_CYAN, strlen(_BG_CYAN)) == 0) {
-		terminal_set_background_color(VGA_COLOR_CYAN);
-		return (strlen(_BG_CYAN));
-	} else if (strncmp(str, _BG_RED, strlen(_BG_RED)) == 0) {
-		terminal_set_background_color(VGA_COLOR_RED);
-		return (strlen(_BG_RED));
-	} else if (strncmp(str, _BG_MAGENTA, strlen(_BG_MAGENTA)) == 0) {
-		terminal_set_background_color(VGA_COLOR_MAGENTA);
-		return (strlen(_BG_MAGENTA));
-	} else if (strncmp(str, _BG_YELLOW, strlen(_BG_YELLOW)) == 0) {
-		terminal_set_background_color(VGA_COLOR_BROWN);
-		return (strlen(_BG_YELLOW));
-	} else if (strncmp(str, _BG_LGREY, strlen(_BG_LGREY)) == 0) {
-		terminal_set_background_color(VGA_COLOR_LIGHT_GREY);
-		return (strlen(_BG_LGREY));
-	} else if (strncmp(str, _BG_LBLUE, strlen(_BG_LBLUE)) == 0) {
-		terminal_set_background_color(VGA_COLOR_LIGHT_BLUE);
-		return (strlen(_BG_LBLUE));
-	} else if (strncmp(str, _BG_LGREEN, strlen(_BG_LGREEN)) == 0) {
-		terminal_set_background_color(VGA_COLOR_LIGHT_GREEN);
-		return (strlen(_BG_LGREEN));
-	} else if (strncmp(str, _BG_LCYAN, strlen(_BG_LCYAN)) == 0) {
-		terminal_set_background_color(VGA_COLOR_LIGHT_CYAN);
-		return (strlen(_BG_LCYAN));
-	} else if (strncmp(str, _BG_LRED, strlen(_BG_LRED)) == 0) {
-		terminal_set_background_color(VGA_COLOR_LIGHT_RED);
-		return (strlen(_BG_LRED));
-	} else if (strncmp(str, _BG_LMAGENTA, strlen(_BG_LMAGENTA)) == 0) {
-		terminal_set_background_color(VGA_COLOR_LIGHT_MAGENTA);
-		return (strlen(_BG_LMAGENTA));
-	} else if (strncmp(str, _BG_LYELLOW, strlen(_BG_LYELLOW)) == 0) {
-		terminal_set_background_color(VGA_COLOR_LIGHT_BROWN);
-		return (strlen(_BG_LYELLOW));
-	} else if (strncmp(str, _BG_WHITE, strlen(_BG_WHITE)) == 0) {
-		terminal_set_background_color(VGA_COLOR_WHITE);
-		return (strlen(_BG_WHITE));
-	}
-
 	return (0);
 }
 
 static int kprint_mod(const char *format, uint32_t i) {
-
-	/* CHECK SPECIAL DELIMITERS */
-
-	// SPACES
-	if (format[i] == __SPE_NEG) {
-		_g_printk.is_neg_space = true;
+	_g_printk.is_neg_space = (format[i] == __SPE_NEG);
+	if (_g_printk.is_neg_space) {
 		++i;
-	} else
-		_g_printk.is_neg_space = false;
+	}
 
-	if (format[i] == __SPE_ZERO) {
-		_g_printk.use_zero = true;
+	_g_printk.use_zero = (format[i] == __SPE_ZERO);
+	if (_g_printk.use_zero) {
 		++i;
-	} else
-		_g_printk.use_zero = false;
+	}
 
-	int nbr = 0;
+	_g_printk.space = 0;
 	while (isdigit(format[i])) {
-		nbr = nbr * 10 + (format[i] - 0x30);
+		_g_printk.space = _g_printk.space * 10 + (format[i] - 0x30);
 		i++;
 	}
-	_g_printk.space = nbr;
 
+	_g_printk.precision = -1;
 	if (format[i] == __SPE_DOT) {
-		// Skip dot
 		i++;
-		int precision = 0;
-
 		if (format[i] == __SPE_STAR) {
 			_g_printk.precision = va_arg(_g_printk.args, int);
 			i++;
 		} else {
+			_g_printk.precision = 0;
 			while (isdigit(format[i])) {
-				precision = precision * 10 + (format[i] - 0x30);
+				_g_printk.precision = _g_printk.precision * 10 + (format[i] - 0x30);
 				i++;
 			}
-			_g_printk.precision = precision;
 		}
-	} else {
-		_g_printk.precision = -1;
 	}
 
-	/* CHECK BASIC DELIMITERS */
-
-	if (format[i] == __DEL_MOD)
-		i = __kpf_manage_mod(format, i);
-	else if (format[i] == __DEL_C)
-		__kpf_manage_char();
-	else if (format[i] == __DEL_D || format[i] == __DEL_I)
-		__kpf_manage_nbr();
-	else if (format[i] == __DEL_S)
-		__kpf_manage_str();
-	else if (format[i] == __DEL_P)
-		__kpf_manage_ptr();
-	else if (format[i] == __DEL_U)
-		__kpf_manage_unsigned();
-	else if (format[i] == __DEL_X)
-		__kpf_manage_hexa();
-	else if (format[i] == __DEL_F)
-		__kpf_manage_float();
-	else if (format[i] == 'l' && format[i + 1] == 'l' && format[i + 2] == 'x') {
-		__kpf_manage_long_long_hexa();
-		i += 2; // Move past "llx"
-	} else if (format[i] == 'l' && format[i + 1] == 'd') {
-		__kpf_manage_long_nbr();
-		i += 1; // Move past "ld"
-	} else if (format[i] == 'l' && format[i + 1] == 'x') {
-		__kpf_manage_long_hexa();
-		i += 1; // Move past "lx"
-	} else if (format[i] == 'l' && format[i + 1] == 'l' && format[i + 2] == 'u') {
-		__kpf_manage_long_long_unsigned();
-		i += 2; // Move past "llu"
-	} else if (format[i] == 'l' && format[i + 1] == 'l' && format[i + 2] == 'd') {
-		__kpf_manage_long_long_nbr();
-		i += 2; // Move past "lld"
+	// Use a switch statement instead of if-else chain
+	switch (format[i]) {
+		case __DEL_MOD:
+			i = __kpf_manage_mod(format, i);
+			break;
+		case __DEL_C:
+			__kpf_manage_char();
+			break;
+		case __DEL_D:
+		case __DEL_I:
+			__kpf_manage_nbr();
+			break;
+		case __DEL_S:
+			__kpf_manage_str();
+			break;
+		case __DEL_P:
+			__kpf_manage_ptr();
+			break;
+		case __DEL_U:
+			__kpf_manage_unsigned();
+			break;
+		case __DEL_X:
+			__kpf_manage_hexa();
+			break;
+		case __DEL_F:
+			__kpf_manage_float();
+			break;
+		case 'l':
+			switch (format[++i]) {
+				case 'l':
+					switch (format[++i]) {
+						case 'x':
+							__kpf_manage_long_long_hexa();
+							break;
+						case 'u':
+							__kpf_manage_long_long_unsigned();
+							break;
+						case 'd':
+							__kpf_manage_long_long_nbr();
+							break;
+						default:
+							// Handle unexpected cases
+							return i;
+					}
+					break;
+				case 'd':
+					__kpf_manage_long_nbr();
+					break;
+				case 'x':
+					__kpf_manage_long_hexa();
+					break;
+				default:
+					// Handle unexpected cases
+					return i;
+			}
+			break;
+		default:
+			// Handle unexpected cases
+			return i;
 	}
 	return (i);
 }
 
-static int kprintf_loop(const char *format) {
+static int printk_loop(const char *format) {
 	uint32_t i = 0;
 	int ret = 0;
 
 	while (format[i]) {
-		if ((ret = (check_colors(format + i))) != 0) {
+		if ((ret = check_colors(format + i)) != 0) {
 			i += ret;
 			continue;
-		} else if ((ret = (check_special_strings(format + i))) != 0) {
+		} else if ((ret = check_special_strings(format + i)) != 0) {
 			i += ret;
 			continue;
-		} else {
-			ret = 0;
 		}
+
 		if (format[i] == __DEL_MOD) {
 			i++;
 			i = kprint_mod(format, i);
 		} else {
-			terminal_putchar(format[i]);
+			tty_putchar(format[i]);
 		}
 		++i;
 	}
@@ -240,24 +211,13 @@ static int kprintf_loop(const char *format) {
 }
 
 uint32_t printk(const char *format, ...) {
-	int ret;
-
-	// Clear previous format string
-	memset(_g_printk.format, 0, sizeof(_g_printk.format));
-	memcpy(_g_printk.format, format, strlen(format));
-
-	_g_printk.space = 0;
-	_g_printk.space_is_star = false;
-
-	_g_printk.is_neg_space = false;
-	_g_printk.use_zero = false;
-
-	_g_printk.precision = -1;
+	strncpy(_g_printk.format, format, sizeof(_g_printk.format) - 1);
+	_g_printk.format[sizeof(_g_printk.format) - 1] = '\0';
 
 	va_start(_g_printk.args, format);
-	ret = kprintf_loop(format);
+	int ret = printk_loop(format);
 	va_end(_g_printk.args);
 
-	refresh_cursor();
+	tty_refresh_cursor();
 	return (ret);
 }
